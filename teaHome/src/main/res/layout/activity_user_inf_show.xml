@@ -53,8 +53,7 @@
             android:text="@string/save"
             app:layout_constraintBottom_toBottomOf="@+id/textView"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
             android:id="@+id/back"
@@ -190,9 +189,12 @@
             style="@style/UserDivider"
             app:layout_constraintTop_toBottomOf="@+id/et_reg_from" />
 
-        <EditText
+        <TextView
             android:id="@+id/et_time_zone"
             style="@style/UserInfEditView"
+            android:layout_width="0dp"
+            android:enabled="true"
+            android:tag="time_zone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/tv_time_zone"
             app:layout_constraintTop_toTopOf="@+id/view7" />

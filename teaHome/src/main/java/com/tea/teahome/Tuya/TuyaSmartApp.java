@@ -2,9 +2,7 @@ package com.tea.teahome.Tuya;
 
 import android.app.Application;
 import android.content.Context;
-import android.content.Intent;
 
-import com.tea.teahome.User.Activity.LoginAccountActivity;
 import com.tuya.smart.android.user.bean.User;
 import com.tuya.smart.home.sdk.TuyaHomeSdk;
 import com.tuya.smart.sdk.api.IResultCallback;
@@ -41,8 +39,8 @@ public class TuyaSmartApp extends Application {
         TuyaHomeSdk.setOnNeedLoginListener(
                 context ->
                 {
-                    Intent intent = new Intent(application, LoginAccountActivity.class);
-                    startActivity(intent);
+/*                    Intent intent = new Intent(application, LoginAccountActivity.class);
+                    startActivity(intent);*/
                 });
         TuyaHomeSdk.getUserInstance().updateUserInfo(new IResultCallback() {
             @Override

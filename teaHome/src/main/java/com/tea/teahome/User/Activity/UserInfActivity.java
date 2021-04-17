@@ -1,12 +1,12 @@
 package com.tea.teahome.User.Activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -17,12 +17,13 @@ import com.tea.teahome.Widget.Toast;
 import com.tuya.smart.android.user.api.IReNickNameCallback;
 import com.tuya.smart.android.user.bean.User;
 import com.tuya.smart.home.sdk.TuyaHomeSdk;
+import com.tuya.smart.sdk.api.IResultCallback;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 import static com.tea.teahome.R.layout.activity_user_inf_show;
-import static com.tea.teahome.User.Utils.UserUtils.getErrorCode;
 import static com.tea.teahome.User.Utils.UserUtils.getRegFrom;
 import static com.tea.teahome.User.Utils.UserUtils.getTempUnit;
 import static com.tea.teahome.User.Utils.UserUtils.updateUserNickName;
@@ -72,22 +73,12 @@ public class UserInfActivity extends AppCompatActivity
      * 时区
      */
     @BindView(R.id.et_time_zone)
-    EditText et_time_zone;
+    TextView et_time_zone;
     /**
      * 温度单位
      */
     @BindView(R.id.et_temp_unit)
     EditText et_temp_unit;
-    /**
-     * 返回按钮
-     */
-    @BindView(R.id.back)
-    ImageButton back;
-    /**
-     * 保存按钮
-     */
-    @BindView(R.id.save)
-    Button save;
 
     public UserInfActivity() {
         this.context = this;
@@ -99,34 +90,8 @@ public class UserInfActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(activity_user_inf_show);
         ButterKnife.bind(this);
-        findViewsById();
         updateUserInf();
         addStatusBar(this, R.id.ll_user_inf, R.color.statusBar_color);
-        addListener();
-    }
-
-    private void addListener() {
-        back.setOnClickListener(this);
-        save.setOnClickListener(this);
-    }
-
-    /**
-     * 找到所有控件
-     *
-     * @author jiang yuhang
-     * @date 2021-03-30 12:14
-     */
-    private void findViewsById() {
-        et_nickName = findViewById(R.id.et_nickName_set);
-        et_uid = findViewById(R.id.et_uid_set);
-        et_phone = findViewById(R.id.et_phone);
-        et_phone_code = findViewById(R.id.et_phone_code_set);
-        et_region_code = findViewById(R.id.et_region_code_set);
-        et_reg_from = findViewById(R.id.et_reg_from);
-        et_time_zone = findViewById(R.id.et_time_zone);
-        et_temp_unit = findViewById(R.id.et_temp_unit);
-        back = findViewById(R.id.back);
-        save = findViewById(R.id.save);
     }
 
     /**
@@ -137,14 +102,31 @@ public class UserInfActivity extends AppCompatActivity
      */
     private void updateUserInf() {
         User user = TuyaHomeSdk.getUserInstance().getUser();
-        et_nickName.setText(user.getNickName());
-        et_uid.setText(user.getUid());
-        et_phone.setText(user.getMobile());
-        et_phone_code.setText(user.getPhoneCode());
-        et_region_code.setText(user.getDomain().getRegionCode());
-        et_reg_from.setText(getRegFrom(user.getRegFrom()));
-        et_time_zone.setText(user.getTimezoneId());
-        et_temp_unit.setText(getTempUnit(user.getTempUnit()));
+        if (user != null) {
+            et_nickName.setText(user.getNickName());
+            et_uid.setText(user.getUid());
+            et_phone.setText(user.getMobile());
+            et_phone_code.setText(user.getPhoneCode());
+            et_region_code.setText(user.getDomain().getRegionCode());
+            et_reg_from.setText(getRegFrom(user.getRegFrom()));
+            et_time_zone.setText(user.getTimezoneId());
+            et_temp_unit.setText(getTempUnit(user.getTempUnit()));
+        }
+    }
+
+    /**
+     * Dispatch incoming result to the correct fragment.
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (data != null) {
+            et_time_zone.setText(data.getStringExtra("selected_item"));
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     /**
@@ -152,32 +134,52 @@ public class UserInfActivity extends AppCompatActivity
      *
      * @param v The view that was clicked.
      */
+    @OnClick({R.id.back, R.id.save, R.id.et_time_zone})
     @Override
     public void onClick(View v) {
         if (v.getTag() == null) {
             return;
         }
+
         String s = v.getTag().toString();
+
         if ("save".equals(s)) {
             String nickName = et_nickName.getText().toString();
+            String timeZone = et_time_zone.getText().toString();
             String lastNickName = TuyaHomeSdk.getUserInstance().getUser().getNickName();
-            //昵称更改了
-            if (!lastNickName.equals(nickName)) {
-                updateUserNickName(this, nickName,
-                        new IReNickNameCallback() {
-                            @Override
-                            public void onSuccess() {
-                                Toast.getToast(context, "修改成功").show();
-                            }
+            String lastTimeZone = TuyaHomeSdk.getUserInstance().getUser().getTimezoneId();
 
-                            @Override
-                            public void onError(String code, String error) {
-                                Toast.getToast(context, getErrorCode(code, error)).show();
-                            }
-                        });
-                TuyaHomeSdk.getUserInstance().getUser().setNickName(nickName);
-            }
+            //昵称更改了
+            updateUserNickName(this, nickName, new IReNickNameCallback() {
+                @Override
+                public void onSuccess() {
+                    TuyaHomeSdk.getUserInstance().getUser().setNickName(nickName);
+                    TuyaHomeSdk.getUserInstance().updateTimeZone(timeZone, new IResultCallback() {
+                        @Override
+                        public void onSuccess() {
+                            TuyaHomeSdk.getUserInstance().getUser().setTimezoneId(timeZone);
+                            Toast.getToast(UserInfActivity.this, "修改成功").show();
+                        }
+
+                        @Override
+                        public void onError(String code, String error) {
+                            Toast.getToast(UserInfActivity.this, "修改失败").show();
+                        }
+                    });
+                }
+
+                @Override
+                public void onError(String code, String error) {
+                    Toast.getToast(UserInfActivity.this, "修改失败").show();
+                }
+            });
+            this.finish();
+        } else if ("time_zone".equals(s)) {
+            Intent intent = new Intent(UserInfActivity.this, UserInfZoneActivity.class);
+            startActivityForResult(intent, 0);
+            return;
+        } else if ("back".equals(s)) {
+            this.finish();
         }
-        this.finish();
     }
 }

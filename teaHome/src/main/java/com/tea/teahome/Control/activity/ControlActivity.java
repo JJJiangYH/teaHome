@@ -6,10 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.SeekBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,22 +15,14 @@ import androidx.preference.PreferenceManager;
 import com.tea.teahome.R;
 
 import java.util.ArrayList;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import butterknife.BindArray;
-import butterknife.BindView;
-import butterknife.BindViews;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static com.tea.teahome.Control.util.ConvertUtil.getArabicFromChinese;
 import static com.tea.teahome.Control.util.ConvertUtil.isArabicNum;
 import static com.tea.teahome.Control.util.ConvertUtil.isChineseNum;
-import static com.tea.teahome.Utils.ViewUtil.addStatusBar;
 
 public class ControlActivity extends AbstractRecogActivity
         implements View.OnClickListener {

@@ -14,15 +14,15 @@ class AccountBean(bundle: Bundle?) {
     /**
      * 手机号
      */
-    var phoneNum: String = AccountBundleUtils.getPhoneNum(bundle)
+    var phoneNum: String? = AccountBundleUtils.getPhoneNum(bundle)
 
     /**
      * 验证码
      */
-    var code: String = AccountBundleUtils.getCode(bundle)
+    var code: String? = AccountBundleUtils.getCode(bundle)
 
     /**
      * 密码
      */
-    var password: String = AccountBundleUtils.getPassword(bundle)
+    var password: String? = AccountBundleUtils.getPassword(bundle)
 }

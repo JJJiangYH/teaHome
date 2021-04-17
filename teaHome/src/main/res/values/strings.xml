@@ -36,8 +36,7 @@
     <string name="pid_default">15373, 普通话输入法模型(在线语义)(默认) </string>
     <string-array name="pid">
         <item>15373, 普通话输入法模型(在线语义)(默认) </item>
-        <item>15372, 普通话输入法模型(后处理带标点) </item>
-        <item>1537, 普通话输入法模型 </item>
+        <item>19363, 普通话远场模型（在线语义） </item>
     </string-array>
 
     <string name="vad_default">dnn, 默认，推荐模型</string>

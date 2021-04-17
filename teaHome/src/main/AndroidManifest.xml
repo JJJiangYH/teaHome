@@ -73,6 +73,7 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Dialog"
             tools:ignore="DuplicateActivity,LockedOrientationActivity"></activity>
+        <activity android:name=".User.Activity.UserInfZoneActivity" />
 
         <!--tuyaSDK-->
         <meta-data

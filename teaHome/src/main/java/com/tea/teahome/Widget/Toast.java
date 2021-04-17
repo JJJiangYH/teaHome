@@ -30,8 +30,10 @@ public class Toast {
         LayoutInflater inflater = activity.getLayoutInflater();
         View layout = inflater.inflate(R.layout.toast
                 , activity.findViewById(R.id.toast_layout_root));
-        TextView text = layout.findViewById(R.id.text);
-        text.setText(s);
+        if (s != null) {
+            TextView text = layout.findViewById(R.id.text);
+            text.setText(s);
+        }
 
         //初始化Toast
         android.widget.Toast toast = new android.widget.Toast(activity);
