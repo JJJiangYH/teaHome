@@ -2,19 +2,14 @@ package com.tea.teahome.Setting.Fragment;
 
 import android.os.Bundle;
 import android.text.InputType;
-import android.widget.EditText;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.preference.EditTextPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
-import com.tea.teahome.Control.activity.ControlActivity;
 import com.tea.teahome.R;
 import com.tea.teahome.Setting.Activity.SettingActivity;
 import com.tuya.smart.home.sdk.TuyaHomeSdk;
-import com.tuya.smart.sdk.api.IResultCallback;
 import com.tuya.smart.sdk.enums.TempUnitEnum;
 
 /**
@@ -66,7 +61,7 @@ public class UISettingFragment extends PreferenceFragmentCompat
                 int value = Integer.parseInt((String) newValue);
                 return value > 0 && value < Integer.MAX_VALUE;
             case "temp_unit":
-                TempUnitEnum tempUnitEnum = ((String) newValue).equals("C") ? TempUnitEnum.Celsius : TempUnitEnum.Fahrenheit;
+                TempUnitEnum tempUnitEnum = newValue.equals("C") ? TempUnitEnum.Celsius : TempUnitEnum.Fahrenheit;
                 TuyaHomeSdk.getUserInstance().setTempUnit(tempUnitEnum, null);
                 return true;
             default:
