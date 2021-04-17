@@ -1,4 +1,4 @@
-package com.tea.teahome.Account.Utils;
+package com.tea.teahome.User.Utils;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -16,12 +16,11 @@ import androidx.annotation.RequiresApi;
 import com.tea.teahome.R;
 import com.tuya.smart.android.user.api.ILogoutCallback;
 import com.tuya.smart.android.user.api.IReNickNameCallback;
-import com.tuya.smart.android.user.bean.User;
 import com.tuya.smart.home.sdk.TuyaHomeSdk;
 
 import java.util.HashMap;
 
-import static com.tea.teahome.Account.Utils.HttpUtils.getNetWorkBitmap;
+import static com.tea.teahome.User.Utils.HttpUtils.getNetWorkBitmap;
 
 /**
  * 存储已经登录的用户信息

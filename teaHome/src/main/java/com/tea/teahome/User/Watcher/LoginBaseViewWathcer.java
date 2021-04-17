@@ -1,9 +1,8 @@
-package com.tea.teahome.Account.Watcher;
+package com.tea.teahome.User.Watcher;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Handler;
-import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
 

@@ -1,4 +1,4 @@
-package com.tea.teahome.Account.Utils;
+package com.tea.teahome.User.Utils;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -21,7 +21,6 @@ public class BitmapUtils {
     /**
      * 将输入的头像文件裁剪为正方形且文件大小不大于1MB的图片
      *
-     * @param bitmap 要上传的图像文件
      * @return 不大于1MB的正方形图像文件
      */
     public static Bitmap getHeadBitmap(InputStream is) throws Exception {

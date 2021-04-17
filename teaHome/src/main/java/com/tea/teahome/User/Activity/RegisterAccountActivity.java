@@ -1,4 +1,4 @@
-package com.tea.teahome.Account.Activity;
+package com.tea.teahome.User.Activity;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -9,11 +9,9 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
-import com.tea.teahome.Account.Utils.AccountBundleUtils;
-import com.tea.teahome.Account.Watcher.RegisterViewWatcher;
 import com.tea.teahome.R;
-
-import butterknife.OnClick;
+import com.tea.teahome.User.Utils.AccountBundleUtils;
+import com.tea.teahome.User.Watcher.RegisterViewWatcher;
 
 /**
  * 注册页面

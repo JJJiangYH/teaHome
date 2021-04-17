@@ -1,6 +1,5 @@
-package com.tea.teahome.Account.Activity;
+package com.tea.teahome.User.Activity;
 
-import android.app.AppComponentFactory;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
@@ -22,13 +21,12 @@ import com.tuya.smart.home.sdk.TuyaHomeSdk;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.tea.teahome.Account.Utils.UserUtils.getErrorCode;
-import static com.tea.teahome.Account.Utils.UserUtils.getRegFrom;
-import static com.tea.teahome.Account.Utils.UserUtils.getTempUnit;
-import static com.tea.teahome.Account.Utils.UserUtils.updateUserNickName;
 import static com.tea.teahome.R.layout.activity_user_inf_show;
+import static com.tea.teahome.User.Utils.UserUtils.getErrorCode;
+import static com.tea.teahome.User.Utils.UserUtils.getRegFrom;
+import static com.tea.teahome.User.Utils.UserUtils.getTempUnit;
+import static com.tea.teahome.User.Utils.UserUtils.updateUserNickName;
 import static com.tea.teahome.Utils.ViewUtil.addStatusBar;
-import static com.tea.teahome.Utils.ViewUtil.closeActivity;
 
 /**
  * 用户信息显示

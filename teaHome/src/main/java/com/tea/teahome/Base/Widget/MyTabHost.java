@@ -11,10 +11,10 @@ import android.widget.LinearLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
 
-import com.tea.teahome.Account.Activity.MyInformationActivity;
 import com.tea.teahome.Control.activity.ControlActivity;
 import com.tea.teahome.Knowledge.Activity.KnowledgeHomeActivity;
 import com.tea.teahome.R;
+import com.tea.teahome.User.Activity.MyInformationActivity;
 
 /**
  * 自定义的TabHost，用于主页面下方的标签栏

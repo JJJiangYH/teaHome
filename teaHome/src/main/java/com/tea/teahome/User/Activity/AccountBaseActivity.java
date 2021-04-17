@@ -1,4 +1,4 @@
-package com.tea.teahome.Account.Activity;
+package com.tea.teahome.User.Activity;
 
 import android.annotation.SuppressLint;
 import android.app.ActivityOptions;
@@ -17,13 +17,13 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.tea.teahome.Account.Bean.AccountBean;
-import com.tea.teahome.Account.Listener.CodeButtonListener;
-import com.tea.teahome.Account.Listener.LoginButtonListener;
-import com.tea.teahome.Account.Listener.PasswordLoginButtonListener;
-import com.tea.teahome.Account.Listener.RegisterButtonListener;
-import com.tea.teahome.Account.Utils.AccountBundleUtils;
 import com.tea.teahome.R;
+import com.tea.teahome.User.Bean.AccountBean;
+import com.tea.teahome.User.Listener.CodeButtonListener;
+import com.tea.teahome.User.Listener.LoginButtonListener;
+import com.tea.teahome.User.Listener.PasswordLoginButtonListener;
+import com.tea.teahome.User.Listener.RegisterButtonListener;
+import com.tea.teahome.User.Utils.AccountBundleUtils;
 
 import static com.tea.teahome.Knowledge.Utils.StringUtils.removeAddSign;
 import static com.tea.teahome.Utils.ViewUtil.getActivityFromView;

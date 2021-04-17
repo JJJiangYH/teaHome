@@ -1,4 +1,4 @@
-package com.tea.teahome.Account.Utils;
+package com.tea.teahome.User.Utils;
 
 import android.os.Bundle;
 
@@ -55,5 +55,4 @@ public class AccountBundleUtils {
     public static void putCode(Bundle bundle, String code) {
         bundle.putString("code", code);
     }
-
 }

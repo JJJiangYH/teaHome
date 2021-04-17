@@ -47,11 +47,11 @@ public abstract class ActivityUiRecog extends ActivityCommon implements IStatus 
     String[] temp_string_f;
     @BindArray(R.array.temps_c)
     String[] temp_string_c;
-    /**
+    /*    *//**
      * 设置硬件的开关
-     */
+     *//*
     @BindView(R.id.bt_state_change)
-    Button bt_state_change;
+    Button bt_state_change;*/
     /**
      * 时间最大值
      */

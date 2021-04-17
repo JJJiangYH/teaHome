@@ -3,15 +3,14 @@ package com.tea.teahome.Tuya;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 
-import com.tea.teahome.Account.Activity.LoginAccountActivity;
+import com.tea.teahome.User.Activity.LoginAccountActivity;
 import com.tuya.smart.android.user.bean.User;
 import com.tuya.smart.home.sdk.TuyaHomeSdk;
 import com.tuya.smart.sdk.api.IResultCallback;
 
-import static com.tea.teahome.Account.Utils.HttpUtils.getNetWorkBitmap;
-import static com.tea.teahome.Account.Utils.UserUtils.setDownloadStatus;
+import static com.tea.teahome.User.Utils.HttpUtils.getNetWorkBitmap;
+import static com.tea.teahome.User.Utils.UserUtils.setDownloadStatus;
 
 /**
  * 继承Application，进行涂鸦智能SDK初始化

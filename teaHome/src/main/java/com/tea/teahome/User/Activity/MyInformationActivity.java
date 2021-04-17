@@ -1,8 +1,7 @@
-package com.tea.teahome.Account.Activity;
+package com.tea.teahome.User.Activity;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AppComponentFactory;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -30,7 +29,6 @@ import com.tea.teahome.Setting.Activity.SettingActivity;
 import com.tea.teahome.Setting.Fragment.MyDialogFragment;
 import com.tea.teahome.Widget.Toast;
 import com.tuya.smart.android.user.api.IBooleanCallback;
-import com.tuya.smart.android.user.api.ILogoutCallback;
 import com.tuya.smart.android.user.api.IReNickNameCallback;
 import com.tuya.smart.android.user.bean.User;
 import com.tuya.smart.home.sdk.TuyaHomeSdk;
@@ -42,14 +40,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.tea.teahome.Account.Utils.BitmapUtils.getHeadBitmap;
-import static com.tea.teahome.Account.Utils.DrawableUtils.bitmapToFile;
-import static com.tea.teahome.Account.Utils.DrawableUtils.drawableToFile;
-import static com.tea.teahome.Account.Utils.UserUtils.getDownloadStatus;
-import static com.tea.teahome.Account.Utils.UserUtils.getErrorCode;
-import static com.tea.teahome.Account.Utils.UserUtils.logoutAccount;
-import static com.tea.teahome.Account.Utils.UserUtils.setHeadIcon;
-import static com.tea.teahome.Account.Utils.UserUtils.updateUserNickName;
+import static com.tea.teahome.User.Utils.BitmapUtils.getHeadBitmap;
+import static com.tea.teahome.User.Utils.DrawableUtils.bitmapToFile;
+import static com.tea.teahome.User.Utils.DrawableUtils.drawableToFile;
+import static com.tea.teahome.User.Utils.UserUtils.getDownloadStatus;
+import static com.tea.teahome.User.Utils.UserUtils.getErrorCode;
+import static com.tea.teahome.User.Utils.UserUtils.logoutAccount;
+import static com.tea.teahome.User.Utils.UserUtils.setHeadIcon;
+import static com.tea.teahome.User.Utils.UserUtils.updateUserNickName;
 import static com.tea.teahome.Utils.ViewUtil.addStatusBar;
 
 /**

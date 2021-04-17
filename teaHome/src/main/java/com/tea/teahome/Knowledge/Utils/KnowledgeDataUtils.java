@@ -68,7 +68,6 @@ public class KnowledgeDataUtils {
      * @date 2021-02-16 19:57
      **/
     private KnowledgeBean splitFileName(String name) {
-
         KnowledgeBean knowledgeBean = new KnowledgeBean();
         String fileNameWithSuffix;//无后缀的文件名
         String[] stringSplit;//分割后的字符数组

@@ -25,14 +25,6 @@ public class NluRecogParams extends CommonRecogParams {
 
     public Map<String, Object> fetch(SharedPreferences sp) {
         Map<String, Object> map = super.fetch(sp);
-/*        if (sp.getBoolean("_grammar", false)) {
-            Map<String, Object> offlineParams = OfflineRecogParams.fetchOfflineParams();
-            map.put(SpeechConstant.ASR_OFFLINE_ENGINE_GRAMMER_FILE_PATH,
-                    offlineParams.get(SpeechConstant.ASR_OFFLINE_ENGINE_GRAMMER_FILE_PATH));
-        }
-        if (sp.getBoolean("_slot_data", false)) {
-            map.putAll(OfflineRecogParams.fetchSlotDataParam());
-        }*/
         return map;
     }
 }

@@ -1,4 +1,4 @@
-package com.tea.teahome.Account.Activity;
+package com.tea.teahome.User.Activity;
 
 import android.content.Context;
 import android.os.Build;
@@ -7,13 +7,13 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
-import com.tea.teahome.Account.Watcher.LoginViewWatcher;
 import com.tea.teahome.R;
+import com.tea.teahome.User.Watcher.LoginViewWatcher;
 import com.tea.teahome.Widget.Toast;
 import com.tuya.smart.android.user.api.ILogoutCallback;
 
-import static com.tea.teahome.Account.Utils.UserUtils.getErrorCode;
-import static com.tea.teahome.Account.Utils.UserUtils.logoutAccount;
+import static com.tea.teahome.User.Utils.UserUtils.getErrorCode;
+import static com.tea.teahome.User.Utils.UserUtils.logoutAccount;
 import static com.tea.teahome.Utils.ViewUtil.addCloseButtonListener;
 import static com.tea.teahome.Utils.ViewUtil.addStatusBar;
 

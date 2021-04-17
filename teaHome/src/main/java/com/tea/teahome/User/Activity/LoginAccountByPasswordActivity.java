@@ -1,10 +1,10 @@
-package com.tea.teahome.Account.Activity;
+package com.tea.teahome.User.Activity;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 
-import com.tea.teahome.Account.Watcher.LoginPasswordViewWatcher;
 import com.tea.teahome.R;
+import com.tea.teahome.User.Watcher.LoginPasswordViewWatcher;
 
 import static com.tea.teahome.Utils.ViewUtil.addCloseButtonListener;
 
