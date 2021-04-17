@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="tabBar_height">55dp</dimen>
+    <dimen name="topBar_size">45dp</dimen>
+    <dimen name="topBar_text_size">16dp</dimen>
+    <dimen name="text_size">12dp</dimen>
+    <dimen name="tab_padding">2dp</dimen>
+    <dimen name="knowledge_size">125dp</dimen>
+    <dimen name="knowledge_image_size">105dp</dimen>
+    <dimen name="bottomBar_size">0dp</dimen>
+    <dimen name="knowledge_item_text_size">22dp</dimen>
+    <dimen name="knowledge_inf_text_size">15dp</dimen>
+    <dimen name="account_icon_size">80dp</dimen>
+
+    <dimen name="dp_20">20dp</dimen>
+    <dimen name="dp_16">16dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="list_item_spacing">16dp</dimen>
+    <dimen name="list_item_spacing_half">8dp</dimen>
+</resources>

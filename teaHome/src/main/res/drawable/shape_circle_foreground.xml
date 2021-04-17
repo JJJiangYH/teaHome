@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:innerRadius="38dp"
+    android:shape="ring"
+    android:thickness="50dp"
+    android:useLevel="false">
+    <solid android:color="@color/topBar_color" />
+    <stroke
+        android:width="4dp"
+        android:color="@color/white" />
+    <size
+        android:width="@dimen/account_icon_size"
+        android:height="@dimen/account_icon_size" />
+</shape>

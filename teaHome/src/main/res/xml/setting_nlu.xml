@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:key="root_screen">
+    <PreferenceCategory android:title="语义解析-在线">
+        <ListPreference
+            android:defaultValue="@string/pid_default"
+            android:dialogTitle="语种"
+            android:entries="@array/pid"
+            android:entryValues="@array/pid"
+            android:key="pid"
+            android:summary=""
+            android:title="语种"
+            app:useSimpleSummaryProvider="true" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="高级">
+        <ListPreference
+            android:defaultValue="@string/vad_default"
+            android:dialogTitle="VAD"
+            android:entries="@array/vad_list"
+            android:entryValues="@array/vad_list"
+            android:key="vad"
+            android:summary=""
+            android:title="VAD"
+            app:useSimpleSummaryProvider="true" />
+        <ListPreference
+            android:defaultValue="@string/vad_timeout_default"
+            android:dialogTitle="VAD_ENDPOINT_TIMEOUT"
+            android:entries="@array/vad_timeout_list"
+            android:entryValues="@array/vad_timeout_list"
+            android:key="vad.endpoint-timeout"
+            android:summary=""
+            android:title="VAD时长设置"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+    <PreferenceCategory android:title="不常用">
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="_tips_sound"
+            android:summary=""
+            android:title="提示音"
+            app:useSimpleSummaryProvider="true" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="_outfile"
+            android:summary="保存路径为临时目录。 如/sdcard/baiduAsr/outfile.pcm， OUT_FILE"
+            android:title="保存录音" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="disable-punctuation"
+            android:summary="在选择输入法模型的前提下生效。DISABLE_PUNCTUATION"
+            android:title="禁用标点" />
+    </PreferenceCategory>
+</PreferenceScreen>

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/CL_register"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/app_bg_color"
+    android:fitsSystemWindows="true"
+    android:gravity="center"
+    android:transitionName="CL_login">
+
+    <View
+        android:id="@+id/view13"
+        style="@style/LoginDivider"
+        app:layout_constraintBottom_toBottomOf="@+id/et_password_register"
+        app:layout_constraintTop_toBottomOf="@+id/et_password_register"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="24dp" />
+
+    <EditText
+        android:id="@+id/et_password_register"
+        style="@style/TextViewPassword"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view11" />
+
+    <ImageView
+        android:id="@+id/register_close"
+        style="@style/CloseImageView" />
+
+    <TextView
+        android:id="@+id/tv_register"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="78dp"
+        android:text="@string/register"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/et_phone_num_register"
+        style="@style/TextViewPhone"
+        android:layout_width="0dp"
+        android:layout_marginTop="48dp"
+        app:layout_constraintEnd_toStartOf="@+id/bt_getCode_register"
+        app:layout_constraintStart_toEndOf="@+id/et_phone_code_register"
+        app:layout_constraintTop_toBottomOf="@+id/tv_register" />
+
+    <View
+        android:id="@+id/view12"
+        style="@style/LoginDivider"
+        android:layout_height="1dp"
+        app:layout_constraintBottom_toBottomOf="@+id/et_phone_num_register"
+        app:layout_constraintTop_toBottomOf="@+id/bt_getCode_register"
+        tools:layout_editor_absoluteX="24dp" />
+
+    <EditText
+        android:id="@+id/et_phone_code_register"
+        style="@style/TextViewPhone"
+        android:layout_marginStart="24dp"
+        android:ems="2"
+        android:enabled="false"
+        android:inputType="phone"
+        android:text="@string/China_code"
+        app:layout_constraintBottom_toBottomOf="@+id/et_phone_num_register"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/et_phone_num_register" />
+
+    <Button
+        android:id="@+id/bt_getCode_register"
+        style="@style/CantClickButton"
+        android:layout_height="0dp"
+        android:layout_marginEnd="24dp"
+        android:hint="@string/getCode"
+        app:layout_constraintBottom_toBottomOf="@+id/et_phone_num_register"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/et_phone_num_register" />
+
+    <EditText
+        android:id="@+id/et_code_register"
+        style="@style/TextViewCode"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_phone_num_register" />
+
+    <View
+        android:id="@+id/view11"
+        style="@style/LoginDivider"
+        app:layout_constraintBottom_toBottomOf="@+id/et_code_register"
+        app:layout_constraintTop_toBottomOf="@+id/et_code_register"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="24dp" />
+
+    <Button
+        android:id="@+id/bt_register"
+        style="@style/CantClickButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="32dp"
+        android:background="@color/gray"
+        android:hint="@string/register"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_password_register" />
+
+    <include
+        android:id="@+id/include"
+        layout="@layout/item_tea_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

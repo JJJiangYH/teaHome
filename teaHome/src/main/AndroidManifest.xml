@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.tea.teahome">
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <!-- 互联网 -->
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- 查看网络状态 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- SD卡读取权限 -->
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission
+        android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <application
+        android:name=".Tuya.TuyaSmartApp"
+        android:allowBackup="false"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="false"
+        android:theme="@style/TabTheme_NoActionBar"
+        tools:ignore="GoogleAppIndexingWarning"
+        tools:replace="android:theme">
+        <activity android:name=".Base.Activity.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".Setting.Activity.SettingActivity" />
+        <activity
+            android:name=".Knowledge.Activity.KnowledgeHomeActivity"
+            android:label="@string/tab_knowledge" />
+        <activity
+            android:name=".Account.Activity.MyInformationActivity"
+            android:label="@string/tab_myInf" />
+        <activity
+            android:name=".Account.Activity.LoginAccountActivity"
+            android:label="@string/login" />
+        <activity
+            android:name=".Account.Activity.RegisterAccountActivity"
+            android:label="@string/register" />
+        <activity
+            android:name=".Account.Activity.LoginAccountByPasswordActivity"
+            android:label="@string/title_activity_login_account_by_password" />
+        <activity android:name=".Knowledge.Activity.ShowKnowledgeActivity" />
+        <activity android:name=".Account.Activity.UserInfActivity" />
+        <activity
+            android:name=".Control.activity.ControlActivity"
+            android:configChanges="orientation|keyboardHidden|screenLayout"
+            android:label="在线和本地语义"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="com.baidu.speech.recognizerdemo.intent.category.SAMPLE_CODE" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".UI.BaiduASRDigitalDialog"
+            android:configChanges="orientation|keyboardHidden|screenLayout"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Dialog"
+            tools:ignore="DuplicateActivity,LockedOrientationActivity"></activity>
+
+        <!--tuyaSDK-->
+        <meta-data
+            android:name="TUYA_SMART_APPKEY"
+            android:value="crgfwvyytwfrf4nrnr3j" />
+        <meta-data
+            android:name="TUYA_SMART_SECRET"
+            android:value="y4rtavw5tdshxkputs9ef553c5tkgvj9" />
+        <!--baiduSDK-->
+        <meta-data
+            android:name="com.baidu.speech.APP_ID"
+            android:value="23933303" />
+        <meta-data
+            android:name="com.baidu.speech.API_KEY"
+            android:value="0hdGiWC3v6VkIGfoxfzz6ggm" />
+        <meta-data
+            android:name="com.baidu.speech.SECRET_KEY"
+            android:value="7cm3EDDz1c6MxCvM2i6ztBFoOKfB3vhd" />
+    </application>
+</manifest>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:divider="@color/black"
+    android:dividerPadding="2dp">
+
+    <PreferenceCategory android:title="控制页面">
+
+        <PreferenceCategory android:title="倒计时模块">
+
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="control_time_set"
+                android:showDividers="middle|end"
+                android:title="倒计时模块显示加减按钮" />
+            <EditTextPreference
+                android:id="@+id/control_timer_max"
+                android:defaultValue="60"
+                android:key="control_timer_max"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="倒计时模块最大时间(分）"
+                app:dialogMessage="请设置大于零的数值"
+                app:useSimpleSummaryProvider="true" />
+        </PreferenceCategory>
+        <PreferenceCategory android:title="温度模块">
+
+            <ListPreference
+                android:defaultValue="@string/temp_unit_default"
+                android:entries="@array/temp_unit"
+                android:entryValues="@array/temp_unit_value"
+                android:key="temp_unit"
+                android:title="温度单位"
+                app:useSimpleSummaryProvider="true" />
+        </PreferenceCategory>
+    </PreferenceCategory>
+</PreferenceScreen>

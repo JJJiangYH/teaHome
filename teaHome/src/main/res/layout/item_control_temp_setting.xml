@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cl_temp_setting"
+    style="@style/item_style"
+    android:layout_margin="16dp">
+
+    <TextView
+        android:id="@+id/tv_temp_max_c"
+        style="@style/item_tv_style"
+        android:text="@string/_100_c"
+        app:layout_constraintBottom_toBottomOf="@+id/seekBar_temp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/seekBar_temp" />
+
+
+    <ImageButton
+        android:id="@+id/ib_set_temp_50"
+        style="@style/ib_set_temp"
+        android:layout_marginStart="16dp"
+        android:tag="50"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toStartOf="@+id/ib_set_temp_65"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_temp_now"
+        app:srcCompat="@drawable/select_temp_50" />
+
+    <ImageButton
+        android:id="@+id/ib_set_temp_65"
+        style="@style/ib_set_temp"
+        android:tag="65"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toStartOf="@+id/ib_set_temp_85"
+        app:layout_constraintStart_toEndOf="@+id/ib_set_temp_50"
+        app:layout_constraintTop_toBottomOf="@+id/tv_temp_now"
+        app:srcCompat="@drawable/select_temp_65" />
+
+    <ImageButton
+        android:id="@+id/ib_set_temp_85"
+        style="@style/ib_set_temp"
+        android:tag="85"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toStartOf="@+id/ib_set_temp_100"
+        app:layout_constraintStart_toEndOf="@+id/ib_set_temp_65"
+        app:layout_constraintTop_toBottomOf="@+id/tv_temp_now"
+        app:srcCompat="@drawable/select_temp_85" />
+
+    <ImageButton
+        android:id="@+id/ib_set_temp_100"
+        style="@style/ib_set_temp"
+        android:tag="100"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ib_set_temp_85"
+        app:layout_constraintTop_toBottomOf="@+id/tv_temp_now"
+        app:srcCompat="@drawable/select_temp_100" />
+
+    <TextView
+        android:id="@+id/tv_temp_now"
+        style="@style/item_tv_style"
+        android:layout_width="0dp"
+        android:layout_marginTop="16dp"
+        android:gravity="left"
+        android:text="设置温度:100°C"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <SeekBar
+        android:id="@+id/seekBar_temp"
+        style="@style/seekBar"
+        android:progressDrawable="@drawable/seek_bar_temp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/tv_temp_max_c"
+        app:layout_constraintStart_toEndOf="@+id/tv_temp_min_c"
+        app:layout_constraintTop_toBottomOf="@+id/tv_set_temp_50"
+        tools:ignore="UnusedAttribute" />
+
+    <TextView
+        android:id="@+id/tv_set_temp_50"
+        style="@style/item_tv_style"
+        android:text="@string/_50_c"
+        app:layout_constraintEnd_toEndOf="@+id/ib_set_temp_50"
+        app:layout_constraintStart_toStartOf="@+id/ib_set_temp_50"
+        app:layout_constraintTop_toBottomOf="@+id/ib_set_temp_50" />
+
+    <TextView
+        android:id="@+id/tv_set_temp_85"
+        style="@style/item_tv_style"
+        android:text="@string/_85_c"
+        app:layout_constraintEnd_toEndOf="@+id/ib_set_temp_85"
+        app:layout_constraintStart_toStartOf="@+id/ib_set_temp_85"
+        app:layout_constraintTop_toBottomOf="@+id/ib_set_temp_85" />
+
+    <TextView
+        android:id="@+id/tv_set_temp_100"
+        style="@style/item_tv_style"
+        android:text="@string/_100_c"
+        app:layout_constraintEnd_toEndOf="@+id/ib_set_temp_100"
+        app:layout_constraintStart_toStartOf="@+id/ib_set_temp_100"
+        app:layout_constraintTop_toBottomOf="@+id/ib_set_temp_100" />
+
+    <TextView
+        android:id="@+id/tv_set_temp_65"
+        style="@style/item_tv_style"
+        android:text="@string/_65_c"
+        app:layout_constraintEnd_toEndOf="@+id/ib_set_temp_65"
+        app:layout_constraintStart_toStartOf="@+id/ib_set_temp_65"
+        app:layout_constraintTop_toBottomOf="@+id/ib_set_temp_65" />
+
+    <TextView
+        android:id="@+id/tv_temp_min_c"
+        style="@style/item_tv_style"
+        android:text="@string/_50_c"
+        app:layout_constraintBottom_toBottomOf="@+id/seekBar_temp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/seekBar_temp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

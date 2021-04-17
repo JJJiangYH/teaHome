@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cl_item"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/knowledge_size">
+
+    <TextView
+        android:id="@+id/item_tv_title"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/knowledge_image_size"
+        android:textSize="@dimen/knowledge_item_text_size"
+        app:layout_constraintEnd_toStartOf="@+id/item_iv_image"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints,SpUsage" />
+
+    <ImageView
+        android:id="@+id/item_iv_image"
+        android:layout_width="@dimen/knowledge_image_size"
+        android:layout_height="@dimen/knowledge_image_size"
+        android:contentDescription="TODO"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/item_tv_title"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        tools:ignore="ContentDescription,HardcodedText" />
+
+    <TextView
+        android:id="@+id/item_tv_inf"
+        style="@style/KnowledgeSubContent"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@+id/item_tv_time"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/item_tv_title" />
+
+    <TextView
+        android:id="@+id/item_tv_time"
+        style="@style/KnowledgeSubContent"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/item_tv_inf"
+        app:layout_constraintTop_toBottomOf="@+id/item_iv_image"
+        tools:ignore="RtlHardcoded" />
+</androidx.constraintlayout.widget.ConstraintLayout>

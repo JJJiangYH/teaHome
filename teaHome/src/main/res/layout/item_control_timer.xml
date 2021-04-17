@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/item_style">
+
+    <TextView
+        android:id="@+id/time_max"
+        style="@style/item_tv_style"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:text="60"
+        app:layout_constraintBottom_toBottomOf="@+id/time_seekBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/iv_time_add"
+        app:layout_constraintTop_toTopOf="@+id/time_seekBar" />
+
+    <SeekBar
+        android:id="@+id/time_seekBar"
+        style="@style/seekBar"
+        android:max="60"
+        android:min="0"
+        android:progress="0"
+        android:progressDrawable="@drawable/seek_bar_timer"
+        android:thumb="@null"
+        app:layout_constraintEnd_toStartOf="@+id/iv_time_add"
+        app:layout_constraintStart_toEndOf="@+id/iv_time_minus"
+        app:layout_constraintTop_toBottomOf="@+id/tv_time"
+        tools:ignore="UnusedAttribute" />
+
+    <TextView
+        android:id="@+id/time_min"
+        style="@style/item_tv_style"
+        android:layout_height="0dp"
+        android:text="0  "
+        app:layout_constraintBottom_toBottomOf="@+id/time_seekBar"
+        app:layout_constraintEnd_toStartOf="@+id/iv_time_minus"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/time_seekBar" />
+
+    <TextView
+        android:id="@+id/tv_time"
+        style="@style/item_tv_style"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:gravity="left"
+        android:text="倒计时：0分"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/bt_time"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/item_bt_bg"
+        android:tag="time"
+
+        android:text="开始计时"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/time_seekBar" />
+
+    <ImageView
+        android:id="@+id/iv_time_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:tag="time_add"
+        app:layout_constraintBottom_toBottomOf="@+id/time_max"
+        app:layout_constraintEnd_toStartOf="@+id/time_max"
+        app:layout_constraintStart_toEndOf="@+id/time_seekBar"
+        app:layout_constraintTop_toTopOf="@+id/time_max"
+        app:srcCompat="@drawable/ic_add" />
+
+    <ImageView
+        android:id="@+id/iv_time_minus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:background="@null"
+        android:tag="time_minus"
+        app:layout_constraintBottom_toBottomOf="@+id/time_min"
+        app:layout_constraintStart_toEndOf="@+id/time_min"
+        app:layout_constraintTop_toTopOf="@+id/time_min"
+        app:srcCompat="@drawable/ic_minus" />
+</androidx.constraintlayout.widget.ConstraintLayout>

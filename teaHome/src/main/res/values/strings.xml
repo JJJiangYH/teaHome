@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <string name="login">登录</string>
+    <string name="tab_knowledge">知识库</string>
+    <string name="tab_control">控制</string>
+    <string name="tab_myInf">我</string>
+    <string name="app_name">观茶</string>
+    <string name="todo">TODO 头像</string>
+    <string name="login_ValidateCode">验证码登录</string>
+    <string name="getCode">获取验证码</string>
+    <string name="input_phone">请输入您的手机号</string>
+    <string name="China_code">+86</string>
+    <string name="login_with_password">密码登录</string>
+    <string name="input_code"> 请输入验证码</string>
+    <string name="register">注册账号</string>
+    <string name="title_activity_login_account_by_password">LoginAccountByPassword</string>
+    <string name="input_password">请输入密码</string>
+    <string name="clickLoginOrRegister">点击登录/注册</string>
+    <string name="updateInf">修改个人信息</string>
+    <string name="setNickName">设置昵称</string>
+    <string name="uid">UID</string>
+    <string name="phoneNum">手机号</string>
+    <string name="phoneCode">国家码</string>
+    <string name="regionCode">国家区域</string>
+    <string name="save">保存</string>
+    <string name="regFrom">注册方式</string>
+    <string name="setting">设置</string>
+    <string name="logout">退出账号</string>
+    <string name="TempUnit">温度单位</string>
+
+    <string name="please_speak">请说话</string>
+    <string name="speaking">说话中</string>
+    <string name="cancel">取消</string>
+    <string name="start">开始</string>
+
+    <string name="pid_default">15373, 普通话输入法模型(在线语义)(默认) </string>
+    <string-array name="pid">
+        <item>15373, 普通话输入法模型(在线语义)(默认) </item>
+        <item>15372, 普通话输入法模型(后处理带标点) </item>
+        <item>1537, 普通话输入法模型 </item>
+    </string-array>
+
+    <string name="vad_default">dnn, 默认，推荐模型</string>
+    <string-array name="vad_list">
+        <item>@string/vad_default</item>
+        <item>touch,  关闭静音断句功能。用戶手动停止录音</item>
+    </string-array>
+
+    <string name="_50_c">50℃</string>
+    <string name="_50_f">122℉</string>
+    <string name="_65_c">65℃</string>
+    <string name="_65_f">149℉</string>
+    <string name="_100_c">100℃</string>
+    <string name="_100_f">212℉</string>
+    <string name="_85_c">85℃</string>
+    <string name="_85_f">185℉</string>
+    <string-array name="temps_f">
+        <item>@string/_50_f</item>
+        <item>@string/_65_f</item>
+        <item>@string/_85_f</item>
+        <item>@string/_100_f</item>
+        <item>@string/_50_f</item>
+        <item>@string/_100_f</item>
+    </string-array>
+    <string-array name="temps_c">
+        <item>@string/_50_c</item>
+        <item>@string/_65_c</item>
+        <item>@string/_85_c</item>
+        <item>@string/_100_c</item>
+        <item>@string/_50_c</item>
+        <item>@string/_100_c</item>
+    </string-array>
+
+    <string name="ui_setting">界面设置</string>
+    <string name="voice_setting">语音设置</string>
+    <string name="set_default_setting">恢复默认设置</string>
+
+    <string name="vad_timeout_default">800, 静音800ms后断句，适用于输入短语</string>
+    <string-array name="vad_timeout_list">
+        <item>0, 开启长语音（离线不支持）。</item>
+        <item>@string/vad_timeout_default</item>
+        <item>2000, 静音2000ms后断句，适用于输入长句</item>
+    </string-array>
+
+    <string name="temp_unit_default">C</string>
+    <string-array name="temp_unit">
+        <item>摄氏度，℃</item>
+        <item>华氏度，℉</item>
+    </string-array>
+    <string-array name="temp_unit_value">
+        <item>C</item>
+        <item>F</item>
+    </string-array>
+
+    <string name="temp_c">℃</string>
+    <string name="temp_f">℉</string>
+</resources>

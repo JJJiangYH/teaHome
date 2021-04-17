@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_user_inf"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    tools:ignore="MissingConstraints">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <EditText
+            android:id="@+id/et_temp_unit"
+            style="@style/UserInfEditView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_temp_unit"
+            app:layout_constraintTop_toBottomOf="@+id/view10" />
+
+        <TextView
+            android:id="@+id/tv_temp_unit"
+            style="@style/UserInfTextView"
+            android:text="@string/TempUnit"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view10" />
+
+        <View
+            android:id="@+id/view"
+            style="@style/UserDivider"
+            app:layout_constraintTop_toBottomOf="@id/et_temp_unit" />
+
+        <TextView
+            android:id="@+id/textView"
+            style="@style/TopBar_CenterText"
+            android:layout_height="@dimen/topBar_size"
+            android:text="@string/updateInf"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="MissingConstraints,SpUsage" />
+
+        <Button
+            android:id="@+id/save"
+            android:layout_width="30dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="24dp"
+            android:background="@null"
+            android:tag="save"
+            android:text="@string/save"
+            app:layout_constraintBottom_toBottomOf="@+id/textView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <ImageButton
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/topBar_size"
+            android:layout_marginStart="24dp"
+            android:background="@color/topBar_color"
+            android:src="@drawable/ic_baseline_arrow_back_ios_24"
+            android:tag="back"
+            app:layout_constraintStart_toStartOf="@+id/textView"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/view3"
+            style="@style/UserDivider"
+            android:layout_marginTop="0dp"
+            app:layout_constraintTop_toBottomOf="@+id/textView"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/tv_nickname_show"
+            style="@style/UserInfTextView"
+            android:text="@string/setNickName"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/view3" />
+
+        <EditText
+            android:id="@+id/et_nickName_set"
+            style="@style/UserInfEditView"
+            android:enabled="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_nickname_show"
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+        <View
+            android:id="@+id/view4"
+            style="@style/UserDivider"
+            app:layout_constraintTop_toBottomOf="@+id/tv_nickname_show"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/tv_uid_show"
+            style="@style/UserInfTextView"
+            android:text="@string/uid"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view4" />
+
+        <EditText
+            android:id="@+id/et_uid_set"
+            style="@style/UserInfEditView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_uid_show"
+            app:layout_constraintTop_toBottomOf="@+id/view4" />
+
+        <View
+            android:id="@+id/view5"
+            style="@style/UserDivider"
+            app:layout_constraintTop_toBottomOf="@+id/et_uid_set" />
+
+        <EditText
+            android:id="@+id/et_phone"
+            style="@style/UserInfEditView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_phone"
+            app:layout_constraintTop_toBottomOf="@+id/view5" />
+
+        <TextView
+            android:id="@+id/tv_phone"
+            style="@style/UserInfTextView"
+            android:text="@string/phoneNum"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view5" />
+
+        <View
+            android:id="@+id/view6"
+            style="@style/UserDivider"
+            app:layout_constraintTop_toBottomOf="@+id/et_phone" />
+
+        <EditText
+            android:id="@+id/et_phone_code_set"
+            style="@style/UserInfEditView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_phone_code_show"
+            app:layout_constraintTop_toBottomOf="@+id/view6" />
+
+        <TextView
+            android:id="@+id/tv_phone_code_show"
+            style="@style/UserInfTextView"
+            android:text="@string/phoneCode"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view6" />
+
+        <View
+            android:id="@+id/view8"
+            style="@style/UserDivider"
+            app:layout_constraintTop_toBottomOf="@+id/et_phone_code_set" />
+
+        <EditText
+            android:id="@+id/et_region_code_set"
+            style="@style/UserInfEditView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_region_code_show"
+            app:layout_constraintTop_toBottomOf="@+id/view8" />
+
+        <TextView
+            android:id="@+id/tv_region_code_show"
+            style="@style/UserInfTextView"
+            android:text="@string/regionCode"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view8" />
+
+        <View
+            android:id="@+id/view9"
+            style="@style/UserDivider"
+            app:layout_constraintTop_toBottomOf="@+id/et_region_code_set" />
+
+        <EditText
+            android:id="@+id/et_reg_from"
+            style="@style/UserInfEditView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_reg_from"
+            app:layout_constraintTop_toBottomOf="@+id/view9" />
+
+        <TextView
+            android:id="@+id/tv_reg_from"
+            style="@style/UserInfTextView"
+            android:text="@string/regFrom"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view9" />
+
+        <View
+            android:id="@+id/view7"
+            style="@style/UserDivider"
+            app:layout_constraintTop_toBottomOf="@+id/et_reg_from" />
+
+        <EditText
+            android:id="@+id/et_time_zone"
+            style="@style/UserInfEditView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_time_zone"
+            app:layout_constraintTop_toTopOf="@+id/view7" />
+
+        <TextView
+            android:id="@+id/tv_time_zone"
+            style="@style/UserInfTextView"
+            android:text="时区"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/view7" />
+
+        <View
+            android:id="@+id/view10"
+            style="@style/UserDivider"
+            app:layout_constraintTop_toBottomOf="@+id/et_time_zone" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

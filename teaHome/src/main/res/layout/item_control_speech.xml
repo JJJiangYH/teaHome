@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/item_style"
+    android:transitionName="cl">
+
+    <ImageView
+        android:id="@+id/ib_speech"
+        style="@style/ib_set_temp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginBottom="16dp"
+        android:tag="speech"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_speech_message"
+        app:srcCompat="@drawable/ic_speech" />
+
+    <TextView
+        android:id="@+id/tv_speech_message"
+        style="@style/item_tv_style"
+        android:layout_width="0dp"
+        android:layout_marginTop="16dp"
+        android:gravity="start|top"
+        android:lines="2"
+        android:tag="speech_message"
+        android:text="点击按钮开启语音"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

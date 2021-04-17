@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!--Tab使用的无actionbar的主题-->
+    <style name="TabTheme_NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:background">@color/app_bg_color</item>
+        <item name="android:textColor">@color/app_text_color</item>
+        <item name="android:statusBarColor" tools:targetApi="lollipop">@color/transparent
+        </item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+        <item name="android:windowTranslucentStatus">false</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:windowActivityTransitions" tools:ignore="NewApi">true</item>
+    </style>
+
+    <!--知识(activity_knowledge_home)、控制(activity_control_home)界面的文字居中的topBar-->
+    <style name="TopBar_CenterText">
+        <item name="android:background">@color/topBar_color</item>
+        <item name="android:textColor">@color/app_text_color</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/topBar_size</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/topBar_text_size</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!--底部标签控件LL样式-->
+    <style name="llBottom">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <!--底部标签栏的TextView样式-->
+    <style name="TabText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/selector_tabhost_background
+        </item><!--设置标签TextView的背景-->
+        <item name="android:textSize">@dimen/text_size</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:paddingTop">@dimen/tab_padding</item>
+        <item name="android:paddingBottom">@dimen/tab_padding</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <!--知识的时间、作者文字的格式-->
+    <style name="KnowledgeSubContent">
+        <item name="android:textSize">@dimen/knowledge_inf_text_size</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">@dimen/dp_20</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textColor">@color/list_sub_color</item>
+    </style>
+
+    <!--登录界面 按钮父类-->
+    <style name="Button">
+        <item name="android:background">@null</item>
+        <item name="android:textSize">@dimen/dp_16</item>
+        <item name="android:clickable">false</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">35dp</item>
+    </style>
+
+    <!--无法点击的按钮样式-->
+    <style name="CantClickButton" parent="Button">
+        <item name="android:textColor">@color/black_50</item>
+    </style>
+
+    <!--可以点击的按钮样式-->
+    <style name="CanClickButton" parent="Button">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <!--登录界面文本框父类-->
+    <style name="LoginTextView">
+        <item name="android:textSize">@dimen/dp_20</item>
+        <item name="android:background">@null</item>
+        <item name="android:inputType">number</item>
+        <item name="android:longClickable">false</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">50dp</item>
+    </style>
+
+    <!--手机号文本框-->
+    <style name="TextViewPhone" parent="LoginTextView">
+        <item name="android:hint">@string/input_phone</item>
+        <item name="android:maxLength">11</item>
+        <item name="android:textColor">@color/app_text_color</item>
+    </style>
+
+    <!--验证码文本框-->
+    <style name="TextViewCode" parent="LoginTextView">
+        <item name="android:hint">@string/input_code</item>
+        <item name="android:maxLength">6</item>
+    </style>
+
+    <!--密码文本框-->
+    <style name="TextViewPassword" parent="LoginTextView">
+        <item name="android:hint">@string/input_password</item>
+        <item name="android:inputType">textPassword</item>
+        <item name="android:maxLength">16</item>
+    </style>
+
+    <!--分割线-->
+    <style name="LoginDivider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:layout_marginStart">24dp</item>
+        <item name="android:layout_marginEnd">24dp</item>
+        <item name="android:background">?android:attr/listDivider</item>
+        <item name="layout_constraintBottom_toBottomOf">parent</item>
+        <item name="layout_constraintEnd_toEndOf">parent</item>
+        <item name="layout_constraintStart_toStartOf">parent</item>
+        <item name="layout_constraintTop_toBottomOf">parent</item>
+    </style>
+
+    <!--关闭按钮-->
+    <style name="CloseImageView">
+        <item name="android:layout_width">30dp</item>
+        <item name="android:transitionName" tools:targetApi="lollipop">"close"</item>
+        <item name="android:layout_height">30dp</item>
+        <item name="android:layout_marginStart">24dp</item>
+        <item name="android:layout_marginTop">24dp</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="layout_constraintStart_toStartOf">parent</item>
+        <item name="layout_constraintTop_toTopOf">parent</item>
+        <item name="srcCompat">@drawable/ic_login_cross</item>
+    </style>
+
+
+    <!--显示用户信息项目的TextView-->
+    <style name="UserInfTextView">
+        <item name="android:textSize">18dp</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_marginStart">8dp</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">8dp</item>
+        <item name="backgroundColor">@color/transparent</item>
+    </style>
+
+    <!--修改用户信息的EditView-->
+    <style name="UserInfEditView">
+        <item name="android:textSize" tools:ignore="SpUsage">18dp</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_marginStart">8dp</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:layout_marginEnd">8dp</item>
+        <item name="android:gravity">center_horizontal|right</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:background">@null</item>
+        <item name="android:enabled">false</item>
+    </style>
+
+    <style name="UserDivider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:background">?android:attr/listDivider</item>
+    </style>
+
+    <style name="ib_set_temp">
+        <item name="android:layout_width">60dp</item>
+        <item name="android:layout_height">60dp</item>
+        <item name="android:background">@drawable/item_button_temp_background</item>
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:layout_marginRight">8dp</item>
+        <item name="android:layout_marginLeft">8dp</item>
+    </style>
+
+    <style name="item_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/item_background</item>
+    </style>
+
+    <style name="item_tv_style" parent="item_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:layout_marginEnd">16dp</item>
+        <item name="android:textSize">22sp</item>
+    </style>
+
+    <style name="seekBar">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:layout_marginBottom">16dp</item>
+        <item name="android:max">100</item>
+        <item name="android:background">@null</item>
+        <item name="android:min" tools:ignore="NewApi">50</item>
+        <item name="android:progress">100</item>
+        <item name="android:splitTrack" tools:ignore="NewApi">false</item>
+        <item name="android:thumb">@drawable/ic_thumb_temp</item>
+    </style>
+
+    <style name="setting_root_button">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:background">@null</item>
+    </style>
+</resources>
+

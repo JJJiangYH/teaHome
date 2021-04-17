@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Setting.Fragment.CommonSettingFragment">
+
+    <LinearLayout
+        android:id="@+id/ll_common_setting"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@color/black"
+        android:showDividers="middle|end"
+        android:dividerPadding="2dp"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/bt_voice_setting"
+            style="@style/setting_root_button"
+            android:text="@string/voice_setting" />
+
+        <Button
+            android:id="@+id/bt_ui"
+            style="@style/setting_root_button"
+            android:text="@string/ui_setting" />
+
+        <Button
+            android:id="@+id/bt_clear_setting"
+            style="@style/setting_root_button"
+            android:text="@string/set_default_setting" />
+
+    </LinearLayout>
+</FrameLayout>
