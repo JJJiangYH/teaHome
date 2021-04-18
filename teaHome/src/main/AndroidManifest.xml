@@ -29,9 +29,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="false"
-        android:theme="@style/TabTheme_NoActionBar"
-        tools:ignore="GoogleAppIndexingWarning"
-        tools:replace="android:theme">
+        android:theme="@style/Activity_NoActionBar"
+        tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".Base.Activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

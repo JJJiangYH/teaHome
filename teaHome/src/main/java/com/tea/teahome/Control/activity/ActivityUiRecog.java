@@ -60,7 +60,7 @@ public abstract class ActivityUiRecog extends ActivityCommon implements IStatus 
     /**
      * 显示温度的文本框
      */
-    @BindView(R.id.tv_temp_now)
+    @BindView(R.id.tv_temp_set)
     TextView tv_temp_now;
     /**
      * 显示语音结果的文本框

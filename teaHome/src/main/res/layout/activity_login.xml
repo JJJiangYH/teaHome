@@ -5,9 +5,8 @@
     android:id="@+id/CL_login"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/app_bg_color"
+    android:background="@null"
     android:fitsSystemWindows="true"
-    android:gravity="center"
     android:transitionName="CL_login">
 
     <Button

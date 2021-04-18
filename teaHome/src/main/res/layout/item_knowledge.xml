@@ -34,6 +34,7 @@
         style="@style/KnowledgeSubContent"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:background="@null"
         app:layout_constraintEnd_toStartOf="@+id/item_tv_time"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/item_tv_title" />
@@ -43,6 +44,7 @@
         style="@style/KnowledgeSubContent"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:background="@null"
         android:gravity="right"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/item_tv_inf"

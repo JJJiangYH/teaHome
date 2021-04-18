@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/app_bg_color"
     tools:context=".Setting.Fragment.CommonSettingFragment">
 
     <LinearLayout
@@ -10,9 +11,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:divider="@color/black"
-        android:showDividers="middle|end"
         android:dividerPadding="2dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:showDividers="middle|end">
 
         <Button
             android:id="@+id/bt_voice_setting"

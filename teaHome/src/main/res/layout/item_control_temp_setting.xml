@@ -23,7 +23,7 @@
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toStartOf="@+id/ib_set_temp_65"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_temp_now"
+        app:layout_constraintTop_toBottomOf="@+id/tv_temp_set"
         app:srcCompat="@drawable/select_temp_50" />
 
     <ImageButton
@@ -33,7 +33,7 @@
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toStartOf="@+id/ib_set_temp_85"
         app:layout_constraintStart_toEndOf="@+id/ib_set_temp_50"
-        app:layout_constraintTop_toBottomOf="@+id/tv_temp_now"
+        app:layout_constraintTop_toBottomOf="@+id/tv_temp_set"
         app:srcCompat="@drawable/select_temp_65" />
 
     <ImageButton
@@ -43,7 +43,7 @@
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toStartOf="@+id/ib_set_temp_100"
         app:layout_constraintStart_toEndOf="@+id/ib_set_temp_65"
-        app:layout_constraintTop_toBottomOf="@+id/tv_temp_now"
+        app:layout_constraintTop_toBottomOf="@+id/tv_temp_set"
         app:srcCompat="@drawable/select_temp_85" />
 
     <ImageButton
@@ -53,11 +53,11 @@
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/ib_set_temp_85"
-        app:layout_constraintTop_toBottomOf="@+id/tv_temp_now"
+        app:layout_constraintTop_toBottomOf="@+id/tv_temp_set"
         app:srcCompat="@drawable/select_temp_100" />
 
     <TextView
-        android:id="@+id/tv_temp_now"
+        android:id="@+id/tv_temp_set"
         style="@style/item_tv_style"
         android:layout_width="0dp"
         android:layout_marginTop="16dp"

@@ -2,14 +2,18 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!--Tab使用的无actionbar的主题-->
     <style name="TabTheme_NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:background">@color/app_bg_color</item>
         <item name="android:textColor">@color/app_text_color</item>
+        <item name="android:background">@color/app_bg_color</item>
         <item name="android:statusBarColor" tools:targetApi="lollipop">@color/transparent
         </item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
         <item name="android:windowTranslucentStatus">false</item>
         <item name="android:windowTranslucentNavigation">true</item>
         <item name="android:windowActivityTransitions" tools:ignore="NewApi">true</item>
+    </style>
+
+    <style name="Activity_NoActionBar" parent="TabTheme_NoActionBar">
+        <item name="android:background">@null</item>
     </style>
 
     <!--知识(activity_knowledge_home)、控制(activity_control_home)界面的文字居中的topBar-->
@@ -142,7 +146,7 @@
         <item name="android:layout_marginBottom">8dp</item>
         <item name="android:gravity">center</item>
         <item name="android:padding">8dp</item>
-        <item name="backgroundColor">@color/transparent</item>
+        <item name="backgroundColor">@null</item>
     </style>
 
     <!--修改用户信息的EditView-->

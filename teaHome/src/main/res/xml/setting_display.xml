@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/app_bg_color"
     android:divider="@color/black"
     android:dividerPadding="2dp">
 
     <PreferenceCategory android:title="控制页面">
-
         <PreferenceCategory android:title="倒计时模块">
 
             <CheckBoxPreference

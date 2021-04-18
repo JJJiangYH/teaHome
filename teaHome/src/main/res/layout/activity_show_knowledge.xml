@@ -1,67 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/LinearLayout_knowledge_context"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:transitionName="ll">
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/LinearLayout_knowledge_context"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <TextView
+            android:id="@+id/topBar_knowledge_show"
+            style="@style/TopBar_CenterText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/inf_knowledge"
+            style="@style/KnowledgeSubContent"
+            android:layout_width="0dp"
+            android:gravity="left"
+            android:textColor="@color/knowledge_inf_color"
+            app:layout_constraintEnd_toStartOf="@+id/time_knowledge"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/topBar_knowledge_show" />
+
+        <TextView
+            android:id="@+id/time_knowledge"
+            style="@style/KnowledgeSubContent"
+            android:layout_width="0dp"
+            android:gravity="right"
+            android:textColor="@color/knowledge_time_color"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/inf_knowledge"
+            app:layout_constraintTop_toBottomOf="@+id/topBar_knowledge_show" />
+
+        <WebView
+            android:id="@+id/content_knowledge"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="0dp"
+            android:layout_gravity="center"
+            android:background="@null"
+            android:transitionName="web"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/time_knowledge"
+            app:layout_constraintVertical_bias="1.0" />
 
-            <TextView
-                android:id="@+id/topBar"
-                style="@style/TopBar_CenterText"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TextView
-                android:id="@+id/topBar_knowledge_show"
-                style="@style/TopBar_CenterText"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:background="@null"
-                android:gravity="center"
-                android:transitionName="title"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/inf_knowledge"
-                style="@style/KnowledgeSubContent"
-                android:gravity="left"
-                android:textColor="@color/knowledge_inf_color" />
-
-            <TextView
-                android:id="@+id/time_knowledge"
-                style="@style/KnowledgeSubContent"
-                android:gravity="right"
-                android:textColor="@color/knowledge_time_color" />
-
-        </LinearLayout>
-    </LinearLayout>
-
-    <WebView
-        android:id="@+id/content_knowledge"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:background="@color/app_bg_color"
-        android:transitionName="web" />
 </LinearLayout>
