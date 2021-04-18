@@ -59,10 +59,8 @@ public class HttpUtils {
                 InputStream is = urlConn.getInputStream();
                 // 将InputStream转换成Bitmap
                 bitmap = BitmapFactory.decodeStream(is);
-                FileOutputStream outputStream = new FileOutputStream(downPath);
                 is.close();
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
-                outputStream.close();
+                saveBitmapToFile(downPath, bitmap);
             } catch (MalformedURLException e) {
                 System.out.println("[getNetWorkBitmap->]MalformedURLException");
                 e.printStackTrace();
@@ -71,6 +69,12 @@ public class HttpUtils {
                 e.printStackTrace();
             }
         }
+    }
+
+    public static void saveBitmapToFile(String downPath, Bitmap bitmap) throws IOException {
+        FileOutputStream outputStream = new FileOutputStream(downPath);
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+        outputStream.close();
     }
 
     public static void setLastUrl(Context context, String urlString) {

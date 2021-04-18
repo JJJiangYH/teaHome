@@ -6,13 +6,13 @@
     android:background="@null">
 
     <Button
-        android:id="@+id/bt_hard"
+        android:id="@+id/bt_state_change"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
         android:background="@drawable/item_bt_bg"
-        android:tag="time"
+        android:tag="hard_close"
         android:text="开启"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -21,16 +21,16 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_hard_temp"
+        app:layout_constraintTop_toBottomOf="@+id/tv_hard_status"
         app:srcCompat="@drawable/ic_hard" />
 
     <TextView
-        android:id="@+id/tv_hard_temp"
+        android:id="@+id/tv_hard_status"
         style="@style/item_tv_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

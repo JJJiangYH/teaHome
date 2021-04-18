@@ -25,6 +25,7 @@
             android:id="@+id/lv_knowledge"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:animateLayoutChanges="true" />
+            android:animateLayoutChanges="true"
+            android:background="@color/app_bg_color" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </LinearLayout>

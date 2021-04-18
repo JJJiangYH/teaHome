@@ -136,14 +136,6 @@ public abstract class AbstractRecogActivity extends ActivityUiRecog
         }
     }
 
-    public int getTemp() {
-        if (isTempUnitC) {
-            return tempSeekBar.getProgress();
-        } else {
-            return (int) (32 + tempSeekBar.getProgress() * 1.8);
-        }
-    }
-
     /**
      * 设置button按钮的按下状态
      *

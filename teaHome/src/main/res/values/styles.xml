@@ -53,6 +53,7 @@
     <!--知识的时间、作者文字的格式-->
     <style name="KnowledgeSubContent">
         <item name="android:textSize">@dimen/knowledge_inf_text_size</item>
+        <item name="android:background">@color/app_bg_color</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">@dimen/dp_20</item>
         <item name="android:layout_weight">1</item>
@@ -130,6 +131,7 @@
         <item name="android:layout_marginTop">24dp</item>
         <item name="android:clickable">true</item>
         <item name="android:focusable">true</item>
+        <item name="android:background">@null</item>
         <item name="layout_constraintStart_toStartOf">parent</item>
         <item name="layout_constraintTop_toTopOf">parent</item>
         <item name="srcCompat">@drawable/ic_login_cross</item>

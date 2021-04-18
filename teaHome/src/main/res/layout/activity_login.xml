@@ -5,9 +5,10 @@
     android:id="@+id/CL_login"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@null"
+    android:background="@color/app_bg_color"
     android:fitsSystemWindows="true"
-    android:transitionName="CL_login">
+    android:transitionName="CL_login"
+    tools:ignore="UnusedAttribute">
 
     <Button
         android:id="@+id/bt_login_with_password"

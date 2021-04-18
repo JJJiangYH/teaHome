@@ -35,6 +35,7 @@ import com.tuya.smart.home.sdk.TuyaHomeSdk;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -43,6 +44,7 @@ import butterknife.OnClick;
 import static com.tea.teahome.User.Utils.BitmapUtils.getHeadBitmap;
 import static com.tea.teahome.User.Utils.DrawableUtils.bitmapToFile;
 import static com.tea.teahome.User.Utils.DrawableUtils.drawableToFile;
+import static com.tea.teahome.User.Utils.HttpUtils.saveBitmapToFile;
 import static com.tea.teahome.User.Utils.UserUtils.getDownloadStatus;
 import static com.tea.teahome.User.Utils.UserUtils.getErrorCode;
 import static com.tea.teahome.User.Utils.UserUtils.logoutAccount;
@@ -179,15 +181,20 @@ public class MyInformationActivity extends AppCompatActivity implements View.OnC
                         }
                     });
         } else {
-            new Thread(() -> {
-                while (true) {
-                    if (getDownloadStatus(activity)) {
-                        Message message = handler.obtainMessage(0);
-                        handler.sendMessage(message);
-                        break;
+            if (getDownloadStatus(activity)) {
+                Message message = handler.obtainMessage(0);
+                handler.sendMessage(message);
+            } else {
+                new Thread(() -> {
+                    while (true) {
+                        if (getDownloadStatus(activity)) {
+                            Message message = handler.obtainMessage(0);
+                            handler.sendMessage(message);
+                            break;
+                        }
                     }
-                }
-            }).start();
+                }).start();
+            }
         }
         //初始化用户名
         tv_uid.setText("用户名:" + user.getUsername());
@@ -232,6 +239,13 @@ public class MyInformationActivity extends AppCompatActivity implements View.OnC
                                         Toast.getToast(activity, "修改成功").show();
                                         if (finalBitmap != null) {
                                             headImage.setImageBitmap(finalBitmap);
+                                            try {
+                                                saveBitmapToFile(
+                                                        activity.getDir("icon", Context.MODE_PRIVATE) + "icon.png",
+                                                        finalBitmap);
+                                            } catch (IOException e) {
+                                                e.printStackTrace();
+                                            }
                                         }
                                     }
 
