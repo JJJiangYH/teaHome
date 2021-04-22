@@ -1,2 +1,3 @@
+include ':sql'
 include ':teaHome'
 rootProject.name = "teaHome"

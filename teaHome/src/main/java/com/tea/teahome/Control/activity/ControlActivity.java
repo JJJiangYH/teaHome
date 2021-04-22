@@ -1,5 +1,6 @@
 package com.tea.teahome.Control.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -31,13 +32,15 @@ public class ControlActivity extends AbstractRecogActivity implements View.OnCli
         tempSeekBar.setOnSeekBarChangeListener(this);
         timeSeekBar.setOnSeekBarChangeListener(this);
 
+        onClick(this.findViewById(R.id.ib_set_temp_100));
         changeTimerMax();
     }
 
 
-    @OnClick({R.id.ib_set_temp_50, R.id.ib_set_temp_65, R.id.ib_set_temp_85, R.id.ib_set_temp_100,
-            R.id.ib_speech, R.id.bt_time, R.id.iv_time_add, R.id.iv_time_minus, R.id.bt_state_change,
-            R.id.tv_hard_status})
+    @SuppressLint("NewApi")
+    @OnClick({R.id.ib_set_temp_50, R.id.ib_set_temp_65, R.id.ib_set_temp_85,
+            R.id.ib_set_temp_100, R.id.ib_speech, R.id.bt_time, R.id.iv_time_add,
+            R.id.iv_time_minus, R.id.bt_state_change, R.id.tv_hard_status})
     public void onClick(View v) {
         if (v.getTag() == null) {
             return;
@@ -106,6 +109,7 @@ public class ControlActivity extends AbstractRecogActivity implements View.OnCli
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         running = false;
         if (requestCode == 2) {
             String message = "识别结果：";
@@ -129,9 +133,13 @@ public class ControlActivity extends AbstractRecogActivity implements View.OnCli
         }
 
         String[] recog = nluResult.split("[ 。，]");
-        //TODO TEST
+
         TextView textView2 = findViewById(R.id.textView2);
         textView2.setText("");
+
+        for (String s : recog) {
+            textView2.append(s + "\\");
+        }
 
         String toDo = null;
         String thing = null;
@@ -167,130 +175,131 @@ public class ControlActivity extends AbstractRecogActivity implements View.OnCli
 
         if (thing.equals(TIMER)) {
             switch (toDo) {
-                case OPEN: {                    //只有unit
-                    if (time == 0 && unit > 0) {
-                        tv_speech_message.append(error);
-                    }
-                    //只有num
-                    if (time < 0) {
-                        tv_speech_message.append(error);
-                    }
-                }
-                case SET: {             //全没有，或只有一个
-                    if (time <= 0) {
-                        tv_speech_message.append(error);
-                    }
-                }
-                case CLOSE: {
+                case OPEN:
                     //只有unit
                     if (time == 0 && unit > 0) {
                         tv_speech_message.append(error);
+                        return;
                     }
                     //只有num
                     if (time < 0) {
                         tv_speech_message.append(error);
+                        return;
+                    }
+                    break;
+                case SET:
+                    //全没有，或只有一个
+                    if (time <= 0) {
+                        tv_speech_message.append(error);
+                        return;
+                    }
+                    break;
+                case CLOSE:
+                    //只有unit
+                    if (time == 0 && unit > 0) {
+                        tv_speech_message.append(error);
+                        return;
+                    }
+                    //只有num
+                    if (time < 0) {
+                        tv_speech_message.append(error);
+                        return;
                     }
                     //全都有
                     if (time > 0) {
                         tv_speech_message.append(error);
+                        return;
                     }
-                }
-                default: {
+                    break;
+                default:
                     tv_speech_message.append(error);
-                }
+                    break;
             }
         }
 
         if (thing.equals(TEMP)) {
-            switch (toDo) {
-                case SET: {
-                    //全有/没有，或只有unit
-                    if (time >= 0) {
-                        tv_speech_message.append(error);
-                    }
-                }
-                default: {
+            if (SET.equals(toDo)) {//全有/没有，或只有unit
+                if (time >= 0) {
                     tv_speech_message.append(error);
+                    return;
                 }
+            } else {
+                tv_speech_message.append(error);
+                return;
             }
         }
 
         doRecogAction(toDo, thing, num, unit);
     }
 
+    @SuppressLint("NewApi")
     protected void doRecogAction(String toDo, String thing, int num, int unit) {
         int time = num * unit;
-        switch (toDo) {
-            case OPEN: {
-                switch (thing) {
-                    case TIMER: {
-                        if (isTimerRunning) {
-                            //计时器正在运行
-                            tv_speech_message.append("无法开启，倒计时未关闭。");
-                        } else {
-                            //计时器未运行
-                            int progress = timeSeekBar.getProgress();
-                            //num，unit都没有
-                            if (num == 0) {
-                                if (progress == 0) {
-                                    tv_speech_message.append("无法开启，时间不能为零。");
-                                } else {
-                                    timerStart();
-                                    tv_speech_message.append("已开启" + progress + "分钟的倒计时。");
-                                }
-                            } else if (time > timeSeekBar.getMax() || time < timeSeekBar.getMin()) {
-                                tv_speech_message.append("无法开启，时间不正确。");
+        if (OPEN.equals(toDo)) {
+            switch (thing) {
+                case TIMER:
+                    if (isTimerRunning) {
+                        //计时器正在运行
+                        tv_speech_message.append("无法开启，倒计时未关闭。");
+                    } else {
+                        //计时器未运行
+                        int progress = timeSeekBar.getProgress();
+                        //num，unit都没有
+                        if (num == 0) {
+                            if (progress == 0) {
+                                tv_speech_message.append("无法开启，时间不能为零。");
                             } else {
-                                timeSeekBar.setProgress(time);
                                 timerStart();
-                                tv_speech_message.append("已开启" + timeSeekBar.getProgress() + "分钟的倒计时。");
+                                tv_speech_message.append("已开启" + progress + "分钟的倒计时。");
                             }
-                        }
-                    }
-                    default:
-                        break;
-                }
-            }
-            case CLOSE: {
-                switch (thing) {
-                    case TIMER: {
-                        if (isTimerRunning) {
-                            timerStop();
-                            tv_speech_message.append("倒计时已关闭");
-                        } else {
-                            tv_speech_message.append("无法关闭，倒计时未开启。");
-                        }
-                    }
-                    default:
-                        break;
-                }
-            }
-            case SET: {
-                switch (thing) {
-                    case TIMER: {
-                        if (isTimerRunning) {
-                            tv_speech_message.append("无法设置，倒计时正在进行。");
+                        } else if (time > timeSeekBar.getMax() || time < timeSeekBar.getMin()) {
+                            tv_speech_message.append("无法开启，时间不正确。");
                         } else {
                             timeSeekBar.setProgress(time);
-                            tv_speech_message.append("成功设置" + time + "分钟的倒计时");
+                            timerStart();
+                            tv_speech_message.append("已开启" + timeSeekBar.getProgress() + "分钟的倒计时。");
                         }
                     }
-                    case TEMP: {
-                        if (num < tempSeekBar.getMin() || num > tempSeekBar.getMax()) {
-                            tv_speech_message.append("无法设置，温度不正确。");
-                        } else {
-                            tempSeekBar.setProgress(num);
-                            if (TEMP_UNIT.equals("C")) {
-                                tv_speech_message.append("成功设置" + num + getString(R.string.temp_c) + "温度");
-                            } else {
-                                tv_speech_message.append("成功设置" + (int) (num * 1.8 + 32) + getString(R.string.temp_f) + "温度");
-                            }
-                        }
-                    }
-                }
+                    break;
+                default:
+                    break;
             }
-            default:
-                break;
+        } else if (CLOSE.equals(toDo)) {
+            switch (thing) {
+                case TIMER:
+                    if (isTimerRunning) {
+                        timerStop();
+                        tv_speech_message.append("倒计时已关闭");
+                    } else {
+                        tv_speech_message.append("无法关闭，倒计时未开启。");
+                    }
+                    break;
+                default:
+                    break;
+            }
+        } else if (SET.equals(toDo)) {
+            switch (thing) {
+                case TIMER:
+                    if (isTimerRunning) {
+                        tv_speech_message.append("无法设置，倒计时正在进行。");
+                    } else {
+                        timeSeekBar.setProgress(time);
+                        tv_speech_message.append("成功设置" + time + "分钟的倒计时");
+                    }
+                    break;
+                case TEMP:
+                    if (num < tempSeekBar.getMin() || num > tempSeekBar.getMax()) {
+                        tv_speech_message.append("无法设置，温度不正确。");
+                    } else {
+                        tempSeekBar.setProgress(num);
+                        if (TEMP_UNIT.equals("C")) {
+                            tv_speech_message.append("成功设置" + num + getString(R.string.temp_c) + "温度");
+                        } else {
+                            tv_speech_message.append("成功设置" + (int) (num * 1.8 + 32) + getString(R.string.temp_f) + "温度");
+                        }
+                    }
+                    break;
+            }
         }
     }
 }

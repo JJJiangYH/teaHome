@@ -1,13 +1,12 @@
 package com.tea.teahome.Control.util;
 
+import androidx.annotation.NonNull;
+
 /**
  * 将中文数字转换为阿拉伯数字
  *
  * @author jiang yuhang
  * @version 1.0
- * @className ConvertUtil
- * @program baidu sdk
- * @date 2021-04-15 14:24
  */
 public class ConvertUtil {
     public static final String allChineseNum = "零一二三四五六七八九十百";
@@ -26,7 +25,7 @@ public class ConvertUtil {
         return true;
     }
 
-    public static boolean isArabicNum(String arabicNum) {
+    public static boolean isArabicNum(@NonNull String arabicNum) {
         for (int i = 0; i < arabicNum.length(); i++) {
             if (!allArabicNum.contains(String.valueOf(arabicNum.charAt(i)))) {
                 return false;
@@ -34,7 +33,6 @@ public class ConvertUtil {
         }
         return true;
     }
-
 
     enum ChineseNumber {
         YI('一', 1),

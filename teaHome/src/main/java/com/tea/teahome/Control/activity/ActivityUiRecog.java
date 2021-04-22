@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
@@ -266,6 +267,7 @@ public abstract class ActivityUiRecog extends ActivityCommon implements IStatus 
         bt_state_change.setText("关闭");
         bt_state_change.setTag("hard_open");
         tv_hard_status.setText("已开启");
+        findViewById(R.id.ballView).setVisibility(VISIBLE);
     }
 
     /**
@@ -275,5 +277,6 @@ public abstract class ActivityUiRecog extends ActivityCommon implements IStatus 
         bt_state_change.setText("开启");
         bt_state_change.setTag("hard_close");
         tv_hard_status.setText("已关闭");
+        findViewById(R.id.ballView).setVisibility(View.INVISIBLE);
     }
 }

@@ -23,7 +23,7 @@
         android:layout_width="0dp"
         android:layout_marginTop="16dp"
         android:gravity="start|top"
-        android:lines="2"
+        android:lines="3"
         android:tag="speech_message"
         android:text="点击按钮开启语音"
         app:layout_constraintEnd_toEndOf="parent"
