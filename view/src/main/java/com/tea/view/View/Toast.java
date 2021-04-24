@@ -1,4 +1,4 @@
-package com.tea.teahome.Widget;
+package com.tea.view.View;
 
 import android.app.Activity;
 import android.content.Context;
@@ -7,8 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
-import com.tea.teahome.R;
-
+import com.tea.view.R;
 /**
  * 显示一个自定义的Toast
  *

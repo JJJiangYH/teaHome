@@ -19,6 +19,7 @@ class KnowledgeBean : Comparable<Any?> {
     var inf: String? = null
     var time: String? = null
     var url: String? = null
+    var click: Int = 0
 
     /**
      * @return int

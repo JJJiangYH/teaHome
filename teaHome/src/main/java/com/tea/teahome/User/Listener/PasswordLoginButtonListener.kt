@@ -4,7 +4,7 @@ import android.app.Activity
 import android.view.View
 import android.widget.EditText
 import com.tea.teahome.User.Utils.UserUtils
-import com.tea.teahome.Widget.Toast
+import com.tea.view.View.Toast
 import com.tuya.smart.android.user.api.ILoginCallback
 import com.tuya.smart.android.user.bean.User
 import com.tuya.smart.home.sdk.TuyaHomeSdk

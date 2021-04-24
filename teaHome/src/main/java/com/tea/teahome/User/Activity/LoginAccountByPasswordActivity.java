@@ -6,7 +6,7 @@ import android.os.Bundle;
 import com.tea.teahome.R;
 import com.tea.teahome.User.Watcher.LoginPasswordViewWatcher;
 
-import static com.tea.teahome.Utils.ViewUtil.addCloseButtonListener;
+import static com.tea.view.Utils.ViewUtil.addCloseButtonListener;
 
 public class LoginAccountByPasswordActivity extends AccountBaseActivity {
     @Override

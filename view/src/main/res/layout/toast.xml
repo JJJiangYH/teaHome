@@ -2,14 +2,11 @@
     android:id="@+id/toast_layout_root"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/topBar_color"
     android:orientation="horizontal"
     android:padding="8dp">
 
     <TextView
         android:id="@+id/text"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/topBar_color"
-        android:textColor="@color/black" />
+        android:layout_height="wrap_content" />
 </LinearLayout>

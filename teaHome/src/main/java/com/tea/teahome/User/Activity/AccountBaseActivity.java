@@ -25,8 +25,7 @@ import com.tea.teahome.User.Listener.PasswordLoginButtonListener;
 import com.tea.teahome.User.Listener.RegisterButtonListener;
 import com.tea.teahome.User.Utils.AccountBundleUtils;
 
-import static com.tea.teahome.Knowledge.Utils.StringUtils.removeAddSign;
-import static com.tea.teahome.Utils.ViewUtil.getActivityFromView;
+import static com.tea.view.Utils.ViewUtil.getActivityFromView;
 
 /**
  * 登录的基础类
@@ -48,10 +47,6 @@ public class AccountBaseActivity extends AppCompatActivity {
      * 验证码登录模式
      */
     static final String LOGIN_CODE_MODE = "LOGIN_CODE_MODE";
-    /**
-     * 定义一个用来设置按钮的handler
-     */
-    Handler handler;
     /**
      * 手机号编辑框
      */
@@ -77,6 +72,56 @@ public class AccountBaseActivity extends AppCompatActivity {
      * 获取验证码的按钮
      */
     Button bt_getCode;
+    /**
+     * 定义一个用来设置按钮的handler
+     */
+    @SuppressLint("HandlerLeak")
+    Handler handler = new Handler() {
+        /**
+         * 依据字符串是否为空，更改布局
+         * Subclasses must implement this to receive messages.
+         */
+        @RequiresApi(api = Build.VERSION_CODES.M)
+        @SuppressLint({"UseCompatLoadingForDrawables", "ResourceAsColor", "HandlerLeak"})
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                //手机号字符串为空
+                case 0:
+                    setCantClick(bt_getCode, R.color.black_50);
+                    break;
+                //手机号字符串为非空
+                case 1:
+                    setCanClick(bt_getCode, R.color.black, new CodeButtonListener
+                            (AccountBaseActivity.this, et_phoneNum, et_country_code));
+                    break;
+                //验证码字符串为空
+                case 2:
+                    //验证码和密码为空
+                case 4:
+                    //密码或手机号为空
+                case 6:
+                    setCantClick(bt_submit, R.color.black_50);
+                    break;
+                //验证码字符串非空
+                case 3:
+                    setCanClick(bt_submit, R.color.black, new LoginButtonListener
+                            (AccountBaseActivity.this, et_phoneNum, et_code, et_country_code));
+                    break;
+                //验证码和密码均不为空
+                case 5:
+                    setCanClick(bt_submit, R.color.black, new RegisterButtonListener(
+                            AccountBaseActivity.this, et_phoneNum, et_code, et_country_code, et_password));
+                    break;
+                //手机和密码均不为空
+                case 7:
+                    setCanClick(bt_submit, R.color.black, new PasswordLoginButtonListener(
+                            AccountBaseActivity.this, et_phoneNum, et_password, et_country_code));
+                    break;
+            }
+        }
+    };
     /**
      * 手机号字符串
      */
@@ -106,62 +151,14 @@ public class AccountBaseActivity extends AppCompatActivity {
     void init(String MODE) {
         this.MODE = MODE;
         findViewsById();
-        initHandler();
     }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setSharedElementExitTransition(null);
-    }
-
-    void initHandler() {
-        handler = new Handler() {
-            /**
-             * 依据字符串是否为空，更改布局
-             * Subclasses must implement this to receive messages.
-             */
-            @RequiresApi(api = Build.VERSION_CODES.M)
-            @SuppressLint({"UseCompatLoadingForDrawables", "ResourceAsColor"})
-            @Override
-            public void handleMessage(@NonNull Message msg) {
-                super.handleMessage(msg);
-                switch (msg.what) {
-                    //手机号字符串为空
-                    case 0:
-                        setCantClick(bt_getCode, R.color.black_50);
-                        break;
-                    //手机号字符串为非空
-                    case 1:
-                        setCanClick(bt_getCode, R.color.black, new CodeButtonListener
-                                (AccountBaseActivity.this, et_phoneNum, et_country_code));
-                        break;
-                    //验证码字符串为空
-                    case 2:
-                        //验证码和密码为空
-                    case 4:
-                        //密码或手机号为空
-                    case 6:
-                        setCantClick(bt_submit, R.color.black_50);
-                        break;
-                    //验证码字符串非空
-                    case 3:
-                        setCanClick(bt_submit, R.color.black, new LoginButtonListener
-                                (AccountBaseActivity.this, et_phoneNum, et_code, et_country_code));
-                        break;
-                    //验证码和密码均不为空
-                    case 5:
-                        setCanClick(bt_submit, R.color.black, new RegisterButtonListener(
-                                AccountBaseActivity.this, et_phoneNum, et_code, et_country_code, et_password));
-                        break;
-                    //手机和密码均不为空
-                    case 7:
-                        setCanClick(bt_submit, R.color.black, new PasswordLoginButtonListener(
-                                AccountBaseActivity.this, et_phoneNum, et_password, et_country_code));
-                        break;
-                }
-            }
-        };
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setSharedElementExitTransition(null);
+        }
     }
 
     public void setCanClick(Button button, int color, View.OnClickListener onClickListener) {
@@ -192,7 +189,8 @@ public class AccountBaseActivity extends AppCompatActivity {
         }
 
         phoneNum = et_phoneNum.getText().toString();
-        countryCode = removeAddSign(et_country_code.getText().toString());
+//        countryCode = removeAddSign(et_country_code.getText().toString());
+        countryCode = et_country_code.getText().toString().replace("+", "");
     }
 
     /**
@@ -292,29 +290,35 @@ public class AccountBaseActivity extends AppCompatActivity {
         Intent intent = new Intent();
         Bundle bundle = new Bundle();
         String buttonText = button.getText().toString();
-        ActivityOptions options;
+        ActivityOptions options = null;
 
         if ("密码登录".equals(buttonText)) {
             //now activity is LoginAccountActivity
             intent.setClass(this, LoginAccountByPasswordActivity.class);
             AccountBundleUtils.putTag(bundle, "LoginAccountActivity");
-            options = ActivityOptions
-                    .makeSceneTransitionAnimation(this,
-                            Pair.create(this.findViewById(R.id.CL_login), "CL_login"));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                options = ActivityOptions
+                        .makeSceneTransitionAnimation(this,
+                                Pair.create(this.findViewById(R.id.CL_login), "CL_login"));
+            }
         } else {
             //now activity is LoginAccountByPasswordActivity
             intent.setClass(this, LoginAccountActivity.class);
             AccountBundleUtils.putTag(bundle, "LoginAccountByPasswordActivity");
-            options = ActivityOptions
-                    .makeSceneTransitionAnimation(this,
-                            Pair.create(this.findViewById(R.id.CL_login), "CL_login"));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                options = ActivityOptions
+                        .makeSceneTransitionAnimation(this,
+                                Pair.create(this.findViewById(R.id.CL_login), "CL_login"));
+            }
         }
 
         getText();
         AccountBundleUtils.putPhoneNum(bundle, phoneNum);
         intent.putExtras(bundle);
         startActivity(intent, options.toBundle());
-        this.finishAfterTransition();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            this.finishAfterTransition();
+        }
     }
 
     /**
@@ -325,11 +329,13 @@ public class AccountBaseActivity extends AppCompatActivity {
     public void startRegisterActivityListener(View view) {
         Intent intent = new Intent(this, RegisterAccountActivity.class);
         Bundle bundle = new Bundle();
-        ActivityOptions options;
+        ActivityOptions options = null;
 
         //修改过度动画
-        options = ActivityOptions.makeSceneTransitionAnimation(this,
-                Pair.create(this.findViewById(R.id.CL_login), "CL_login"));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            options = ActivityOptions.makeSceneTransitionAnimation(this,
+                    Pair.create(this.findViewById(R.id.CL_login), "CL_login"));
+        }
 
         getText();
         //塞入包裹

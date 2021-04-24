@@ -3,7 +3,6 @@ package com.tea.teahome.User.Listener
 import android.app.Activity
 import android.view.View
 import android.widget.EditText
-import com.tea.teahome.Knowledge.Utils.StringUtils
 
 /**
  * 监控类的基础类
@@ -54,7 +53,7 @@ abstract class BaseButtonListener internal constructor
     open val text: Unit
         get() {
             phoneNum = et_phoneNum.text.toString()
-            countryCode = StringUtils.removeAddSign(et_country_code.text.toString())
+            countryCode = et_country_code.text.toString().replace("+", "")
         }
 
     companion object {

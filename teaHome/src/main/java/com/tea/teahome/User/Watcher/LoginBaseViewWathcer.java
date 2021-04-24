@@ -6,8 +6,8 @@ import android.os.Handler;
 import android.text.TextWatcher;
 import android.widget.EditText;
 
-import static com.tea.teahome.Utils.ViewUtil.getActivityFromView;
-import static com.tea.teahome.Utils.ViewUtil.getMaxLength;
+import static com.tea.view.Utils.ViewUtil.getActivityFromView;
+import static com.tea.view.Utils.ViewUtil.getMaxLength;
 
 /**
  * 登录基础监听类

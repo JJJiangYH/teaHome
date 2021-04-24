@@ -2,8 +2,8 @@ package com.tea.teahome.Knowledge.Ftp;
 
 import android.util.Log;
 
-import org.apache.commons.net.ftp.FTPReply;
 import org.apache.commons.net.ftp.FTPClient;
+import org.apache.commons.net.ftp.FTPReply;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -131,9 +131,9 @@ public class FTP {
                 ftpClient.enterLocalPassiveMode();  // 设置被动模式，开通一个端口来传输数据
                 String[] fs = ftpClient.listNames();// 获取所有文件名
                 // 判断该目录下是否有文件
-                if (isExist(ftpPath, fs == null || fs.length == 0, "该目录下没有文件"))
+                if (isExist(ftpPath, fs == null || fs.length == 0, "该目录下没有文件")) {
                     return;
-
+                }
                 //计算下载时间
                 long startTime = System.currentTimeMillis();
                 //建立线程池
@@ -185,7 +185,6 @@ public class FTP {
      * @date 2021-02-19 16:53
      **/
     private boolean isExist(String ftpPath, boolean b, String s) {
-
         if (b) {
             System.out.println(BASE_PATH + ftpPath + s);
             return true;

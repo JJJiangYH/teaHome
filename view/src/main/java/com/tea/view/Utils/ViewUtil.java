@@ -1,4 +1,4 @@
-package com.tea.teahome.Utils;
+package com.tea.view.Utils;
 
 import android.app.Activity;
 import android.content.Context;
@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 
-import com.tea.teahome.Widget.StatusBar;
+import com.tea.view.View.StatusBar;
 
 /**
  * 设置View的内容的方法类

@@ -9,13 +9,13 @@ import androidx.annotation.RequiresApi;
 
 import com.tea.teahome.R;
 import com.tea.teahome.User.Watcher.LoginViewWatcher;
-import com.tea.teahome.Widget.Toast;
+import com.tea.view.View.Toast;
 import com.tuya.smart.android.user.api.ILogoutCallback;
 
 import static com.tea.teahome.User.Utils.UserUtils.getErrorCode;
 import static com.tea.teahome.User.Utils.UserUtils.logoutAccount;
-import static com.tea.teahome.Utils.ViewUtil.addCloseButtonListener;
-import static com.tea.teahome.Utils.ViewUtil.addStatusBar;
+import static com.tea.view.Utils.ViewUtil.addCloseButtonListener;
+import static com.tea.view.Utils.ViewUtil.addStatusBar;
 
 /**
  * 账号的注册与登录

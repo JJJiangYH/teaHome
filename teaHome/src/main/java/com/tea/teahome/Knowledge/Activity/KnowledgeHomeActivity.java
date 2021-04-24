@@ -25,10 +25,11 @@ import com.tea.teahome.Knowledge.Bean.KnowledgeBean;
 import com.tea.teahome.Knowledge.Utils.KnowledgeDataUtils;
 import com.tea.teahome.Knowledge.Utils.KnowledgeFTPUtils;
 import com.tea.teahome.R;
-import com.tea.teahome.Widget.Toast;
+import com.tea.view.View.Toast;
 
-import java.util.ArrayList;
+import java.io.File;
 import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -36,7 +37,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnItemClick;
 
-import static com.tea.teahome.Utils.ViewUtil.addStatusBar;
+import static android.app.ActivityOptions.makeSceneTransitionAnimation;
+import static com.tea.view.Utils.ViewUtil.addStatusBar;
 
 /**
  * 知识库页面
@@ -60,10 +62,13 @@ public class KnowledgeHomeActivity extends AppCompatActivity
     /**
      * 提示Handler
      */
+    @SuppressLint("HandlerLeak")
     private final Handler handler = new Handler() {
         @Override
         public void handleMessage(@NonNull Message msg) {
-            update_lv_news();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                update_lv_news();
+            }
             if (msg.what == 0) {
                 Toast.getToast(KnowledgeHomeActivity.this, "刷新完成").show();
             } else {
@@ -83,15 +88,14 @@ public class KnowledgeHomeActivity extends AppCompatActivity
      **/
     @RequiresApi(api = Build.VERSION_CODES.O)
     @SuppressLint("UseCompatLoadingForDrawables")
-    public ArrayList<KnowledgeBean> getAllKnowledge() {
+    public List<KnowledgeBean> getAllKnowledge() {
         String dir = this.getFilesDir().getPath();//定义文件夹名称
         //存储所有知识数据类
         KnowledgeDataUtils knowledgeDataUtils = new KnowledgeDataUtils(dir);
         //获得一个存储所有知识数据ArrayList
-        ArrayList<KnowledgeBean> knowledgeBeanArrayList = knowledgeDataUtils.getKnowledgeBeanList();
+        List<KnowledgeBean> knowledgeBeanArrayList = knowledgeDataUtils.getKnowledgeBeanList();
         //通过时间进行排序
         Collections.sort(knowledgeBeanArrayList);
-
         //返回一个存储所有知识数据的ArrayList
         return knowledgeBeanArrayList;
     }
@@ -136,8 +140,9 @@ public class KnowledgeHomeActivity extends AppCompatActivity
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void update_lv_news() {
         //找到控件
-        ArrayList<KnowledgeBean> allNews = getAllKnowledge();
-        KnowledgeAdapter knowledgeAdapter = new KnowledgeAdapter(KnowledgeHomeActivity.this, allNews);
+        List<KnowledgeBean> allNews = getAllKnowledge();
+        KnowledgeAdapter knowledgeAdapter =
+                new KnowledgeAdapter(KnowledgeHomeActivity.this, allNews);
         //创建一个adapter设置给listView
         lv_news.setAdapter(knowledgeAdapter);
     }
@@ -160,10 +165,11 @@ public class KnowledgeHomeActivity extends AppCompatActivity
         //跳转新的Class，并传递数据
         Intent intent = new Intent(MainActivity.activity, ShowKnowledgeActivity.class);
         Bundle bundle = new Bundle();//建立一个传递知识的包裹
-        ActivityOptions options = ActivityOptions
-                .makeSceneTransitionAnimation(MainActivity.activity,
-                        Pair.create(view, "web")
-                );
+        ActivityOptions options = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            options = makeSceneTransitionAnimation(MainActivity.activity,
+                    Pair.create(view, "web"));
+        }
         //将数据装入包裹
         bundle.putString("title", bean.getTitle());
         bundle.putString("inf", bean.getInf());
@@ -183,6 +189,10 @@ public class KnowledgeHomeActivity extends AppCompatActivity
                     Message message = new Message();
                     message.what = 1;//初始值为1，0为下载成功，1为下载失败
                     //从FTP中下载文件
+                    File file = new File(getFilesDir().getPath());
+                    for (File listFile : file.listFiles()) {
+                        listFile.delete();
+                    }
                     KnowledgeFTPUtils knowledge = new KnowledgeFTPUtils(
                             getFilesDir().getPath());
                     //判断登录是否登陆成功，成功就下载所有文件，否则提示网络连接失败

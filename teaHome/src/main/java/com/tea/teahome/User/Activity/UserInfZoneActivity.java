@@ -20,7 +20,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnItemClick;
 
-import static com.tea.teahome.Utils.ViewUtil.addStatusBar;
+import static com.tea.view.Utils.ViewUtil.addStatusBar;
 
 /**
  * @author jiang yuhang

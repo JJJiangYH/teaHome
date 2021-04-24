@@ -10,7 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.preference.PreferenceManager;
 
-import com.tea.teahome.Widget.Toast;
+import com.tea.view.View.Toast;
 
 /**
  * @author jiang yuhang

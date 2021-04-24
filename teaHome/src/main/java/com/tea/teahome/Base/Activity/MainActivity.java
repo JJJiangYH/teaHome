@@ -5,8 +5,6 @@ import android.app.Activity;
 import android.app.TabActivity;
 import android.os.Build;
 import android.os.Bundle;
-import android.transition.Explode;
-import android.transition.Slide;
 import android.view.Window;
 import android.widget.TabHost;
 

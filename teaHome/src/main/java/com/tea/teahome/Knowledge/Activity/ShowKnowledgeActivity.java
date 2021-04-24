@@ -9,9 +9,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.tea.teahome.Knowledge.Bundle.KnowledgeBundle;
 import com.tea.teahome.R;
-import com.tea.teahome.Utils.ViewUtil;
+import com.tea.view.Utils.ViewUtil;
 
-import static com.tea.teahome.Utils.ViewUtil.addStatusBar;
+import static com.tea.view.Utils.ViewUtil.addStatusBar;
 
 /**
  * 初始化“知识详情”界面，布局文件为R.layout.activity_show_knowledge

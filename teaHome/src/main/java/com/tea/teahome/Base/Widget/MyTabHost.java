@@ -156,7 +156,9 @@ public class MyTabHost implements View.OnClickListener {
      **/
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.ll_first || v.getId() == R.id.ll_second || v.getId() == R.id.ll_third) {
+        if (v.getId() == R.id.ll_first ||
+                v.getId() == R.id.ll_second ||
+                v.getId() == R.id.ll_third) {
             changeContainerView(v); //点击哪个标签，就切换到改标签对应的内容视图
         }
     }

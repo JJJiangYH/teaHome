@@ -6,6 +6,7 @@ import com.tea.sql.Utils.KnowledgeDBUtils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLDataException;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
@@ -13,8 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class KnowledgeDao {
-    private static final Connection connection = KnowledgeDBUtils.INSTANCE.getConnection();
-
     /**
      * 添加一条Knowledge数据。
      * 如果存在authorName则直接添加，否则先添加author信息，在进行添加
@@ -22,14 +21,15 @@ public class KnowledgeDao {
      * @param knowledge 结构信息
      */
     public static void addKnowledge(Knowledge knowledge) {
+        Connection connection = KnowledgeDBUtils.getConnection();
         if (knowledge == null) {
             return;
         }
 
         //检查是否存在authorName,如果存在就获取id，否则新建一条数据
         String selectSql = "SELECT authorId from author where authorName = ?";
-        String addAuthorSql = "INSERT INTO author (authorName) VALUES (?);";
-        int authorId;
+        String addAuthorSql = "INSERT INTO author (authorName) VALUES ('" + knowledge.getAuthorName() + "');";
+        int authorId = 0;
 
         try {
             connection.setAutoCommit(false);
@@ -42,26 +42,31 @@ public class KnowledgeDao {
             ResultSet rs = ptmt.executeQuery();
 
             if (!rs.next()) {
-                PreparedStatement addPtmt = connection.prepareStatement(addAuthorSql);
+                Statement statement = connection.createStatement();
 
-                addPtmt.setString(1, knowledge.getAuthorName());
-                addPtmt.execute();
+                statement.executeUpdate(addAuthorSql, Statement.RETURN_GENERATED_KEYS);
 
-                rs = ptmt.executeQuery();
-                rs.next();
+                rs = statement.getGeneratedKeys();
+                if (rs.next()) {
+                    authorId = rs.getInt(1);
+                }
+            } else {
+                authorId = rs.getInt("authorId");
             }
-            authorId = rs.getInt("authorId");
+            if (authorId != 0) {
+                String addKnowledgeSql = "INSERT INTO knowledge (createTime, authorId, title,havePic) VALUES (CURRENT_DATE,?,?,?)";
+                PreparedStatement addKnowledgePtmt = connection.prepareStatement(addKnowledgeSql);
 
-            String addKnowledgeSql = "INSERT INTO knowledge (createTime, authorId, title) VALUES (CURRENT_DATE,?,?)";
+                addKnowledgePtmt.setInt(1, authorId);
+                addKnowledgePtmt.setString(2, knowledge.getTitle());
+                addKnowledgePtmt.setBoolean(3, knowledge.getHavePic());
 
-            PreparedStatement addKnowledgePtmt = connection.prepareStatement(addKnowledgeSql);
-
-            addKnowledgePtmt.setInt(1, authorId);
-            addKnowledgePtmt.setString(2, knowledge.getTitle());
-
-            addKnowledgePtmt.execute();
-        } catch (SQLIntegrityConstraintViolationException sqlIntegrityConstraintViolationException) {
-            sqlIntegrityConstraintViolationException.printStackTrace();
+                addKnowledgePtmt.execute();
+            } else {
+                throw new SQLDataException();
+            }
+        } catch (SQLIntegrityConstraintViolationException sqlIntegrityException) {
+            sqlIntegrityException.printStackTrace();
             try {
                 connection.rollback();
             } catch (SQLException sqlException) {
@@ -82,52 +87,82 @@ public class KnowledgeDao {
             } catch (SQLException sqlException) {
                 sqlException.printStackTrace();
             }
-        }
-    }
-
-    public static List<Knowledge> query() {
-        ResultSet rs = null;
-        List<Knowledge> gs = null;
-        try {
-            Statement stmt = connection.createStatement();
-            rs = stmt.executeQuery(
-                    "select createTime, authorName, title " +
-                            "from knowledge,author " +
-                            "where knowledge.authorId = author.authorId;");
-            gs = new ArrayList<Knowledge>();
-
-            Knowledge k;
-            while (rs.next()) {
-                k = new Knowledge();
-
-                k.setAuthorName(rs.getString("authorName"));
-                k.setCreateTime(rs.getDate("createTime"));
-                k.setTitle(rs.getString("title"));
-
-                gs.add(k);
-            }
-        } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
-        } finally {
             try {
-                rs.close();
+                connection.close();
             } catch (SQLException sqlException) {
                 sqlException.printStackTrace();
             }
         }
+    }
 
+    public static List<Knowledge> query() {
+        List<Knowledge> gs = new ArrayList<>();
+        Runnable runnable = () -> {
+            Connection connection = KnowledgeDBUtils.getConnection();
+            ResultSet rs = null;
+
+            try {
+                Statement stmt = connection.createStatement();
+                rs = stmt.executeQuery(
+                        "select createTime, authorName, title, havePic, click " +
+                                "from knowledge,author " +
+                                "where knowledge.authorId = author.authorId;");
+
+                Knowledge k;
+                while (rs.next()) {
+                    k = new Knowledge();
+
+                    k.setAuthorName(rs.getString("authorName"));
+                    k.setCreateTime(rs.getDate("createTime"));
+                    k.setTitle(rs.getString("title"));
+                    k.setHavePic(rs.getBoolean("havePic"));
+                    k.setClick(rs.getInt("click"));
+
+                    gs.add(k);
+                }
+            } catch (SQLException sqlException) {
+                sqlException.printStackTrace();
+            } finally {
+                if (rs != null) {
+                    try {
+                        rs.close();
+                    } catch (SQLException sqlException) {
+                        sqlException.printStackTrace();
+                    }
+                }
+                if (connection != null) {
+                    try {
+                        connection.close();
+                    } catch (SQLException sqlException) {
+                        sqlException.printStackTrace();
+                    }
+                }
+            }
+        };
+        runnable.run();
         return gs;
     }
 
-    public static void delKnowledge(String title) throws SQLException {
+    public static void delKnowledge(String title) {
+        Connection connection = KnowledgeDBUtils.getConnection();
         String delSql = "DELETE FROM knowledge WHERE title = ?;";
 
-        //删除title
-        PreparedStatement delPtmt = connection.prepareStatement(delSql);
+        try {
+            //删除title
+            PreparedStatement delPtmt = connection.prepareStatement(delSql);
 
-        delPtmt.setString(1, title);
+            delPtmt.setString(1, title);
 
-        delPtmt.execute();
+            delPtmt.execute();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException sqlException) {
+                sqlException.printStackTrace();
+            }
+        }
     }
 
     /**
@@ -138,8 +173,10 @@ public class KnowledgeDao {
      * @throws SQLException
      */
     public static void updateKnowledge(String title, Knowledge k) throws SQLException {
+        Connection connection = KnowledgeDBUtils.getConnection();
+
         String updateSql = "UPDATE knowledge k,author a " +
-                "SET k.title = ?, a.authorName = ? " +
+                "SET k.title = ?, a.authorName = ?, k.havePic = ? " +
                 "where k.title = ? AND k.authorId = a.authorId;";
 
         connection.setAutoCommit(false);
@@ -148,7 +185,8 @@ public class KnowledgeDao {
 
             updatePtmt.setString(1, k.getTitle());
             updatePtmt.setString(2, k.getAuthorName());
-            updatePtmt.setString(3, title);
+            updatePtmt.setBoolean(3, k.getHavePic());
+            updatePtmt.setString(4, title);
 
             updatePtmt.execute();
         } catch (SQLException e) {
@@ -156,13 +194,19 @@ public class KnowledgeDao {
             e.printStackTrace();
         } finally {
             connection.commit();
+            try {
+                connection.close();
+            } catch (SQLException sqlException) {
+                sqlException.printStackTrace();
+            }
         }
         connection.setAutoCommit(true);
     }
 
     public static Knowledge getKnowledgeByTitle(String title) {
+        Connection connection = KnowledgeDBUtils.getConnection();
         String selectSql =
-                "select createTime, authorName, title " +
+                "select createTime, authorName, title, havePic " +
                         "from knowledge,author " +
                         "where knowledge.authorId = author.authorId AND title = ?;";
 
@@ -182,6 +226,7 @@ public class KnowledgeDao {
                 knowledge.setAuthorName(rs.getString("authorName"));
                 knowledge.setTitle(rs.getString("title"));
                 knowledge.setCreateTime(rs.getDate("createTime"));
+                knowledge.setHavePic(rs.getBoolean("havePic"));
             }
         } catch (SQLException e) {
             e.printStackTrace();

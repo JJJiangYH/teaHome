@@ -9,9 +9,9 @@ import android.widget.BaseAdapter;
 
 import com.tea.teahome.Knowledge.Bean.KnowledgeBean;
 import com.tea.teahome.R;
-import com.tea.teahome.Utils.ViewUtil;
+import com.tea.view.Utils.ViewUtil;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 知识数据适配器
@@ -22,7 +22,7 @@ import java.util.ArrayList;
  * @create: 2021-02-09 13:28
  */
 public class KnowledgeAdapter extends BaseAdapter {
-    private final ArrayList<KnowledgeBean> knowledgeList;
+    private final List<KnowledgeBean> knowledgeList;
     private final Context context;
 
     /**
@@ -31,7 +31,7 @@ public class KnowledgeAdapter extends BaseAdapter {
      * @author jiang yuhang
      * @date 2021-02-09 13:28
      **/
-    public KnowledgeAdapter(Context context, ArrayList<KnowledgeBean> knowledgeList) {
+    public KnowledgeAdapter(Context context, List<KnowledgeBean> knowledgeList) {
         this.knowledgeList = knowledgeList;
         this.context = context;
     }

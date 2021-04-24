@@ -27,7 +27,7 @@ import androidx.fragment.app.DialogFragment;
 import com.tea.teahome.R;
 import com.tea.teahome.Setting.Activity.SettingActivity;
 import com.tea.teahome.Setting.Fragment.MyDialogFragment;
-import com.tea.teahome.Widget.Toast;
+import com.tea.view.View.Toast;
 import com.tuya.smart.android.user.api.IBooleanCallback;
 import com.tuya.smart.android.user.api.IReNickNameCallback;
 import com.tuya.smart.android.user.bean.User;
@@ -50,7 +50,7 @@ import static com.tea.teahome.User.Utils.UserUtils.getErrorCode;
 import static com.tea.teahome.User.Utils.UserUtils.logoutAccount;
 import static com.tea.teahome.User.Utils.UserUtils.setHeadIcon;
 import static com.tea.teahome.User.Utils.UserUtils.updateUserNickName;
-import static com.tea.teahome.Utils.ViewUtil.addStatusBar;
+import static com.tea.view.Utils.ViewUtil.addStatusBar;
 
 /**
  * 初始化“我的”页面，布局文件为R.layout.activity_my_information_home。
@@ -172,7 +172,9 @@ public class MyInformationActivity extends AppCompatActivity implements View.OnC
                     new IBooleanCallback() {
                         @Override
                         public void onSuccess() {
-                            setHeadIcon(activity, headImage, R.drawable.ic_account_default);
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                setHeadIcon(activity, headImage, R.drawable.ic_account_default);
+                            }
                         }
 
                         @Override
@@ -221,49 +223,44 @@ public class MyInformationActivity extends AppCompatActivity implements View.OnC
      * 接受返回数据
      */
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
-            case ALBUM_OK:
-                if (data != null) {
-                    ContentResolver cr = activity.getContentResolver();
-                    Uri uri = data.getData();
-                    try {
-                        Bitmap bitmap = getHeadBitmap(cr.openInputStream(uri));
-                        @SuppressLint({"NewApi", "LocalSuppress"})
-                        File file = bitmapToFile(activity, bitmap);
-                        //修改头像
-                        Bitmap finalBitmap = bitmap;
-                        TuyaHomeSdk.getUserInstance().uploadUserAvatar(file,
-                                new IBooleanCallback() {
-                                    @Override
-                                    public void onSuccess() {
-                                        Toast.getToast(activity, "修改成功").show();
-                                        if (finalBitmap != null) {
-                                            headImage.setImageBitmap(finalBitmap);
-                                            try {
-                                                saveBitmapToFile(
-                                                        activity.getDir("icon", Context.MODE_PRIVATE) + "icon.png",
-                                                        finalBitmap);
-                                            } catch (IOException e) {
-                                                e.printStackTrace();
-                                            }
+        if (requestCode == ALBUM_OK) {
+            if (data != null) {
+                ContentResolver cr = activity.getContentResolver();
+                Uri uri = data.getData();
+                try {
+                    Bitmap bitmap = getHeadBitmap(cr.openInputStream(uri));
+                    @SuppressLint({"NewApi", "LocalSuppress"})
+                    File file = bitmapToFile(activity, bitmap);
+                    //修改头像
+                    TuyaHomeSdk.getUserInstance().uploadUserAvatar(file,
+                            new IBooleanCallback() {
+                                @Override
+                                public void onSuccess() {
+                                    Toast.getToast(activity, "修改成功").show();
+                                    if (bitmap != null) {
+                                        headImage.setImageBitmap(bitmap);
+                                        try {
+                                            saveBitmapToFile(
+                                                    activity.getDir("icon", Context.MODE_PRIVATE) + "icon.png",
+                                                    bitmap);
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
                                         }
                                     }
+                                }
 
-                                    @Override
-                                    public void onError(String code, String error) {
-                                        Toast.getToast(activity, getErrorCode(code, error)).show();
-                                    }
-                                });
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                        Toast.getToast(activity, "未找到文件").show();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                                @Override
+                                public void onError(String code, String error) {
+                                    Toast.getToast(activity, getErrorCode(code, error)).show();
+                                }
+                            });
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                    Toast.getToast(activity, "未找到文件").show();
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-                break;
-            default:
-                break;
+            }
         }
         super.onActivityResult(requestCode, resultCode, data);
     }

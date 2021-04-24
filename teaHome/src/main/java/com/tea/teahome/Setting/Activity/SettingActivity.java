@@ -14,7 +14,7 @@ import com.tea.teahome.Setting.Fragment.CommonSettingFragment;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.tea.teahome.Utils.ViewUtil.addStatusBar;
+import static com.tea.view.Utils.ViewUtil.addStatusBar;
 
 /**
  * 软件设置界面

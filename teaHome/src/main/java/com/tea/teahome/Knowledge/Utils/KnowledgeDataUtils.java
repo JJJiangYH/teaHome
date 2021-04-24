@@ -12,6 +12,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 从data/files中获取文件
@@ -37,7 +38,7 @@ public class KnowledgeDataUtils {
     /**
      * 知识文件数组
      */
-    private final ArrayList<KnowledgeBean> knowledgeBeanArrayList = new ArrayList<>();
+    private final List<KnowledgeBean> knowledgeBeanList = new ArrayList<>();
     /**
      * dir下的文件
      */
@@ -52,7 +53,6 @@ public class KnowledgeDataUtils {
      **/
     public KnowledgeDataUtils(String dir) {
         this.dir = dir;
-
         //获取dir目录下的所有文件名,并通过后缀名分类
         filesName = getAllFileName();
         fileClassifyBySuffix();
@@ -124,13 +124,13 @@ public class KnowledgeDataUtils {
      * @author jiang yuhang
      * @date 2021-02-16 19:49
      */
-    public ArrayList<KnowledgeBean> getKnowledgeBeanList() {
+    public List<KnowledgeBean> getKnowledgeBeanList() {
         //遍历所有的Html文件，获取name分割后的title、inf、time
         for (String s : allHtml) {
             //返回分割后的title、inf、time、url、icon信息
-            knowledgeBeanArrayList.add(splitFileName(s));
+            knowledgeBeanList.add(splitFileName(s));
         }
-        return knowledgeBeanArrayList;
+        return knowledgeBeanList;
     }
 
     /**
@@ -141,7 +141,6 @@ public class KnowledgeDataUtils {
      * @date 2021-02-16 16:34
      **/
     private void fileClassifyBySuffix() {
-
         for (String fileName :
                 filesName
         ) {

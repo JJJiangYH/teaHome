@@ -1,11 +1,8 @@
-package com.tea.teahome.Widget;
+package com.tea.view.View;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.ViewGroup;
-
-import butterknife.BindDrawable;
 
 /**
  * 继承TextView，创建一个页面上方的状态栏遮挡
@@ -33,7 +30,6 @@ public class StatusBar extends androidx.appcompat.widget.AppCompatTextView {
         this.setHeight(getStatusBarHeight());
         //设置遮挡物宽度
         this.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
-        this.setTransitionName("StatusBar");
         this.setTag("StatusBar");
     }
 

@@ -1,3 +1,5 @@
+include ':view'
+include ':markdown'
 include ':sql'
 include ':teaHome'
 rootProject.name = "teaHome"

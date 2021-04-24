@@ -13,7 +13,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.tea.teahome.R;
-import com.tea.teahome.Widget.Toast;
+import com.tea.view.View.Toast;
 import com.tuya.smart.android.user.api.IReNickNameCallback;
 import com.tuya.smart.android.user.bean.User;
 import com.tuya.smart.home.sdk.TuyaHomeSdk;
@@ -27,7 +27,7 @@ import static com.tea.teahome.R.layout.activity_user_inf_show;
 import static com.tea.teahome.User.Utils.UserUtils.getRegFrom;
 import static com.tea.teahome.User.Utils.UserUtils.getTempUnit;
 import static com.tea.teahome.User.Utils.UserUtils.updateUserNickName;
-import static com.tea.teahome.Utils.ViewUtil.addStatusBar;
+import static com.tea.view.Utils.ViewUtil.addStatusBar;
 
 /**
  * 用户信息显示
@@ -177,7 +177,6 @@ public class UserInfActivity extends AppCompatActivity
         } else if ("time_zone".equals(s)) {
             Intent intent = new Intent(UserInfActivity.this, UserInfZoneActivity.class);
             startActivityForResult(intent, 0);
-            return;
         } else if ("back".equals(s)) {
             this.finish();
         }
