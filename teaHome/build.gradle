@@ -51,8 +51,9 @@ dependencies {
     implementation 'com.jakewharton:disklrucache:2.0.2'
     implementation project(path: ':sql')
     implementation fileTree(dir: '..\\gradle\\wrapper', include: ['*.aar', '*.jar'], exclude: [])
-    implementation project(path: ':markdown')
     implementation project(path: ':view')
+    implementation project(path: ':markdown')
+    implementation project(path: ':markdown')
     testImplementation "junit:junit:${junitVersion}"
     implementation 'androidx.multidex:multidex:2.0.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'

@@ -1,5 +1,6 @@
 package com.tea.teahome.Setting.Activity;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -28,14 +29,13 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting_root);
         ButterKnife.bind(this);
         addStatusBar(this, R.id.ll_setting, R.color.statusBar_color);
-
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     @OnClick(R.id.back_setting_root)
     public void onClick(View v) {

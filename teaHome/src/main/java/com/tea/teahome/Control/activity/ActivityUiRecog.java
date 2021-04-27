@@ -1,7 +1,6 @@
 package com.tea.teahome.Control.activity;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,7 +14,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
-import com.tea.markdown.Activity.MarkdownActivity;
 import com.tea.teahome.Control.params.CommonRecogParams;
 import com.tea.teahome.Control.params.NluRecogParams;
 import com.tea.teahome.Control.recog.IStatus;
@@ -53,26 +51,6 @@ public abstract class ActivityUiRecog extends ActivityCommon implements IStatus 
     @BindViews({R.id.tv_set_temp_50, R.id.tv_set_temp_65, R.id.tv_set_temp_85, R.id.tv_set_temp_100,
             R.id.tv_temp_min_c, R.id.tv_temp_max_c})
     List<TextView> tv_set_temp;
-    /**
-     * 倒计时Handler
-     */
-    @SuppressLint("HandlerLeak")
-    protected final Handler timeHandler = new Handler() {
-        @SuppressLint({"HandlerLeak", "DefaultLocale"})
-        @Override
-        public void handleMessage(@NonNull Message msg) {
-            if (time >= 0) {
-                tv_time.setText(String.format("倒计时：%s%02d秒", time >= 60 ? (time / 60 + "分") : "", (time % 60)));
-                if (time % 60 == 0) {
-                    timeSeekBar.setProgress((int) (time / 60));
-                }
-                time--;
-            } else {
-                timerStop();
-                tv_time.setText("倒计时：结束");
-            }
-        }
-    };
     /**
      * 硬件状态显示
      */
@@ -124,15 +102,35 @@ public abstract class ActivityUiRecog extends ActivityCommon implements IStatus 
     @BindView(R.id.iv_time_minus)
     ImageView iv_time_minus;
     /**
-     * 时间
-     */
-    private long time;
-    /**
      * 设置硬件的开关
      */
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.bt_state_change)
     Button bt_state_change;
+    /**
+     * 时间
+     */
+    private long time;
+    /**
+     * 倒计时Handler
+     */
+    @SuppressLint("HandlerLeak")
+    protected final Handler timeHandler = new Handler() {
+        @SuppressLint({"HandlerLeak", "DefaultLocale"})
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            if (time >= 0) {
+                tv_time.setText(String.format("倒计时：%s%02d秒", time >= 60 ? (time / 60 + "分") : "", (time % 60)));
+                if (time % 60 == 0) {
+                    timeSeekBar.setProgress((int) (time / 60));
+                }
+                time--;
+            } else {
+                timerStop();
+                tv_time.setText("倒计时：结束");
+            }
+        }
+    };
 
     public ActivityUiRecog() {
         apiParams = new NluRecogParams();
@@ -285,11 +283,5 @@ public abstract class ActivityUiRecog extends ActivityCommon implements IStatus 
         bt_state_change.setTag("hard_close");
         tv_hard_status.setText("已关闭");
         findViewById(R.id.ballView).setVisibility(View.INVISIBLE);
-    }
-
-    //TODO TEST
-    public void test(View view) {
-        Intent intent = new Intent(this, MarkdownActivity.class);
-        startActivity(intent);
     }
 }

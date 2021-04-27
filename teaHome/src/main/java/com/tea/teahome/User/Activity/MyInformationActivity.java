@@ -22,11 +22,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
 
 import com.tea.teahome.R;
 import com.tea.teahome.Setting.Activity.SettingActivity;
-import com.tea.teahome.Setting.Fragment.MyDialogFragment;
+import com.tea.view.Dialog.DialogFragment;
 import com.tea.view.View.Toast;
 import com.tuya.smart.android.user.api.IBooleanCallback;
 import com.tuya.smart.android.user.api.IReNickNameCallback;
@@ -290,8 +289,8 @@ public class MyInformationActivity extends AppCompatActivity implements View.OnC
             switch (v.getTag().toString()) {
                 //账号退出提示框
                 case "logout":
-                    DialogFragment dialogFragment = new MyDialogFragment(MyDialogFragment.LOGOUT_MODE, handler);
-                    dialogFragment.show(getSupportFragmentManager(), "MyDialogFragment");
+                    androidx.fragment.app.DialogFragment dialogFragment = new DialogFragment(DialogFragment.LOGOUT_MODE, handler);
+                    dialogFragment.show(getSupportFragmentManager(), "DialogFragment");
                     break;
                 //账号登录界面
                 case "loginAccount":

@@ -9,11 +9,11 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 import com.tea.teahome.R;
 import com.tea.teahome.Setting.Activity.SettingActivity;
+import com.tea.view.Dialog.DialogFragment;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -59,8 +59,8 @@ public class CommonSettingFragment extends Fragment implements View.OnClickListe
                 ((TextView) getActivity().findViewById(R.id.tv_setting_root)).setText(R.string.voice_setting);
                 break;
             case R.id.bt_clear_setting:
-                DialogFragment myDialogFragment = new MyDialogFragment(MyDialogFragment.SETTING_MODE);
-                myDialogFragment.show(getActivity().getSupportFragmentManager(), "MyDialogFragment");
+                DialogFragment dialogFragment = new DialogFragment(DialogFragment.SETTING_MODE);
+                dialogFragment.show(getActivity().getSupportFragmentManager(), "DialogFragment");
                 break;
             case R.id.bt_ui:
                 replaceFragment(new UISettingFragment());

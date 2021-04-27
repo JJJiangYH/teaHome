@@ -5,11 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/topBar_knowledge"
-        style="@style/TopBar_CenterText"
-        android:layout_width="match_parent"
-        android:text="@string/tab_knowledge" />
+    <include layout="@layout/item_knowledge_topbar" />
 
     <View
         android:layout_width="match_parent"
@@ -28,4 +24,5 @@
             android:animateLayoutChanges="true"
             android:background="@color/app_bg_color" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 </LinearLayout>

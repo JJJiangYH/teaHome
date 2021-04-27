@@ -12,13 +12,13 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.tea.markdown.Activity.MarkdownActivity;
 import com.tea.teahome.Base.Activity.MainActivity;
 import com.tea.teahome.Knowledge.Adapter.KnowledgeAdapter;
 import com.tea.teahome.Knowledge.Bean.KnowledgeBean;
@@ -35,6 +35,7 @@ import java.util.concurrent.Executors;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.OnItemClick;
 
 import static android.app.ActivityOptions.makeSceneTransitionAnimation;
@@ -48,7 +49,8 @@ import static com.tea.view.Utils.ViewUtil.addStatusBar;
  * @date : 2021-02-07 20:48
  */
 public class KnowledgeHomeActivity extends AppCompatActivity
-        implements AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
+        implements AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener,
+        View.OnClickListener {
     /**
      * 滑动刷新Layout
      */
@@ -62,20 +64,18 @@ public class KnowledgeHomeActivity extends AppCompatActivity
     /**
      * 提示Handler
      */
-    @SuppressLint("HandlerLeak")
-    private final Handler handler = new Handler() {
-        @Override
-        public void handleMessage(@NonNull Message msg) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                update_lv_news();
-            }
-            if (msg.what == 0) {
-                Toast.getToast(KnowledgeHomeActivity.this, "刷新完成").show();
-            } else {
-                Toast.getToast(KnowledgeHomeActivity.this, "服务器连接失败，请检查网络后重试").show();
-            }
+    private final Handler handler = new Handler(msg -> {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            update_lv_news();
         }
-    };
+        if (msg.what == 0) {
+            Toast.getToast(KnowledgeHomeActivity.this, "刷新完成").show();
+            return true;
+        } else {
+            Toast.getToast(KnowledgeHomeActivity.this, "服务器连接失败，请检查网络后重试").show();
+            return false;
+        }
+    });
 
     /**
      * 获取全部的知识数据
@@ -211,5 +211,19 @@ public class KnowledgeHomeActivity extends AppCompatActivity
                 }
         );
         single.shutdown();
+    }
+
+    /**
+     * Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
+    @OnClick(R.id.edit)
+    @Override
+    public void onClick(View v) {
+        if (v.getTag().equals("edit")) {
+            Intent intent = new Intent(this, MarkdownActivity.class);
+            startActivity(intent);
+        }
     }
 }
