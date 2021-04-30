@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_QR_code"
+        android:orderInCategory="100"
+        android:title="@string/QR_code"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_addDevice"
+        android:orderInCategory="100"
+        android:title="@string/add_device_menu"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_site"
+        android:orderInCategory="100"
+        android:title="@string/personal_center"
+        app:showAsAction="never" />
+
+
+</menu>

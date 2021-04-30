@@ -20,8 +20,14 @@ android {
     buildTypes {
         release {
             minifyEnabled true
-            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        packagingOptions {
+            exclude 'META-INF/DEPENDENCIES'
+            exclude 'META-INF/NOTICE'
+            exclude 'META-INF/LICENSE'
+            exclude 'META-INF/LICENSE.txt'
+            exclude 'META-INF/NOTICE.txt'
         }
     }
     compileOptions {
@@ -53,7 +59,8 @@ dependencies {
     implementation fileTree(dir: '..\\gradle\\wrapper', include: ['*.aar', '*.jar'], exclude: [])
     implementation project(path: ':view')
     implementation project(path: ':markdown')
-    implementation project(path: ':markdown')
+    implementation project(path: ':ftp')
+    implementation project(path: ':iot')
     testImplementation "junit:junit:${junitVersion}"
     implementation 'androidx.multidex:multidex:2.0.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
@@ -67,9 +74,6 @@ dependencies {
     implementation "androidx.core:core-ktx:1.2.0"
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation "androidx.cardview:cardview:1.0.0"
-    //picasso
-    implementation 'com.squareup.picasso:picasso:2.71828'
     //ButterKnife
     implementation 'com.jakewharton:butterknife:10.2.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.1'

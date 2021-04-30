@@ -43,10 +43,12 @@ import butterknife.OnClick;
 import static com.tea.teahome.User.Utils.BitmapUtils.getHeadBitmap;
 import static com.tea.teahome.User.Utils.DrawableUtils.bitmapToFile;
 import static com.tea.teahome.User.Utils.DrawableUtils.drawableToFile;
+import static com.tea.teahome.User.Utils.HttpUtils.getNetWorkBitmap;
 import static com.tea.teahome.User.Utils.HttpUtils.saveBitmapToFile;
 import static com.tea.teahome.User.Utils.UserUtils.getDownloadStatus;
 import static com.tea.teahome.User.Utils.UserUtils.getErrorCode;
 import static com.tea.teahome.User.Utils.UserUtils.logoutAccount;
+import static com.tea.teahome.User.Utils.UserUtils.setDownloadStatus;
 import static com.tea.teahome.User.Utils.UserUtils.setHeadIcon;
 import static com.tea.teahome.User.Utils.UserUtils.updateUserNickName;
 import static com.tea.view.Utils.ViewUtil.addStatusBar;
@@ -187,13 +189,23 @@ public class MyInformationActivity extends AppCompatActivity implements View.OnC
                 handler.sendMessage(message);
             } else {
                 new Thread(() -> {
-                    while (true) {
+                    for (int i = 0; i < 3; i++) {
                         if (getDownloadStatus(activity)) {
                             Message message = handler.obtainMessage(0);
                             handler.sendMessage(message);
-                            break;
+                            return;
+                        }
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
                         }
                     }
+                    setDownloadStatus(activity, false);
+                    getNetWorkBitmap(activity, activity.getDir("icon", Context.MODE_PRIVATE) + "icon.png",
+                            user.getHeadPic());
+                    Message message = handler.obtainMessage(0);
+                    handler.sendMessage(message);
                 }).start();
             }
         }

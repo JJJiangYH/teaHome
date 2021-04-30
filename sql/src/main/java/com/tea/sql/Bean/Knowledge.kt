@@ -1,15 +1,28 @@
 package com.tea.sql.Bean
 
+import java.text.SimpleDateFormat
 import java.util.*
 
 class Knowledge {
     var title: String? = null
-    var createTime: Date? = null
+    private var createTime: Date? = null
     var authorName: String? = null
-    var havePic: Boolean = false
-    var click: Int = 0
+    var havePic: Boolean? = null
+    var click: Int? = null
+
+    fun getCreateTime(): String {
+        val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
+        return simpleDateFormat.format(createTime)
+    }
+
+    fun setCreateTime(createTime: Date?) {
+        this.createTime = createTime
+    }
+
     val url: String
-        get() = "$title+$authorName+$createTime.html"
-    val picUrl: String
-        get() = "$title+$authorName+$createTime.png"
+        get() = title + "+" + authorName + "+" + getCreateTime() + ".html"
+
+    override fun toString(): String {
+        return url
+    }
 }

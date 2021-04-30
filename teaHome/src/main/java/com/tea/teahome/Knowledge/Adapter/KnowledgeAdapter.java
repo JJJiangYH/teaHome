@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import com.tea.teahome.Knowledge.Bean.KnowledgeBean;
+import com.tea.ftp.bean.KnowledgeBean;
 import com.tea.teahome.R;
 import com.tea.view.Utils.ViewUtil;
 

@@ -20,7 +20,7 @@ public class KnowledgeDBUtils {
             Log.e("SUCCESS", "连接成功");
         } catch (Exception e) {
             e.printStackTrace();
-            Log.e("ERROR", e.getMessage() + "连接失败");
+            Log.e("ERROR", e.getMessage() + " 连接失败");
         }
         return conn;
     }

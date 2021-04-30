@@ -61,7 +61,7 @@ public class Markdown {
 
     public static String parse(String s) {
         Log.e("render", "<body bgcolor=\"#faebd7\">" + renderer.render(parser.parse(s)) + "</body>");
-        return "<body bgcolor=\"#f1e8d9\">\n" +
+        return "<body bgcolor=\"#f1e8d9\">\n" +     //设置网页背景颜色
                 renderer.render(parser.parse(s)) +
                 "</body>\n";
     }

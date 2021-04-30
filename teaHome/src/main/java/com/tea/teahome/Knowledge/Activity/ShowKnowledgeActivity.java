@@ -11,8 +11,6 @@ import com.tea.teahome.Knowledge.Bundle.KnowledgeBundle;
 import com.tea.teahome.R;
 import com.tea.view.Utils.ViewUtil;
 
-import static com.tea.view.Utils.ViewUtil.addStatusBar;
-
 /**
  * 初始化“知识详情”界面，布局文件为R.layout.activity_show_knowledge
  *
@@ -40,7 +38,7 @@ public class ShowKnowledgeActivity extends AppCompatActivity {
         kb = new KnowledgeBundle(this);
         String path = "file:///" + getFilesDir().getPath() + "/" + kb.getWebUrlFromBundle();
         //添加状态栏遮挡
-        addStatusBar(this, R.id.LinearLayout_knowledge_context, R.color.topBar_color);
+        ViewUtil.addStatusBar(this, R.id.LinearLayout_knowledge_context, R.color.topBar_color);
         //定义背景颜色，设置WebView的背景颜色
         this.findViewById(R.id.content_knowledge).setBackgroundColor(getColor(R.color.app_bg_color));
         //设置标题、内容

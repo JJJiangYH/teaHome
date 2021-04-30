@@ -1,3 +1,5 @@
+include ':ftp'
+include ':iot'
 include ':view'
 include ':markdown'
 include ':sql'

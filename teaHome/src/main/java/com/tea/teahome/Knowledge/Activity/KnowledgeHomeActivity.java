@@ -18,13 +18,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.tea.ftp.bean.KnowledgeBean;
+import com.tea.ftp.utils.KnowledgeDataUtils;
+import com.tea.ftp.utils.KnowledgeFTPUtils;
 import com.tea.markdown.Activity.MarkdownActivity;
 import com.tea.teahome.Base.Activity.MainActivity;
 import com.tea.teahome.Knowledge.Adapter.KnowledgeAdapter;
-import com.tea.teahome.Knowledge.Bean.KnowledgeBean;
-import com.tea.teahome.Knowledge.Utils.KnowledgeDataUtils;
-import com.tea.teahome.Knowledge.Utils.KnowledgeFTPUtils;
 import com.tea.teahome.R;
+import com.tea.view.Utils.ViewUtil;
 import com.tea.view.View.Toast;
 
 import java.io.File;
@@ -37,9 +38,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnItemClick;
-
-import static android.app.ActivityOptions.makeSceneTransitionAnimation;
-import static com.tea.view.Utils.ViewUtil.addStatusBar;
 
 /**
  * 知识库页面
@@ -78,11 +76,29 @@ public class KnowledgeHomeActivity extends AppCompatActivity
     });
 
     /**
+     * @author jiang yuhang
+     * @date 2021-02-07 20:52
+     **/
+    @SuppressLint({"ResourceAsColor", "ResourceType"})
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        //初始化页面
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_knowledge_home);
+        ButterKnife.bind(this);
+        //添加状态栏遮挡
+        ViewUtil.addStatusBar(this, R.id.ll_knowledge, R.color.statusBar_color);
+        //初始化控件
+        initView();
+    }
+
+    /**
      * 获取全部的知识数据
      * 通过时间对知识排序
      * 并以ArrayList<KnowledgeBean>形式返回
      *
-     * @return java.util.ArrayList<com.tea.teahome.Knowledge.Bean.KnowledgeBean> 全部的知识数据
+     * @return java.util.ArrayList<com.tea.ftp.KnowledgeBean> 全部的知识数据
      * @author jiang yuhang
      * @date 2021-02-16 17:58
      **/
@@ -98,24 +114,6 @@ public class KnowledgeHomeActivity extends AppCompatActivity
         Collections.sort(knowledgeBeanArrayList);
         //返回一个存储所有知识数据的ArrayList
         return knowledgeBeanArrayList;
-    }
-
-    /**
-     * @author jiang yuhang
-     * @date 2021-02-07 20:52
-     **/
-    @SuppressLint({"ResourceAsColor", "ResourceType"})
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        //初始化页面
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_knowledge_home);
-        ButterKnife.bind(this);
-        //添加状态栏遮挡
-        addStatusBar(this, R.id.ll_knowledge, R.color.statusBar_color);
-        //初始化控件
-        initView();
     }
 
     /**
@@ -167,7 +165,7 @@ public class KnowledgeHomeActivity extends AppCompatActivity
         Bundle bundle = new Bundle();//建立一个传递知识的包裹
         ActivityOptions options = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            options = makeSceneTransitionAnimation(MainActivity.activity,
+            options = ActivityOptions.makeSceneTransitionAnimation(MainActivity.activity,
                     Pair.create(view, "web"));
         }
         //将数据装入包裹

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.Button;
@@ -12,11 +13,17 @@ import android.widget.EditText;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.tea.ftp.utils.KnowledgeFTPUtils;
 import com.tea.markdown.R;
 import com.tea.markdown.R2;
+import com.tea.sql.Bean.Knowledge;
+import com.tea.sql.Dao.KnowledgeDao;
 import com.tea.view.Dialog.DialogFragment;
 import com.tea.view.View.Toast;
+import com.wega.library.loadingDialog.LoadingDialog;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.util.Date;
 import java.util.List;
 
@@ -37,15 +44,18 @@ import static com.tea.view.Utils.ViewUtil.addStatusBar;
  */
 public class MarkdownUIActivity extends AppCompatActivity
         implements View.OnClickListener {
-
     public static final String PAGE = "page";
     public static final String DEF_VALUE = "";
     public static final String TITLE = "title";
     public static final String TIME = "time";
-
     private final static String mimeType = "text/html";
     private final static String enCoding = "utf-8";
     private final static String MARKDOWN = "MARKDOWN";
+    private final static int FAIL = 10;
+    private final static int SUCCESS = 12;
+    private final static int LOADING = 11;
+
+    LoadingDialog loadingDialog;
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R2.id.et_title)
@@ -87,7 +97,7 @@ public class MarkdownUIActivity extends AppCompatActivity
             if (page.length() == 0 && title.length() == 0) {
                 return true;
             } else {
-                long time = ((new Date()).getTime() / 1000) - preferences.getLong(TIME, 0);
+                long time = ((new Date()).getTime() - preferences.getLong(TIME, 0)) / 1000;
                 String tip = "已经恢复为%d%s前的草稿。";
 
                 if (time < 60) {
@@ -100,6 +110,12 @@ public class MarkdownUIActivity extends AppCompatActivity
                 et_title.setText(title);
                 Toast.getToast(this, tip).show();
             }
+        } else if (msg.what == SUCCESS) {
+            loadingDialog.loadSuccess(msg.obj.toString());
+            loadingDialog.cancel();
+        } else if (msg.what == FAIL) {
+            loadingDialog.loadFail(msg.obj.toString());
+            loadingDialog.cancel();
         }
 
         if (msg.obj != null && msg.obj.equals("Dialog")) {
@@ -159,6 +175,57 @@ public class MarkdownUIActivity extends AppCompatActivity
      * 上传文章
      */
     protected void updatePage() {
+        String title = et_title.getText().toString();
+        String page = markdown.getText().toString();
+
+        if (title.length() == 0 && page.length() == 0) {
+            Toast.getToast(this, "标题、内容不能为空。").show();
+        } else if (title.length() == 0) {
+            Toast.getToast(this, "标题不能为空。").show();
+        } else if (page.length() == 0) {
+            Toast.getToast(this, "内容不能为空。").show();
+        } else {
+            loadingDialog = getLoadingDialog();
+            loadingDialog.loading();
+
+            Thread thread = new Thread(() -> {
+                if (KnowledgeDao.getKnowledgeByTitle(title) != null) {
+                    Message.obtain(handler, FAIL, "标题已重复").sendToTarget();
+                } else {
+                    Knowledge knowledge = new Knowledge();
+                    SharedPreferences preferences = getSharedPreferences("USER", MODE_PRIVATE);
+
+                    knowledge.setAuthorName(preferences.getString("nickname", ""));
+                    knowledge.setHavePic(false);
+                    knowledge.setTitle(title);
+                    knowledge.setCreateTime(new Date());
+
+                    if (knowledge.getAuthorName().equals("")) {
+                        Message.obtain(handler, FAIL, "上传失败").sendToTarget();
+                    } else {
+                        KnowledgeDao.addKnowledge(knowledge);
+
+                        KnowledgeFTPUtils knowledgeFTPUtils = new KnowledgeFTPUtils("");
+                        String text = markdown.getText().toString();
+                        InputStream inputStream = new ByteArrayInputStream(parse(text).getBytes());
+
+                        knowledgeFTPUtils.getFtp().update(knowledge.getUrl(), inputStream);
+                        Message.obtain(handler, SUCCESS, "上传完成").sendToTarget();
+                        handler.sendEmptyMessage(DialogFragment.MARKDOWN_DROP);
+                        super.finish();
+                    }
+                }
+            });
+            thread.start();
+        }
+    }
+
+    protected LoadingDialog getLoadingDialog() {
+        LoadingDialog.Builder builder = new LoadingDialog.Builder(this);
+        return builder.setLoading_text("上传中")
+                .setFail_text("上传失败")
+                .setSuccess_text("上传完成")
+                .create();
     }
 
     /**
@@ -167,7 +234,7 @@ public class MarkdownUIActivity extends AppCompatActivity
      * @param v The view that was clicked.
      */
     @OnClick({R2.id.see, R2.id.title, R2.id.bold, R2.id.italics, R2.id.delete,
-            R2.id.inline, R2.id.list})
+            R2.id.inline, R2.id.list, R2.id.update})
     public void onClick(View v) {
 
     }

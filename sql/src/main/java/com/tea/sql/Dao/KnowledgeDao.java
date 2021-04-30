@@ -211,7 +211,7 @@ public class KnowledgeDao {
                         "where knowledge.authorId = author.authorId AND title = ?;";
 
         PreparedStatement selectPtmt;
-        Knowledge knowledge = new Knowledge();
+        Knowledge knowledge = null;
 
         try {
             selectPtmt = connection.prepareStatement(selectSql);
@@ -223,6 +223,7 @@ public class KnowledgeDao {
             ResultSet rs = selectPtmt.executeQuery();
 
             if (rs.next()) {
+                knowledge = new Knowledge();
                 knowledge.setAuthorName(rs.getString("authorName"));
                 knowledge.setTitle(rs.getString("title"));
                 knowledge.setCreateTime(rs.getDate("createTime"));
