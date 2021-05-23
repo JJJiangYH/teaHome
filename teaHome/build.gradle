@@ -60,7 +60,7 @@ dependencies {
     implementation project(path: ':view')
     implementation project(path: ':markdown')
     implementation project(path: ':ftp')
-    implementation project(path: ':iot')
+    implementation project(path: ':app')
     testImplementation "junit:junit:${junitVersion}"
     implementation 'androidx.multidex:multidex:2.0.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
@@ -77,6 +77,8 @@ dependencies {
     //ButterKnife
     implementation 'com.jakewharton:butterknife:10.2.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.1'
+    //permissions
+    implementation 'com.hjq:xxpermissions:5.2'
 }
 repositories {
     mavenCentral()

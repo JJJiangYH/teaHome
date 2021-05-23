@@ -39,12 +39,11 @@ public class TuyaSmartApp extends Application {
         // SDK 初始化
         TuyaHomeSdk.init(this);
         //检测账号是否过期
-        TuyaHomeSdk.setOnNeedLoginListener(
-                context ->
-                {
-                    Intent intent = new Intent(context, LoginAccountActivity.class);
-                    startActivity(intent);
-                });
+        TuyaHomeSdk.setOnNeedLoginListener(context ->
+        {
+            Intent intent = new Intent(context, LoginAccountActivity.class);
+            startActivity(intent);
+        });
         TuyaHomeSdk.getUserInstance().updateUserInfo(new IResultCallback() {
             @Override
             public void onError(String code, String error) {

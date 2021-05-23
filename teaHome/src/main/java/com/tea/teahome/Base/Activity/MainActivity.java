@@ -8,8 +8,6 @@ import android.os.Bundle;
 import android.view.Window;
 import android.widget.TabHost;
 
-import androidx.annotation.RequiresApi;
-
 import com.tea.teahome.Base.Widget.MyTabHost;
 import com.tea.teahome.R;
 
@@ -36,12 +34,13 @@ public class MainActivity extends TabActivity {
      * @date 2021-02-07 20:49
      **/
     @SuppressLint({"ResourceAsColor", "UseCompatLoadingForDrawables"})
-    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //初始化页面
         super.onCreate(savedInstanceState);
-        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+        }
         setContentView(R.layout.activity_main);
         //初始化底部标签栏
         new MyTabHost(this, MainActivity.this, getTabHost());

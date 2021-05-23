@@ -1,7 +1,9 @@
 include ':ftp'
-include ':iot'
 include ':view'
 include ':markdown'
 include ':sql'
 include ':teaHome'
 rootProject.name = "teaHome"
+include ':bluetoothlibrary'
+include ':app'
+include ':basiclibrary'

@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.library'
 }
+
 //引用的library表示这是一个组件，而非主module(application)
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
@@ -41,14 +42,14 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'com.google.android.material:material:1.1.0'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'com.google.android.material:material:1.2.1'
     implementation project(path: ':view')
     implementation project(path: ':sql')
     implementation project(path: ':ftp')
-    testImplementation 'junit:junit:4.+'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     //commonMark
     implementation 'org.commonmark:commonmark-ext-gfm-tables:0.17.1'
     implementation 'org.commonmark:commonmark-ext-autolink:0.17.1'

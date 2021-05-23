@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.preference.PreferenceManager;
 
+import com.hc.mixthebluetooth.activity.MainActivity;
 import com.tea.teahome.R;
 
 import java.util.ArrayList;
@@ -28,6 +29,9 @@ public class ControlActivity extends AbstractRecogActivity implements View.OnCli
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
 
         tempSeekBar.setOnSeekBarChangeListener(this);
         timeSeekBar.setOnSeekBarChangeListener(this);

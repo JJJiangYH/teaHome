@@ -1,7 +1,6 @@
 package com.tea.teahome.Control.activity;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,7 +14,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
-import com.tea.iot.UserModule.GosUserLoginActivity;
 import com.tea.teahome.Control.params.CommonRecogParams;
 import com.tea.teahome.Control.params.NluRecogParams;
 import com.tea.teahome.Control.recog.IStatus;
@@ -288,7 +286,5 @@ public abstract class ActivityUiRecog extends ActivityCommon implements IStatus 
     }
 
     public void test(View view) {
-        Intent intent = new Intent(this, GosUserLoginActivity.class);
-        startActivity(intent);
     }
 }
