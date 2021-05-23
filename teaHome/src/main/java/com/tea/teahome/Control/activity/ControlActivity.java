@@ -4,17 +4,30 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.preference.PreferenceManager;
 
-import com.hc.mixthebluetooth.activity.MainActivity;
+import com.hc.basiclibrary.viewBasic.tool.IMessageInterface;
+import com.hc.bluetoothlibrary.DeviceModule;
+import com.hc.mixthebluetooth.activity.BluetoothActivity;
+import com.hc.mixthebluetooth.activity.CommunicationActivity;
+import com.hc.mixthebluetooth.activity.single.HoldBluetooth;
+import com.hc.mixthebluetooth.fragment.FragmentMessage;
+import com.hc.mixthebluetooth.recyclerData.itemHolder.FragmentMessageItem;
 import com.tea.teahome.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import butterknife.BindView;
 import butterknife.OnClick;
 
 import static com.tea.teahome.Control.util.ConvertUtil.getArabicFromChinese;
@@ -22,6 +35,29 @@ import static com.tea.teahome.Control.util.ConvertUtil.isArabicNum;
 import static com.tea.teahome.Control.util.ConvertUtil.isChineseNum;
 
 public class ControlActivity extends AbstractRecogActivity implements View.OnClickListener {
+    public static final int FRAGMENT_STATE_DATA = 0x06;
+    public static final int FRAGMENT_STATE_NUMBER = 0x07;
+
+    private final String CONNECTED = "已连接", CONNECTING = "连接中", DISCONNECT = "断线了";
+
+    @BindView(R.id.bt_connect)
+    Button connect;
+    @BindView(R.id.bt_choose_devices)
+    Button choose;
+
+    private HoldBluetooth mHoldBluetooth;
+    private final Handler mFragmentHandler = new Handler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(@NonNull Message msg) {
+            FragmentMessageItem item = (FragmentMessageItem) msg.obj;
+            mHoldBluetooth.sendData(item.getModule(), item.getByteData().clone());
+            return false;
+        }
+    });
+    private List<DeviceModule> modules;
+    private IMessageInterface mMessage;
+    private DeviceModule mErrorDisconnect;
+
     public ControlActivity() {
         super(false);
     }
@@ -30,9 +66,6 @@ public class ControlActivity extends AbstractRecogActivity implements View.OnCli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-
         tempSeekBar.setOnSeekBarChangeListener(this);
         timeSeekBar.setOnSeekBarChangeListener(this);
 
@@ -40,11 +73,65 @@ public class ControlActivity extends AbstractRecogActivity implements View.OnCli
         changeTimerMax();
     }
 
+    //初始化蓝牙数据的监听
+    private void initDataListener() {
+        HoldBluetooth.OnReadDataListener dataListener = new HoldBluetooth.OnReadDataListener() {
+            @Override
+            public void readData(String mac, byte[] data) {
+                mMessage.readData(FRAGMENT_STATE_DATA, modules.get(0), data);
+            }
+
+            @Override
+            public void reading(boolean isStart) {
+                if (isStart)
+                    mMessage.updateState(CommunicationActivity.FRAGMENT_STATE_1);
+                else
+                    mMessage.updateState(CommunicationActivity.FRAGMENT_STATE_2);
+            }
+
+            @Override
+            public void connectSucceed() {
+                modules = mHoldBluetooth.getConnectedArray();
+                mMessage.readData(FRAGMENT_STATE_DATA, modules.get(0), null);
+                setState(CONNECTED);//设置连接状态
+                Log.e("Connect", "连接成功: " + modules.get(0).getName());
+            }
+
+            @Override
+            public void errorDisconnect(final DeviceModule deviceModule) {//蓝牙异常断开
+                if (mErrorDisconnect == null) {//判断是否已经重复连接
+                    mErrorDisconnect = deviceModule;
+                    if (mHoldBluetooth != null && deviceModule != null) {
+                        mFragmentHandler.postDelayed(() -> {
+                            mHoldBluetooth.connect(deviceModule);
+                            setState(CONNECTING);//设置正在连接状态
+                        }, 2000);
+                        return;
+                    }
+                }
+                setState(DISCONNECT);//设置断开状态
+                if (deviceModule != null)
+                    com.tea.view.View.Toast.getToast(ControlActivity.this, "连接" + deviceModule.getName() + "失败，点击右上角的已断线可尝试重连").show();
+                else
+                    com.tea.view.View.Toast.getToast(ControlActivity.this, "连接模块失败，请返回上一个页面重连").show();
+            }
+
+            @Override
+            public void readNumber(int number) {
+                mMessage.readData(FRAGMENT_STATE_NUMBER, number, null);
+            }
+
+        };
+        mHoldBluetooth.setOnReadListener(dataListener);
+        mMessage = new FragmentMessage();
+        //传入Handler方便Fragment数据回传
+        mMessage.setHandler(mFragmentHandler);
+    }
 
     @SuppressLint("NewApi")
     @OnClick({R.id.ib_set_temp_50, R.id.ib_set_temp_65, R.id.ib_set_temp_85,
             R.id.ib_set_temp_100, R.id.ib_speech, R.id.bt_time, R.id.iv_time_add,
-            R.id.iv_time_minus, R.id.bt_state_change, R.id.tv_hard_status})
+            R.id.iv_time_minus, R.id.bt_state_change, R.id.tv_hard_status, R.id.bt_choose_devices, R.id.bt_connect})
     public void onClick(View v) {
         if (v.getTag() == null) {
             return;
@@ -95,7 +182,45 @@ public class ControlActivity extends AbstractRecogActivity implements View.OnCli
             case "hard_close":
                 hardOpen();
                 break;
+            case "choose_devices":
+                Intent intent = new Intent(this, BluetoothActivity.class);
+                startActivityForResult(intent, 0);
+                break;
+            case "connect":
+                String str = ((TextView) v).getText().toString();
+                if (str.equals(CONNECTED)) {
+                    if (modules != null && mHoldBluetooth != null) {
+                        mHoldBluetooth.tempDisconnect(modules.get(0));
+                        setState(DISCONNECT);//设置断线状态
+                    }
+                } else if (str.equals(DISCONNECT)) {
+                    if ((modules != null || mErrorDisconnect != null) && mHoldBluetooth != null) {
+                        mHoldBluetooth.connect(modules != null && modules.get(0) != null ? modules.get(0) : mErrorDisconnect);
+                        setState(CONNECTING);//设置正在连接状态
+                    } else {
+                        setState(DISCONNECT);//设置断线状态
+                    }
+                }
+                break;
             default:
+                break;
+        }
+    }
+
+    private void setState(String state) {
+        switch (state) {
+            case CONNECTED://连接成功
+                mErrorDisconnect = null;
+                connect.setText(CONNECTED);
+                choose.setText(modules.get(0).getName());
+                break;
+
+            case CONNECTING://连接中
+                connect.setText(CONNECTING);
+                break;
+
+            case DISCONNECT://连接断开
+                connect.setText(DISCONNECT);
                 break;
         }
     }
@@ -126,9 +251,12 @@ public class ControlActivity extends AbstractRecogActivity implements View.OnCli
                 message += "没有结果";
             }
             tv_speech_message.setText(message);
+            doRecogAction();
+        } else if (requestCode == 0) {
+            mHoldBluetooth = HoldBluetooth.getInstance();
+            connect.setText(CONNECTING);
+            initDataListener();
         }
-
-        doRecogAction();
     }
 
     protected void doRecogAction() {
