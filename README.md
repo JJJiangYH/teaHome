@@ -10,3 +10,8 @@ GC: G1 Young Generation, G1 Old Generation <br/>
 Memory: 1280M <br/>
 Cores: 4 <br/>
 Registry: external.system.auto.import.disabled=true <br/>
+
+## device
+Android：MEIZU 17PRO/FLYME 9/Android 11
+MCU:STC15
+MCU-Bluetooth:HC-08
