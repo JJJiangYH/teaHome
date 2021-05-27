@@ -4,7 +4,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
-import com.baidu.speech.asr.SpeechConstant;
 import com.tea.teahome.Control.recog.RecogResult;
 
 import org.json.JSONException;
@@ -16,7 +15,6 @@ import org.json.JSONObject;
 public class MessageStatusRecogListener extends StatusRecogListener {
     private static final String TAG = "MesStatusRecogListener";
     private final Handler handler;
-    private final boolean needTime = true;
 
     public MessageStatusRecogListener(Handler handler) {
         this.handler = handler;
@@ -25,32 +23,32 @@ public class MessageStatusRecogListener extends StatusRecogListener {
     @Override
     public void onAsrReady() {
         super.onAsrReady();
-        sendStatusMessage(SpeechConstant.CALLBACK_EVENT_WAKEUP_READY, null);
+        sendStatusMessage(null);
     }
 
     @Override
     public void onAsrBegin() {
         super.onAsrBegin();
-        sendStatusMessage(SpeechConstant.CALLBACK_EVENT_ASR_BEGIN, null);
+        sendStatusMessage(null);
     }
 
     @Override
     public void onAsrEnd() {
         super.onAsrEnd();
-        sendMessage(null);
+        sendMessage();
     }
 
     @Override
     public void onAsrPartialResult(String[] results, RecogResult recogResult) {
         super.onAsrPartialResult(results, recogResult);
-        sendStatusMessage(SpeechConstant.CALLBACK_EVENT_ASR_PARTIAL, results[0]);
+        sendStatusMessage(results[0]);
     }
 
     @Override
     public void onAsrFinalResult(String[] results, RecogResult recogResult) {
         super.onAsrFinalResult(results, recogResult);
         String message = results[0];
-        sendStatusMessage(SpeechConstant.CALLBACK_EVENT_ASR_PARTIAL, message);
+        sendStatusMessage(message);
         sendMessage(message, status, true);
     }
 
@@ -67,7 +65,7 @@ public class MessageStatusRecogListener extends StatusRecogListener {
                 message = "网络不可用，请重新尝试。";
                 break;
         }
-        sendStatusMessage(SpeechConstant.CALLBACK_EVENT_ASR_PARTIAL, message);
+        sendStatusMessage(message);
         sendMessage(message, status, true);
     }
 
@@ -78,8 +76,9 @@ public class MessageStatusRecogListener extends StatusRecogListener {
             JSONObject json;
             try {
                 json = new JSONObject(nluResult);
-                sendStatusMessage(SpeechConstant.CALLBACK_EVENT_ASR_PARTIAL,
+                sendStatusMessage(
                         json.optString("parsed_text"));
+                Log.e("reg", json.toString());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -89,7 +88,7 @@ public class MessageStatusRecogListener extends StatusRecogListener {
     @Override
     public void onAsrFinish(RecogResult recogResult) {
         super.onAsrFinish(recogResult);
-        sendStatusMessage(SpeechConstant.CALLBACK_EVENT_ASR_FINISH, null);
+        sendStatusMessage(null);
     }
 
     /**
@@ -98,7 +97,7 @@ public class MessageStatusRecogListener extends StatusRecogListener {
     @Override
     public void onAsrLongFinish() {
         super.onAsrLongFinish();
-        sendStatusMessage(SpeechConstant.CALLBACK_EVENT_ASR_LONG_SPEECH, "长语音识别结束。");
+        sendStatusMessage("长语音识别结束。");
     }
 
     /**
@@ -106,7 +105,7 @@ public class MessageStatusRecogListener extends StatusRecogListener {
      */
     @Override
     public void onOfflineLoaded() {
-        sendStatusMessage(SpeechConstant.CALLBACK_EVENT_ASR_LOADED, "离线资源加载成功。没有此回调可能离线语法功能不能使用。");
+        sendStatusMessage("离线资源加载成功。没有此回调可能离线语法功能不能使用。");
     }
 
     /**
@@ -114,21 +113,21 @@ public class MessageStatusRecogListener extends StatusRecogListener {
      */
     @Override
     public void onOfflineUnLoaded() {
-        sendStatusMessage(SpeechConstant.CALLBACK_EVENT_ASR_UNLOADED, "离线资源卸载成功。");
+        sendStatusMessage("离线资源卸载成功。");
     }
 
     @Override
     public void onAsrExit() {
         super.onAsrExit();
-        sendStatusMessage(SpeechConstant.CALLBACK_EVENT_ASR_EXIT, null);
+        sendStatusMessage(null);
     }
 
-    private void sendStatusMessage(String eventName, String message) {
+    private void sendStatusMessage(String message) {
         sendMessage(message, status);
     }
 
-    private void sendMessage(String message) {
-        sendMessage(message, WHAT_MESSAGE_STATUS);
+    private void sendMessage() {
+        sendMessage(null, WHAT_MESSAGE_STATUS);
     }
 
     private void sendMessage(String message, int what) {

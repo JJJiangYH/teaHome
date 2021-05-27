@@ -12,7 +12,7 @@ import com.tea.teahome.R;
  * @version 1.0
  * @date 2021-02-25 23:43
  */
-public class LoginPasswordViewWatcher extends LoginBaseViewWathcer {
+public class LoginPasswordViewWatcher extends LoginBaseViewWatcher {
     /**
      * 密码编辑框
      */

@@ -14,28 +14,22 @@ import org.json.JSONObject;
 
 import java.util.Map;
 
-/**
- * Created by fujiayi on 2017/6/13.
- * EventManager内的方法如send 都可以在主线程中进行，SDK中做过处理
- */
-
 public class MyRecognizer {
     private static final String TAG = "MyRecognizer";
     // 是否加载离线资源
     private static boolean isOfflineEngineLoaded = false;
     // 未release前，只能new一个
     private static volatile boolean isInited = false;
+    // SDK 内部核心 事件回调类， 用于开发者写自己的识别回调逻辑
+    private final EventListener eventListener;
     /**
      * SDK 内部核心 EventManager 类
      */
     private EventManager asr;
-    // SDK 内部核心 事件回调类， 用于开发者写自己的识别回调逻辑
-    private EventListener eventListener;
 
     /**
      * 初始化
      *
-     * @param context
      * @param recogListener 将EventListener结果做解析的DEMO回调。使用RecogEventAdapter 适配EventListener
      */
     public MyRecognizer(Context context, IRecogListener recogListener) {
@@ -45,7 +39,6 @@ public class MyRecognizer {
     /**
      * 初始化 提供 EventManagerFactory需要的Context和EventListener
      *
-     * @param context
      * @param eventListener 识别状态和结果回调
      */
     public MyRecognizer(Context context, EventListener eventListener) {
@@ -62,22 +55,6 @@ public class MyRecognizer {
     }
 
 
-    /**
-     * 离线命令词，在线不需要调用
-     *
-     * @param params 离线命令词加载参数，见文档“ASR_KWS_LOAD_ENGINE 输入事件参数”
-     */
-    public void loadOfflineEngine(Map<String, Object> params) {
-        String json = new JSONObject(params).toString();
-        MyLogger.info(TAG + ".Debug", "离线命令词初始化参数（反馈请带上此行日志）:" + json);
-        // SDK集成步骤（可选）加载离线命令词(离线时使用)
-        asr.send(SpeechConstant.ASR_KWS_LOAD_ENGINE, json, null, 0, 0);
-        isOfflineEngineLoaded = true;
-    }
-
-    /**
-     * @param params
-     */
     public void start(Map<String, Object> params) {
         if (!isInited) {
             throw new RuntimeException("release() was called");
@@ -128,13 +105,5 @@ public class MyRecognizer {
         asr.unregisterListener(eventListener);
         asr = null;
         isInited = false;
-    }
-
-    public void setEventListener(IRecogListener recogListener) {
-        if (!isInited) {
-            throw new RuntimeException("release() was called");
-        }
-        this.eventListener = new RecogEventAdapter(recogListener);
-        asr.registerListener(eventListener);
     }
 }

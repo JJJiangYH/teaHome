@@ -63,19 +63,9 @@ abstract class BaseButtonListener internal constructor
         const val ACCOUNT_ERROR = "该用户不存在"
 
         /**
-         * 重新检查网络连接
-         */
-        const val RECHECK_INTERNET = "请重新检查网络连接"
-
-        /**
          * 手机号错误
          */
         const val PHONE_ERROR = "手机号格式错误"
-
-        /**
-         * 未注册账号
-         */
-        const val NO_REGISTER = "该账号未注册"
 
         /**
          * 登陆成功

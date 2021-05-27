@@ -25,12 +25,9 @@ import static com.tea.view.Utils.ViewUtil.addStatusBar;
  * @date 2021-02-22 11:36
  */
 public class LoginAccountActivity extends AccountBaseActivity {
-    private Context context;
+    private final Context context;
 
     public LoginAccountActivity() {
-    }
-
-    public LoginAccountActivity(Context context) {
         this.context = this;
     }
 

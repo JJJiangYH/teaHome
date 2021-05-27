@@ -2,6 +2,7 @@ package com.tea.teahome.Control.activity;
 
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -13,6 +14,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 
 import com.tea.teahome.Control.params.CommonRecogParams;
 import com.tea.teahome.Control.params.NluRecogParams;
@@ -33,10 +35,6 @@ import static com.tea.view.Utils.ViewUtil.addStatusBar;
 
 public abstract class ActivityUiRecog extends ActivityCommon implements IStatus {
     /**
-     * 日志使用
-     */
-    private static final String TAG = "ActivityUiRecog";
-    /**
      * Api的参数类，仅仅用于生成调用START的json字符串，本身与SDK的调用无关
      */
     private final CommonRecogParams apiParams;
@@ -54,51 +52,66 @@ public abstract class ActivityUiRecog extends ActivityCommon implements IStatus 
     /**
      * 硬件状态显示
      */
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.tv_hard_status)
     TextView tv_hard_status;
     /**
      * 显示温度的文本框
      */
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.tv_temp_set)
+    TextView tv_temp_set;
+    /**
+     * 显示当前温度
+     */
+    @BindView(R.id.tv_temp_now)
     TextView tv_temp_now;
     /**
      * 显示语音结果的文本框
      */
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.tv_speech_message)
     TextView tv_speech_message;
     /**
      * 显示倒计时的文本框
      */
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.tv_time)
     TextView tv_time;
     /**
      * 开始或停止倒计时按钮
      */
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.bt_time)
     Button bt_time;
     /**
      * 语音识别按钮
      */
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.ib_speech)
     ImageView ib_speech;
     /**
      * 温度控制条
      */
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.seekBar_temp)
     SeekBar tempSeekBar;
     /**
      * 倒计时控制条
      */
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.time_seekBar)
     SeekBar timeSeekBar;
     /**
      * 计时器增加按钮
      */
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.iv_time_add)
     ImageView iv_time_add;
     /**
      * 计时器减少按钮
      */
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.iv_time_minus)
     ImageView iv_time_minus;
     /**
@@ -139,11 +152,11 @@ public abstract class ActivityUiRecog extends ActivityCommon implements IStatus 
     protected Map<String, Object> fetchParams() {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
         //  上面的获取是为了生成下面的Map， 自己集成时可以忽略
-        Map<String, Object> params = apiParams.fetch(sp);
         //  集成时不需要上面的代码，只需要params参数。
-        return params;
+        return apiParams.fetch(sp);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -164,7 +177,7 @@ public abstract class ActivityUiRecog extends ActivityCommon implements IStatus 
             TEMP_UNIT = getString(R.string.temp_f);
             isTempUnitC = false;
         }
-        tv_temp_now.setText("设置温度：" + getTemp() + TEMP_UNIT);
+        tv_temp_set.setText("设置温度：" + getTemp() + TEMP_UNIT);
         TEMP_NOW = getTemp();
 
         String[] temp_string_f = getResources().getStringArray(R.array.temps_f);
@@ -224,6 +237,7 @@ public abstract class ActivityUiRecog extends ActivityCommon implements IStatus 
         timeSeekBar.setEnabled(true);
         iv_time_add.setEnabled(true);
         iv_time_minus.setEnabled(true);
+        hardClose();
     }
 
     /**
@@ -257,6 +271,7 @@ public abstract class ActivityUiRecog extends ActivityCommon implements IStatus 
      * @author jiang yuhang
      * @date 2021-04-13 17:58
      **/
+    @SuppressLint("SetTextI18n")
     protected void changeTimerMax() {
         timeSeekBar.setMax(SEEKBAR_MAX);
         ((TextView) findViewById(R.id.time_max)).setText("" + SEEKBAR_MAX);
@@ -285,6 +300,4 @@ public abstract class ActivityUiRecog extends ActivityCommon implements IStatus 
         findViewById(R.id.ballView).setVisibility(View.INVISIBLE);
     }
 
-    public void test(View view) {
-    }
 }

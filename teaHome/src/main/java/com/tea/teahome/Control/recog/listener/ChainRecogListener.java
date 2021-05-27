@@ -4,14 +4,11 @@ import com.tea.teahome.Control.recog.RecogResult;
 
 import java.util.ArrayList;
 
-/**
- * Created by fujiayi on 2017/10/18.
- */
 public class ChainRecogListener implements IRecogListener {
     private final ArrayList<IRecogListener> listeners;
 
     public ChainRecogListener() {
-        listeners = new ArrayList<IRecogListener>();
+        listeners = new ArrayList<>();
     }
 
     public void addListener(IRecogListener listener) {

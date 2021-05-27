@@ -1,6 +1,5 @@
 package com.tea.teahome.Control.util;
 
-import android.os.Handler;
 import android.util.Log;
 
 /**
@@ -14,8 +13,6 @@ public class MyLogger {
     private static final String ERROR = "ERROR";
 
     private static final boolean ENABLE = true;
-
-    private static Handler handler;
 
     public static void info(String message) {
         info(TAG, message);
@@ -31,10 +28,6 @@ public class MyLogger {
 
     public static void error(String tag, String message) {
         log(ERROR, tag, message);
-    }
-
-    public static void setHandler(Handler handler) {
-        MyLogger.handler = handler;
     }
 
     private static void log(String level, String tag, String message) {

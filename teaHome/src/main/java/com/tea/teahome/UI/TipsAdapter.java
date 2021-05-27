@@ -1,5 +1,6 @@
 package com.tea.teahome.UI;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
@@ -13,9 +14,8 @@ import android.widget.TextView;
  * @author yangliang02
  */
 class TipsAdapter extends ArrayAdapter<String> {
+    private static final String ITEM_FORMAT = "%1$d.\"%2$s\"";
     private int mTextColor;
-
-    private static String ITEM_FORMAT = "%1$d.\"%2$s\"";
 
     private TipsAdapter(Context context, int textViewResourceId) {
         super(context, textViewResourceId);
@@ -25,6 +25,7 @@ class TipsAdapter extends ArrayAdapter<String> {
         this(context, 0);
     }
 
+    @SuppressLint("DefaultLocale")
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view;
@@ -44,7 +45,7 @@ class TipsAdapter extends ArrayAdapter<String> {
                 text = (TextView) view;
             } else {
                 // Otherwise, find the TextView field within the layout
-                text = (TextView) view.findViewWithTag("textView");
+                text = view.findViewWithTag("textView");
             }
             text.setTextColor(mTextColor);
         } catch (ClassCastException e) {

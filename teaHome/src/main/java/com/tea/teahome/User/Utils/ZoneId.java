@@ -1,5 +1,9 @@
 package com.tea.teahome.User.Utils;
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
@@ -17,6 +21,7 @@ import java.util.Map;
  * @date 2021-04-17 18:08
  */
 public class ZoneId {
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public static List<String> getAllZoneIdsAndItsOffSet() {
         Map<String, String> allZoneIdsAndItsOffSet = new HashMap<>();
         LocalDateTime localDateTime = LocalDateTime.now();

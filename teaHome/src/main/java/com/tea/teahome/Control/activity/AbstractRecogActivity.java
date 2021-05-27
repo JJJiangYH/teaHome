@@ -1,9 +1,11 @@
 package com.tea.teahome.Control.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 
+import com.hc.mixthebluetooth.fragment.FragmentMessage;
 import com.tea.teahome.Control.recog.MyRecognizer;
 import com.tea.teahome.Control.recog.listener.ChainRecogListener;
 import com.tea.teahome.Control.recog.listener.MessageStatusRecogListener;
@@ -36,7 +38,6 @@ import java.util.Map;
  */
 public abstract class AbstractRecogActivity extends ActivityUiRecog
         implements SeekBar.OnSeekBarChangeListener {
-    private static final String TAG = "AbstractRecogActivity";
     /**
      * 识别控制器，使用MyRecognizer控制识别的流程
      */
@@ -54,6 +55,7 @@ public abstract class AbstractRecogActivity extends ActivityUiRecog
      * 之前点击的按钮
      */
     protected ImageButton lastPressed;
+    protected FragmentMessage mMessage;
 
     /**
      * @param enableOffline 展示的activity是否支持离线命令词
@@ -119,11 +121,12 @@ public abstract class AbstractRecogActivity extends ActivityUiRecog
      * @author jiang yuhang
      * @date 2021-04-11 19:18
      **/
+    @SuppressLint({"DefaultLocale", "NonConstantResourceId", "SetTextI18n"})
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
         switch (seekBar.getId()) {
             case R.id.seekBar_temp:
-                tv_temp_now.setText("设置温度：" + getTemp() + TEMP_UNIT);
+                tv_temp_set.setText("设置温度：" + getTemp() + TEMP_UNIT);
                 TEMP_NOW = getTemp();
                 setPressed(lastPressed, false);
                 lastPressed = null;
@@ -144,6 +147,7 @@ public abstract class AbstractRecogActivity extends ActivityUiRecog
      * @author jiang yuhang
      * @date 2021-04-13 15:03
      **/
+    @SuppressLint("UseCompatLoadingForDrawables")
     public void setPressed(ImageButton button, boolean pressed) {
         if (lastPressed != null) {
             if (pressed) {
@@ -172,7 +176,10 @@ public abstract class AbstractRecogActivity extends ActivityUiRecog
      * @author jiang yuhang
      * @date 2021-04-13 19:16
      **/
+    @SuppressLint("DefaultLocale")
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
+//        mMessage.setSendData(String.format("SET%d;", getTemp()));
+//        Log.e("TEMP", String.format("SET%d", getTemp()));
     }
 }

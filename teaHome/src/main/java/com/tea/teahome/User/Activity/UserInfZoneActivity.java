@@ -1,5 +1,6 @@
 package com.tea.teahome.User.Activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -33,6 +34,7 @@ public class UserInfZoneActivity extends AppCompatActivity
         implements View.OnClickListener, AdapterView.OnItemClickListener {
     static List<String> items = ZoneId.getAllZoneIdsAndItsOffSet();
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lv_zone)
     ListView lv_zone;
 
@@ -43,12 +45,13 @@ public class UserInfZoneActivity extends AppCompatActivity
         ButterKnife.bind(this);
         addStatusBar(this, R.id.linearLayout, R.color.statusBar_color);
 
-        ArrayAdapter adapter = new ArrayAdapter(this, R.layout.item_list, items);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.item_list, items);
 
         lv_zone.setAdapter(adapter);
     }
 
 
+    @SuppressLint("NonConstantResourceId")
     @OnClick(R.id.back)
     @Override
     public void onClick(View v) {
@@ -68,6 +71,7 @@ public class UserInfZoneActivity extends AppCompatActivity
      * @param position The position of the view in the adapter.
      * @param id       The row id of the item that was clicked.
      */
+    @SuppressLint("NonConstantResourceId")
     @OnItemClick(R.id.lv_zone)
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

@@ -3,6 +3,7 @@ package com.tea.teahome.Control.activity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -13,17 +14,17 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.preference.PreferenceManager;
 
-import com.hc.basiclibrary.viewBasic.tool.IMessageInterface;
 import com.hc.bluetoothlibrary.DeviceModule;
 import com.hc.mixthebluetooth.activity.BluetoothActivity;
-import com.hc.mixthebluetooth.activity.CommunicationActivity;
 import com.hc.mixthebluetooth.activity.single.HoldBluetooth;
 import com.hc.mixthebluetooth.fragment.FragmentMessage;
 import com.hc.mixthebluetooth.recyclerData.itemHolder.FragmentMessageItem;
 import com.tea.teahome.R;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,13 +36,12 @@ import static com.tea.teahome.Control.util.ConvertUtil.isArabicNum;
 import static com.tea.teahome.Control.util.ConvertUtil.isChineseNum;
 
 public class ControlActivity extends AbstractRecogActivity implements View.OnClickListener {
-    public static final int FRAGMENT_STATE_DATA = 0x06;
-    public static final int FRAGMENT_STATE_NUMBER = 0x07;
-
     private final String CONNECTED = "已连接", CONNECTING = "连接中", DISCONNECT = "断线了";
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.bt_connect)
     Button connect;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.bt_choose_devices)
     Button choose;
 
@@ -55,13 +55,13 @@ public class ControlActivity extends AbstractRecogActivity implements View.OnCli
         }
     });
     private List<DeviceModule> modules;
-    private IMessageInterface mMessage;
     private DeviceModule mErrorDisconnect;
 
     public ControlActivity() {
         super(false);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,8 +69,8 @@ public class ControlActivity extends AbstractRecogActivity implements View.OnCli
         tempSeekBar.setOnSeekBarChangeListener(this);
         timeSeekBar.setOnSeekBarChangeListener(this);
 
-        onClick(this.findViewById(R.id.ib_set_temp_100));
         changeTimerMax();
+        setEnable(false);
     }
 
     //初始化蓝牙数据的监听
@@ -78,22 +78,26 @@ public class ControlActivity extends AbstractRecogActivity implements View.OnCli
         HoldBluetooth.OnReadDataListener dataListener = new HoldBluetooth.OnReadDataListener() {
             @Override
             public void readData(String mac, byte[] data) {
-                mMessage.readData(FRAGMENT_STATE_DATA, modules.get(0), data);
+                if (modules != null) {
+                    try {
+                        mMessage.readData(modules.get(0), data);
+                        Log.e("return", new String(data, 0, data.length, "GBK"));
+                        tv_temp_now.setText(String.format(tv_temp_now.getTag().toString(), new String(data, 0, data.length, "GBK")));
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
 
             @Override
             public void reading(boolean isStart) {
-                if (isStart)
-                    mMessage.updateState(CommunicationActivity.FRAGMENT_STATE_1);
-                else
-                    mMessage.updateState(CommunicationActivity.FRAGMENT_STATE_2);
             }
 
             @Override
             public void connectSucceed() {
                 modules = mHoldBluetooth.getConnectedArray();
-                mMessage.readData(FRAGMENT_STATE_DATA, modules.get(0), null);
                 setState(CONNECTED);//设置连接状态
+                setEnable(true);
                 Log.e("Connect", "连接成功: " + modules.get(0).getName());
             }
 
@@ -114,13 +118,12 @@ public class ControlActivity extends AbstractRecogActivity implements View.OnCli
                     com.tea.view.View.Toast.getToast(ControlActivity.this, "连接" + deviceModule.getName() + "失败，点击右上角的已断线可尝试重连").show();
                 else
                     com.tea.view.View.Toast.getToast(ControlActivity.this, "连接模块失败，请返回上一个页面重连").show();
+                setEnable(false);
             }
 
             @Override
             public void readNumber(int number) {
-                mMessage.readData(FRAGMENT_STATE_NUMBER, number, null);
             }
-
         };
         mHoldBluetooth.setOnReadListener(dataListener);
         mMessage = new FragmentMessage();
@@ -151,6 +154,7 @@ public class ControlActivity extends AbstractRecogActivity implements View.OnCli
                 }
                 lastPressed = button;
                 ControlActivity.this.setPressed(button, true);
+                onStopTrackingTouch(tempSeekBar);
                 break;
             //语音按钮
             case "speech":
@@ -207,6 +211,18 @@ public class ControlActivity extends AbstractRecogActivity implements View.OnCli
         }
     }
 
+    @Override
+    protected void hardClose() {
+        super.hardClose();
+        mMessage.setSendData("STATEOFF");
+    }
+
+    @Override
+    protected void hardOpen() {
+        super.hardOpen();
+        mMessage.setSendData("STATEON");
+    }
+
     private void setState(String state) {
         switch (state) {
             case CONNECTED://连接成功
@@ -221,6 +237,7 @@ public class ControlActivity extends AbstractRecogActivity implements View.OnCli
 
             case DISCONNECT://连接断开
                 connect.setText(DISCONNECT);
+                choose.setText("点击连接设备");
                 break;
         }
     }
@@ -253,25 +270,40 @@ public class ControlActivity extends AbstractRecogActivity implements View.OnCli
             tv_speech_message.setText(message);
             doRecogAction();
         } else if (requestCode == 0) {
-            mHoldBluetooth = HoldBluetooth.getInstance();
-            connect.setText(CONNECTING);
-            initDataListener();
+            if (resultCode == RESULT_OK) {
+                mHoldBluetooth = HoldBluetooth.getInstance();
+                setState(CONNECTING);
+                initDataListener();
+            }
         }
+    }
+
+    protected void setEnable(boolean isEnable) {
+        bt_state_change.setEnabled(isEnable);
+        timeSeekBar.setEnabled(isEnable);
+        tempSeekBar.setEnabled(isEnable);
+        findViewById(R.id.ib_set_temp_50).setEnabled(isEnable);
+        findViewById(R.id.ib_set_temp_65).setEnabled(isEnable);
+        findViewById(R.id.ib_set_temp_85).setEnabled(isEnable);
+        findViewById(R.id.ib_set_temp_100).setEnabled(isEnable);
+        bt_time.setEnabled(isEnable);
+        iv_time_add.setEnabled(isEnable);
+        iv_time_minus.setEnabled(isEnable);
     }
 
     protected void doRecogAction() {
         if (nluResult == null || nluResult.length() == 0) {
             return;
         }
+/*
+        TextView textView2 = findViewById(R.id.textView2);
+        textView2.setText(nluResult);*/
 
         String[] recog = nluResult.split("[ 。，]");
 
-        TextView textView2 = findViewById(R.id.textView2);
-        textView2.setText("");
-
-        for (String s : recog) {
+/*        for (String s : recog) {
             textView2.append(s + "\\");
-        }
+        }*/
 
         String toDo = null;
         String thing = null;
@@ -294,7 +326,7 @@ public class ControlActivity extends AbstractRecogActivity implements View.OnCli
             }
         }
 
-        textView2.append(toDo + " " + thing + " " + num + " " + unit);
+//        textView2.append(toDo + " " + thing + " " + num + " " + unit);
         tv_speech_message.append("\n");
 
         if (toDo == null || thing == null) {
@@ -364,50 +396,48 @@ public class ControlActivity extends AbstractRecogActivity implements View.OnCli
         doRecogAction(toDo, thing, num, unit);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mHoldBluetooth.tempDisconnect(modules.get(0));
+    }
+
     @SuppressLint("NewApi")
     protected void doRecogAction(String toDo, String thing, int num, int unit) {
         int time = num * unit;
         if (OPEN.equals(toDo)) {
-            switch (thing) {
-                case TIMER:
-                    if (isTimerRunning) {
-                        //计时器正在运行
-                        tv_speech_message.append("无法开启，倒计时未关闭。");
-                    } else {
-                        //计时器未运行
-                        int progress = timeSeekBar.getProgress();
-                        //num，unit都没有
-                        if (num == 0) {
-                            if (progress == 0) {
-                                tv_speech_message.append("无法开启，时间不能为零。");
-                            } else {
-                                timerStart();
-                                tv_speech_message.append("已开启" + progress + "分钟的倒计时。");
-                            }
-                        } else if (time > timeSeekBar.getMax() || time < timeSeekBar.getMin()) {
-                            tv_speech_message.append("无法开启，时间不正确。");
+            if (TIMER.equals(thing)) {
+                if (isTimerRunning) {
+                    //计时器正在运行
+                    tv_speech_message.append("无法开启，倒计时未关闭。");
+                } else {
+                    //计时器未运行
+                    int progress = timeSeekBar.getProgress();
+                    //num，unit都没有
+                    if (num == 0) {
+                        if (progress == 0) {
+                            tv_speech_message.append("无法开启，时间不能为零。");
                         } else {
-                            timeSeekBar.setProgress(time);
                             timerStart();
-                            tv_speech_message.append("已开启" + timeSeekBar.getProgress() + "分钟的倒计时。");
+                            tv_speech_message.append("已开启" + progress + "分钟的倒计时。");
                         }
+                    } else if (time > timeSeekBar.getMax() || time < timeSeekBar.getMin()) {
+                        tv_speech_message.append("无法开启，时间不正确。");
+                    } else {
+                        timeSeekBar.setProgress(time);
+                        timerStart();
+                        tv_speech_message.append("已开启" + timeSeekBar.getProgress() + "分钟的倒计时。");
                     }
-                    break;
-                default:
-                    break;
+                }
             }
         } else if (CLOSE.equals(toDo)) {
-            switch (thing) {
-                case TIMER:
-                    if (isTimerRunning) {
-                        timerStop();
-                        tv_speech_message.append("倒计时已关闭");
-                    } else {
-                        tv_speech_message.append("无法关闭，倒计时未开启。");
-                    }
-                    break;
-                default:
-                    break;
+            if (TIMER.equals(thing)) {
+                if (isTimerRunning) {
+                    timerStop();
+                    tv_speech_message.append("倒计时已关闭");
+                } else {
+                    tv_speech_message.append("无法关闭，倒计时未开启。");
+                }
             }
         } else if (SET.equals(toDo)) {
             switch (thing) {

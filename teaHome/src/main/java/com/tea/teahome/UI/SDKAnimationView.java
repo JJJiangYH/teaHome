@@ -1,5 +1,6 @@
 package com.tea.teahome.UI;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -11,11 +12,6 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.View;
 
-/**
- * 音量反馈动画类，动画分为三个步骤(preparing, recording, recognizing)
- *
- * @author liuxi04
- */
 public class SDKAnimationView extends View {
     public static final int SAMPE_RATE_VOLUME = 50;
 
@@ -283,7 +279,8 @@ public class SDKAnimationView extends View {
         targetVolumeArray = volumes[0];
     }
 
-    public void setThemeStyle(int themeStyle) {
+    @SuppressLint("UseCompatLoadingForDrawables")
+    public void setThemeStyle() {
         mBgColor = 0xFFF6F6F6;
 
         mGriddingPaint.setColor(0xFFFFFFFF);
@@ -380,9 +377,6 @@ public class SDKAnimationView extends View {
             // 三组音量值之间随机选择
             int randomGroup = (int) (2 * Math.random());
             switch (randomGroup) {
-                case 0:
-                    volumes = VOLUMES_GROUP1;
-                    break;
                 case 1:
                     volumes = VOLUMES_GROUP2;
                     break;
@@ -440,33 +434,17 @@ public class SDKAnimationView extends View {
             case INITIALIZING_ANIMATION_STATE:
                 currentVolumeArray = INIT_VOLUME_ARRAY;
                 targetVolumeArray = INIT_VOLUME_ARRAY;
-                long timeInterval = System.currentTimeMillis() - mPreparingBeginTime;
-                int alpha = 0;
-                if (timeInterval < PREPARING_BAIDU_LOGO_TIME) {
-                    // logo出现阶段动画
-                    int duration =
-                            (int) ((System.currentTimeMillis() - mPreparingBeginTime) % PREPARING_BAIDU_LOGO_TIME);
-                    alpha = (int) (((double) duration) / (PREPARING_BAIDU_LOGO_TIME) * 0xFF);
-                } else {
-                    // logo闪烁阶段动画
-                    int duration =
-                            (int) (timeInterval % PREPARING_BAIDU_LOGO_TIME);
-                    if (duration < PREPARING_BAIDU_LOGO_TIME / 2) {
-                        alpha = (int) ((1 - (double) duration / (PREPARING_BAIDU_LOGO_TIME / 2)
-                                * 0.8f) * 0xFF);
-                    } else {
-                        alpha =
-                                (int) ((1 - (double) (PREPARING_BAIDU_LOGO_TIME - duration)
-                                        / (PREPARING_BAIDU_LOGO_TIME / 2) * 0.8f) * 0xFF);
-                    }
-                }
+                long timeInterval;
+                int alpha;
+                // logo闪烁阶段动画
+                // logo出现阶段动画
+
                 break;
             case PREPARING_ANIMATION_STATE:
                 currentVolumeArray = PREPARING_VOLUME_ARRAY;
                 targetVolumeArray = PREPARING_VOLUME_ARRAY;
 
                 timeInterval = System.currentTimeMillis() - mPreparingBeginTime;
-                alpha = 0;
                 if (timeInterval < PREPARING_BAIDU_LOGO_TIME) {
                     // logo出现阶段动画
                     int duration =
@@ -522,8 +500,6 @@ public class SDKAnimationView extends View {
 
     /**
      * 绘制分隔线
-     *
-     * @param canvas
      */
     private void drawGridding(Canvas canvas) {
         for (int col = 0; col <= RECT_IN_COLUMN; col++) {
@@ -539,8 +515,6 @@ public class SDKAnimationView extends View {
 
     /**
      * 绘制渐变蒙层
-     *
-     * @param canvas
      */
     private void drawMask(Canvas canvas) {
         if (mMask != null) {
@@ -557,7 +531,7 @@ public class SDKAnimationView extends View {
         mVolumnShadowPaint.setAlpha(alpha);
 
         for (int i = 0; i < RECT_IN_ROW; i++) {
-            int volume = 0;
+            int volume;
             int intervalTime = (int) (mRecordingCurrentTime - mRecordingInterpolationTime);
             if (intervalTime > SAMPE_RATE_VOLUME) {
                 intervalTime = SAMPE_RATE_VOLUME;
@@ -600,8 +574,6 @@ public class SDKAnimationView extends View {
 
     /**
      * 识别状态绘制扫描线
-     *
-     * @param canvas
      */
     private void drawRecognizingLine(Canvas canvas) {
         if (mRecognizingRefreshCount == 0) {
@@ -658,34 +630,6 @@ public class SDKAnimationView extends View {
                     (int) (sampleSideLength * (RECT_IN_COLUMN - mRecognizingWaveIndex)),
                     (int) (sampleSideLength * (i + 1)), (int) (sampleSideLength * (RECT_IN_COLUMN
                             - mRecognizingWaveIndex + 1)), mVolumnCeilingPaint);
-        }
-    }
-
-    /**
-     * 启动音量反馈动画
-     *
-     * @param state 动画状态
-     */
-    public void startVoiceAnimation(int state) {
-        switch (state) {
-            case NO_ANIMATION_STATE:
-                resetAnimation();
-                break;
-            case PREPARING_ANIMATION_STATE:
-                startPreparingAnimation();
-                break;
-            case RECORDING_ANIMATION_STATE:
-                startRecordingAnimation();
-                break;
-            case RECOGNIZING_ANIMATION_STATE:
-                startRecognizingAnimation();
-                break;
-            case INITIALIZING_ANIMATION_STATE:
-                startInitializingAnimation();
-                break;
-            default:
-                resetAnimation();
-                break;
         }
     }
 

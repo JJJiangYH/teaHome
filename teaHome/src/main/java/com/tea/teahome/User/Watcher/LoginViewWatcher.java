@@ -13,7 +13,7 @@ import androidx.annotation.RequiresApi;
  * @version 1.0
  * @date 2021-02-22 21:07
  */
-public class LoginViewWatcher extends LoginBaseViewWathcer {
+public class LoginViewWatcher extends LoginBaseViewWatcher {
     /**
      * 初始化变量
      *

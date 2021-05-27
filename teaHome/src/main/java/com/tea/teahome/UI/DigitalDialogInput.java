@@ -5,17 +5,10 @@ import com.tea.teahome.Control.recog.listener.ChainRecogListener;
 
 import java.util.Map;
 
-/**
- * Created by fujiayi on 2017/10/18.
- */
-
 public class DigitalDialogInput {
     private final MyRecognizer myRecognizer;
 
     private final ChainRecogListener listener;
-
-    private int code;
-
     private final Map<String, Object> startParams;
 
     public DigitalDialogInput(MyRecognizer myRecognizer, ChainRecogListener listener, Map<String, Object> startParams) {

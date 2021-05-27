@@ -5,5 +5,5 @@ include ':sql'
 include ':teaHome'
 rootProject.name = "teaHome"
 include ':bluetoothlibrary'
-include ':app'
+include ':bluetooth'
 include ':basiclibrary'

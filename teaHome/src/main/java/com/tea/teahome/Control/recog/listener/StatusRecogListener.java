@@ -1,14 +1,9 @@
 package com.tea.teahome.Control.recog.listener;
 
-/**
- * Created by fujiayi on 2017/6/14.
- */
-
 import android.util.Log;
 
 import com.tea.teahome.Control.recog.IStatus;
 import com.tea.teahome.Control.recog.RecogResult;
-
 
 /**
  * 根据回调，判断asr引擎的状态
@@ -104,6 +99,4 @@ public class StatusRecogListener implements IRecogListener, IStatus {
     @Override
     public void onOfflineUnLoaded() {
     }
-
-
 }

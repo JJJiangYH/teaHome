@@ -8,16 +8,8 @@ import android.os.Bundle;
  * @date 2021-02-25 14:32
  */
 public class AccountBundleUtils {
-    public static String getCountryCode(Bundle bundle) {
-        return bundle.getString("countryCode");
-    }
-
     public static void putTag(Bundle bundle, String tag) {
         bundle.putString("activity", tag);
-    }
-
-    public static String getTag(Bundle bundle) {
-        return bundle.getString("activity");
     }
 
     public static String getPhoneNum(Bundle bundle) {
@@ -46,10 +38,6 @@ public class AccountBundleUtils {
 
     public static void putPassword(Bundle bundle, String password) {
         bundle.putString("password", password);
-    }
-
-    public static void putCodeMode(Bundle bundle, boolean isCodeMode) {
-        bundle.putBoolean("isCodeMode", isCodeMode);
     }
 
     public static void putCode(Bundle bundle, String code) {

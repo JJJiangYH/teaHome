@@ -184,6 +184,7 @@ public class FTP {
                             os.close();
                             ftpClient.logout();
                             Log.e("error", "下载成功");
+                            Log.e("error", savePath + '/' + ftpName);
                         } catch (Exception e) {
                             Log.e(e.getMessage(), e.getMessage() + e);
                         }
@@ -250,6 +251,7 @@ public class FTP {
                 b = true;
             }
         } catch (Exception e) {
+            e.printStackTrace();
         }
         return ftpClient;
     }

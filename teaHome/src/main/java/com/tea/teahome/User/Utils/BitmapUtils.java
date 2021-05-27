@@ -14,11 +14,6 @@ import java.io.InputStream;
  */
 public class BitmapUtils {
     /**
-     * 图片最大大小 1024*1024byte=1MB
-     */
-    static final int MAXSIZE = 1 << 20;
-
-    /**
      * 将输入的头像文件裁剪为正方形且文件大小不大于1MB的图片
      *
      * @return 不大于1MB的正方形图像文件
@@ -33,7 +28,7 @@ public class BitmapUtils {
         options.inJustDecodeBounds = true;
         BitmapFactory.decodeStream(is1, null, options);
         //计算inSampleSize
-        options.inSampleSize = calculateInSampleSize(options, 300, 300);
+        options.inSampleSize = calculateInSampleSize(options);
         //加载图片
         options.inJustDecodeBounds = false;
 
@@ -48,20 +43,19 @@ public class BitmapUtils {
         return bitmap;
     }
 
-    private static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
+    private static int calculateInSampleSize(BitmapFactory.Options options) {
         final int height = options.outHeight;
         final int width = options.outWidth;
         int inSampleSize = 1;
 
-        if (height > reqHeight || width > reqWidth) {
+        if (height > 300 || width > 300) {
             final int halfHeight = height / 2;
-            final int haldWidth = width / 2;
+            final int halfWidth = width / 2;
 
-            do {
-                if ((halfHeight / inSampleSize) < reqHeight
-                        || (haldWidth / inSampleSize) < reqWidth) break;
+            while ((halfHeight / inSampleSize) >= 300
+                    && (halfWidth / inSampleSize) >= 300) {
                 inSampleSize *= 2;
-            } while (true);
+            }
         }
         return inSampleSize;
     }

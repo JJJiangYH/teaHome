@@ -166,16 +166,6 @@ public class ViewUtil {
     }
 
     /**
-     * 设置imageViewID所对应的图像内容
-     *
-     * @author jiang yuhang
-     * @date 2021-02-21 20:00
-     **/
-    public static void setIcon(Activity activity, Drawable drawable, int textViewID) {
-        setImage(activity, drawable, textViewID);
-    }
-
-    /**
      * 设置WebView网页
      *
      * @param view      设置的视窗的根

@@ -19,8 +19,6 @@ public class BallView extends View {
     final RandomColor randomColor = new RandomColor(); // 随机生成好看的颜色，github开源库。
     private final Random mRandom = new Random();
     private final int mCount = 5;   // 小球个数
-    private final int minSpeed = 5; // 小球最小移动速度
-    private final int maxSpeed = 15; // 小球最大移动速度
     public Ball[] mBalls = new Ball[this.mCount];   // 用来保存所有小球的数组
     private int maxRadius;  // 小球最大半径
     private int minRadius; // 小球最小半径
@@ -64,8 +62,12 @@ public class BallView extends View {
         ball.paint = paint;
 
         // 设置速度
-        final float speedX = (this.mRandom.nextInt(this.maxSpeed - this.minSpeed + 1) + 5) / 10f;
-        final float speedY = (this.mRandom.nextInt(this.maxSpeed - this.minSpeed + 1) + 5) / 10f;
+        // 小球最大移动速度
+        int maxSpeed = 15;
+        // 小球最小移动速度
+        int minSpeed = 5;
+        final float speedX = (this.mRandom.nextInt(maxSpeed - minSpeed + 1) + 5) / 10f;
+        final float speedY = (this.mRandom.nextInt(maxSpeed - minSpeed + 1) + 5) / 10f;
         ball.vx = this.mRandom.nextBoolean() ? speedX : -speedX;
         ball.vy = -speedY;
 
@@ -100,7 +102,6 @@ public class BallView extends View {
         final int left = 0;
         final int top = 0;
         final int right = this.mWidth;
-        final int bottom = this.mHeight;
 
         final float speedX = ball.vx;
         final float speedY = ball.vy;

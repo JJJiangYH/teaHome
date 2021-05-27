@@ -1,14 +1,16 @@
 package com.tea.teahome.Control.activity;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.StrictMode;
 import android.os.Message;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
@@ -71,6 +73,7 @@ public abstract class ActivityCommon extends AppCompatActivity {
     public boolean isTimerRunning = false;
     public boolean isTempUnitC = true;
     protected String nluResult;
+    @SuppressLint("HandlerLeak")
     protected Handler handler = new Handler() {
         @Override
         public void handleMessage(@NonNull Message msg) {
@@ -79,6 +82,7 @@ public abstract class ActivityCommon extends AppCompatActivity {
         }
     };
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,6 +92,7 @@ public abstract class ActivityCommon extends AppCompatActivity {
     /**
      * android 6.0 以上需要动态申请权限
      */
+    @RequiresApi(api = Build.VERSION_CODES.M)
     private void initPermission() {
         String[] permissions = {
                 Manifest.permission.RECORD_AUDIO,
@@ -113,18 +118,5 @@ public abstract class ActivityCommon extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         // 此处为android 6.0以上动态授权的回调，用户自行实现。
-    }
-
-    private void setStrictMode() {
-        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
-                .detectAll()
-                .penaltyLog()
-                .build());
-        StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
-                .detectLeakedSqlLiteObjects()
-                .detectLeakedClosableObjects()
-                .penaltyLog()
-                .penaltyDeath()
-                .build());
     }
 }

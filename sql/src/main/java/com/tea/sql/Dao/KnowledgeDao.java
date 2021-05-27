@@ -10,8 +10,6 @@ import java.sql.SQLDataException;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 
 public class KnowledgeDao {
     /**
@@ -95,54 +93,6 @@ public class KnowledgeDao {
         }
     }
 
-    public static List<Knowledge> query() {
-        List<Knowledge> gs = new ArrayList<>();
-        Runnable runnable = () -> {
-            Connection connection = KnowledgeDBUtils.getConnection();
-            ResultSet rs = null;
-
-            try {
-                Statement stmt = connection.createStatement();
-                rs = stmt.executeQuery(
-                        "select createTime, authorName, title, havePic, click " +
-                                "from knowledge,author " +
-                                "where knowledge.authorId = author.authorId;");
-
-                Knowledge k;
-                while (rs.next()) {
-                    k = new Knowledge();
-
-                    k.setAuthorName(rs.getString("authorName"));
-                    k.setCreateTime(rs.getDate("createTime"));
-                    k.setTitle(rs.getString("title"));
-                    k.setHavePic(rs.getBoolean("havePic"));
-                    k.setClick(rs.getInt("click"));
-
-                    gs.add(k);
-                }
-            } catch (SQLException sqlException) {
-                sqlException.printStackTrace();
-            } finally {
-                if (rs != null) {
-                    try {
-                        rs.close();
-                    } catch (SQLException sqlException) {
-                        sqlException.printStackTrace();
-                    }
-                }
-                if (connection != null) {
-                    try {
-                        connection.close();
-                    } catch (SQLException sqlException) {
-                        sqlException.printStackTrace();
-                    }
-                }
-            }
-        };
-        runnable.run();
-        return gs;
-    }
-
     public static void delKnowledge(String title) {
         Connection connection = KnowledgeDBUtils.getConnection();
         String delSql = "DELETE FROM knowledge WHERE title = ?;";
@@ -170,7 +120,6 @@ public class KnowledgeDao {
      *
      * @param title 修改前的Title
      * @param k     要改成的信息
-     * @throws SQLException
      */
     public static void updateKnowledge(String title, Knowledge k) throws SQLException {
         Connection connection = KnowledgeDBUtils.getConnection();

@@ -44,7 +44,7 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     //randomColor
-    implementation 'com.github.lzyzsd.randomcolor:library:1.0.0'
+    compile 'com.github.lzyzsd.randomcolor:library:1.0.0'
     implementation "androidx.core:core-ktx:+"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "androidx.preference:preference:1.1.1"

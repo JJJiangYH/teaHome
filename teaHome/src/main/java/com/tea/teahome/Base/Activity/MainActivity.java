@@ -23,7 +23,9 @@ import com.tea.teahome.R;
  * @date 2021-02-07 20:48
  */
 public class MainActivity extends TabActivity {
+    @SuppressLint("StaticFieldLeak")
     public static TabHost tabHost;
+    @SuppressLint("StaticFieldLeak")
     public static Activity activity;
 
     /**

@@ -4,20 +4,20 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/**
- * Created by fujiayi on 2017/6/24.
- */
 public class RecogResult {
     private static final int ERROR_NONE = 0;
 
     private String origalJson;
     private String[] resultsRecognition;
     private String origalResult;
-    private String sn; // 日志id， 请求有问题请提问带上sn
+    // 日志id， 请求有问题请提问带上sn
     private String desc;
     private String resultType;
     private int error = -1;
     private int subError = -1;
+
+    public RecogResult() {
+    }
 
     public static RecogResult parseJson(String jsonStr) {
         RecogResult result = new RecogResult();
@@ -66,10 +66,6 @@ public class RecogResult {
         return "nlu_result".equals(resultType);
     }
 
-    public String getOrigalJson() {
-        return origalJson;
-    }
-
     public void setOrigalJson(String origalJson) {
         this.origalJson = origalJson;
     }
@@ -80,14 +76,6 @@ public class RecogResult {
 
     public void setResultsRecognition(String[] resultsRecognition) {
         this.resultsRecognition = resultsRecognition;
-    }
-
-    public String getSn() {
-        return sn;
-    }
-
-    public void setSn(String sn) {
-        this.sn = sn;
     }
 
     public int getError() {
@@ -104,10 +92,6 @@ public class RecogResult {
 
     public void setDesc(String desc) {
         this.desc = desc;
-    }
-
-    public String getOrigalResult() {
-        return origalResult;
     }
 
     public void setOrigalResult(String origalResult) {

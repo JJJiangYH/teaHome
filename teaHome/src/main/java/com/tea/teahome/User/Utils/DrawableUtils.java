@@ -5,7 +5,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
-import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
@@ -39,7 +38,7 @@ public class DrawableUtils {
             fileOutputStream.flush();
             fileOutputStream.close();
         } catch (Exception e) {
-            Log.e("error", e.getMessage());
+            e.printStackTrace();
         }
         return file;
     }
@@ -60,7 +59,7 @@ public class DrawableUtils {
             fileOutputStream.flush();
             fileOutputStream.close();
         } catch (Exception e) {
-            Log.e("error", e.getMessage());
+            e.printStackTrace();
         }
         return file;
     }

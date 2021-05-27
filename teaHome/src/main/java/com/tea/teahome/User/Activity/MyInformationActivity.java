@@ -61,31 +61,35 @@ import static com.tea.view.Utils.ViewUtil.addStatusBar;
  * @date 2021-02-7 20:49
  */
 public class MyInformationActivity extends AppCompatActivity implements View.OnClickListener {
-    public static final int USER_INF = 1;
     private static final int ALBUM_OK = 0;
     /**
      * 账号头像
      */
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.headImage)
     ImageView headImage;
     /**
      * 用户名
      */
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.tv_userName)
     TextView tv_username;
     /**
      * UID
      */
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.tv_uid)
     TextView tv_uid;
     /**
      * 关闭按钮
      */
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.bt_logout)
     Button bt_logout;
     /**
      * 设置按钮
      */
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.bt_setting)
     Button bt_setting;
     /**
@@ -134,6 +138,7 @@ public class MyInformationActivity extends AppCompatActivity implements View.OnC
         setHeadIcon(this, headImage, R.drawable.ic_account_default);
     }
 
+    @SuppressLint("SetTextI18n")
     private void setUserInf() {
         User user = TuyaHomeSdk.getUserInstance().getUser();
         if (user == null) {

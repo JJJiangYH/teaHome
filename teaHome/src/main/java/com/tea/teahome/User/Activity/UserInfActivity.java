@@ -1,6 +1,6 @@
 package com.tea.teahome.User.Activity;
 
-import android.content.Context;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -38,50 +38,56 @@ import static com.tea.view.Utils.ViewUtil.addStatusBar;
  */
 public class UserInfActivity extends AppCompatActivity
         implements View.OnClickListener {
-    private final Context context;
     /**
      * 昵称
      */
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.et_nickName_set)
     EditText et_nickName;
     /**
      * UID
      */
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.et_uid_set)
     EditText et_uid;
     /**
      * 手机号
      */
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.et_phone)
     EditText et_phone;
     /**
      * 国家代码
      */
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.et_phone_code_set)
     EditText et_phone_code;
     /**
      * 国家区域
      */
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.et_region_code_set)
     EditText et_region_code;
     /**
      * 注册方式
      */
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.et_reg_from)
     EditText et_reg_from;
     /**
      * 时区
      */
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.et_time_zone)
     TextView et_time_zone;
     /**
      * 温度单位
      */
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.et_temp_unit)
     EditText et_temp_unit;
 
     public UserInfActivity() {
-        this.context = this;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -116,10 +122,6 @@ public class UserInfActivity extends AppCompatActivity
 
     /**
      * Dispatch incoming result to the correct fragment.
-     *
-     * @param requestCode
-     * @param resultCode
-     * @param data
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -146,8 +148,6 @@ public class UserInfActivity extends AppCompatActivity
         if ("save".equals(s)) {
             String nickName = et_nickName.getText().toString();
             String timeZone = et_time_zone.getText().toString();
-            String lastNickName = TuyaHomeSdk.getUserInstance().getUser().getNickName();
-            String lastTimeZone = TuyaHomeSdk.getUserInstance().getUser().getTimezoneId();
 
             //昵称更改了
             updateUserNickName(this, nickName, new IReNickNameCallback() {

@@ -31,10 +31,6 @@ public class SDKProgressBar extends View {
      */
     private int rectWidth;
     /**
-     * 进度条总长度
-     */
-    private int barLength;
-    /**
      * 进度条不同区间
      */
     private int mProgress;
@@ -65,8 +61,6 @@ public class SDKProgressBar extends View {
 
     /**
      * 设置进度条显示长度
-     *
-     * @param progress
      */
     public void setProgress(int progress) {
         if (progress < 0) {
@@ -82,8 +76,7 @@ public class SDKProgressBar extends View {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-
-        barLength = MeasureSpec.getSize(widthMeasureSpec);
+        int barLength = MeasureSpec.getSize(widthMeasureSpec);
 
         rectHeight = barLength / 80;
         rectWidth = rectHeight;

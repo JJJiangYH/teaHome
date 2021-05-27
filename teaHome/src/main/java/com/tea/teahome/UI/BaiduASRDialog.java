@@ -32,7 +32,6 @@ public abstract class BaiduASRDialog extends Activity {
      */
     public static final String PARAM_PORMPT_TEXT = "prompt_text";
     public static final int STATUS_None = 0;
-    public static final int STATUS_WaitingReady = 2;
     public static final int STATUS_Ready = 3;
     public static final int STATUS_Speaking = 4;
     public static final int STATUS_Recognition = 5;
@@ -47,7 +46,6 @@ public abstract class BaiduASRDialog extends Activity {
     /**
      * 是否正在识别
      */
-    private volatile boolean mIsRunning = false;
     private MyRecognizer myRecognizer;
 
     public static void setInput(DigitalDialogInput input) {
@@ -73,7 +71,6 @@ public abstract class BaiduASRDialog extends Activity {
      */
     protected void startRecognition() {
         mPrompt = mParams.getString(PARAM_PORMPT_TEXT);
-        mIsRunning = true;
         onRecognitionStart();
         Map<String, Object> params = input.getStartParams();
         params.put(SpeechConstant.ACCEPT_AUDIO_VOLUME, true); // 强制改为true，否则没有动画效果
@@ -90,7 +87,7 @@ public abstract class BaiduASRDialog extends Activity {
     /**
      * 取消当前识别
      */
-    protected void cancleRecognition() {
+    protected void cancelRecognition() {
         myRecognizer.cancel();
         status = STATUS_None;
     }
@@ -111,7 +108,7 @@ public abstract class BaiduASRDialog extends Activity {
                 throw new AndroidRuntimeException(getClass().getName()
                         + ", 'android:exported' should be false, please modify AndroidManifest.xml");
             }
-            Log.d("export", "exported:" + exported);
+            Log.d("export", "exported:" + false);
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
@@ -149,7 +146,6 @@ public abstract class BaiduASRDialog extends Activity {
     /**
      * 部分结果返回，
      *
-     * @param results
      */
     protected abstract void onPartialResults(String[] results);
 
@@ -214,19 +210,16 @@ public abstract class BaiduASRDialog extends Activity {
         @Override
         public void onAsrFinalResult(String[] results, RecogResult recogResult) {
             status = STATUS_None;
-            mIsRunning = false;
             BaiduASRDialog.this.onPartialResults(results);
 
             Intent intentResult = new Intent();
-            ArrayList list = new ArrayList();
-            list.addAll(Arrays.asList(results));
+            ArrayList<String> list = new ArrayList<>(Arrays.asList(results));
             intentResult.putStringArrayListExtra("results", list);
             setResult(RESULT_OK, intentResult);
         }
 
         @Override
         public void onAsrFinish(RecogResult recogResult) {
-            mIsRunning = false;
         }
 
         @Override
@@ -240,7 +233,6 @@ public abstract class BaiduASRDialog extends Activity {
          */
         @Override
         public void onAsrLongFinish() {
-            mIsRunning = false;
         }
 
         @Override

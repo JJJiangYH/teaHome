@@ -1,7 +1,6 @@
 package com.tea.teahome.UI;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.ColorFilter;
@@ -10,7 +9,6 @@ import android.graphics.ColorMatrixColorFilter;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -50,42 +48,25 @@ public class BaiduASRDigitalDialog extends BaiduASRDialog {
     /**
      * 对话框启动后展示引导提示，不启动识别
      */
-    @Deprecated
     public static final String PARAM_SHOW_TIPS_ON_START = "BaiduASRDigitalDialog_showTips";
     /**
      * 引擎启动后3秒没检测到语音，在动效下方随机出现一条提示语。在配置了提示语列表后，默认开启。
      */
-    @Deprecated
     public static final String PARAM_SHOW_TIP = "BaiduASRDigitalDialog_showTip";
-    /**
-     * 未检测到语音异常时，将“取消”按钮替换成帮助按钮。在配置了提示语列表后，默认开启。
-     */
-    @Deprecated
-    public static final String PARAM_SHOW_HELP_ON_SILENT = "BaiduASRDigitalDialog_showHelp";
     /**
      * 提示语列表。String数组
      */
-    @Deprecated
     public static final String PARAM_TIPS = "BaiduASRDigitalDialog_tips";
     protected static final int ERROR_NONE = 0;
     private static final String TAG = "BSDigitalDialog";
     // 国际化标识定义Begin
-    private static final String KEY_TIPS_ERROR_SILENT = "tips.error.silent";
-    private static final String KEY_TIPS_ERROR_DECODER = "tips.error.decoder";
-    private static final String KEY_TIPS_ERROR_SPEECH_TOO_SHORT = "tips.error.speech_too_short";
-    private static final String KEY_TIPS_ERROR_SPEECH_TOO_LONG = "tips.error.speech_too_long";
-    private static final String KEY_TIPS_ERROR_NETWORK = "tips.error.network";
-    private static final String KEY_TIPS_ERROR_NETWORK_UNUSABLE = "tips.error.network_unusable";
-    private static final String KEY_TIPS_ERROR_INTERNAL = "tips.error.internal";
     private static final String KEY_TIPS_STATE_READY = "tips.state.ready";
     private static final String KEY_TIPS_STATE_WAIT = "tips.state.wait";
     private static final String KEY_TIPS_STATE_INITIALIZING = "tips.state.initializing";
     private static final String KEY_TIPS_STATE_LISTENING = "tips.state.listening";
     private static final String KEY_TIPS_STATE_RECOGNIZING = "tips.state.recognizing";
-    private static final String KEY_TIPS_COPYRIGHT = "tips.copyright";
     private static final String KEY_TIPS_WAITNET = "tips.wait.net";
     private static final String KEY_BTN_DONE = "btn.done";
-    private static final String KEY_BTN_CANCEL = "btn.cancel";
     private static final String KEY_BTN_RETRY = "btn.retry";
     private static final String KEY_TIPS_HELP_TITLE = "tips.help.title";
     private static final String KEY_BTN_START = "btn.start";
@@ -95,17 +76,11 @@ public class BaiduASRDigitalDialog extends BaiduASRDialog {
     // 国际化标识定义end
     /**
      * 识别中的进度条
-     *
-     * @author zhaopengfei04
      */
     private static final int BAR_ONEND = 0;
     private static final int BAR_ONFINISH = 1;
     // 识别启动后间隔多长时间不说话出现提示，单位毫秒
     private static final long SHOW_SUGGESTION_INTERVAL = 3000;
-    private static final int ENGINE_TYPE_ONLINE = 0;
-    private static final int ENGINE_TYPE_OFFLINE = 1;
-    // 当前活跃的引擎类型
-    private final int mEngineType = 0;
     /**
      * “说完了”按钮背景
      */
@@ -125,10 +100,8 @@ public class BaiduASRDigitalDialog extends BaiduASRDialog {
     private final Handler mHandler = new Handler();
     private final Random mRandom = new Random();
     private final OnClickListener mClickListener;
-    private final CharSequence mErrorRes = "";
     Message mMessage = Message.obtain();
     private int mErrorCode;
-    private View mContentRoot = null;
     private View mMainLayout;
     private View mErrorLayout;
     private TextView mTipsTextView;
@@ -137,8 +110,6 @@ public class BaiduASRDigitalDialog extends BaiduASRDialog {
     private TextView mCancelTextView;
     private TextView mRetryTextView;
     private SDKAnimationView mVoiceWaveView;
-    private TextView mErrorTipsTextView;
-    private ImageButton mCancelBtn;
     private ImageButton mHelpBtn;
     private TextView mTitle;
     private View mHelpView;
@@ -147,10 +118,6 @@ public class BaiduASRDigitalDialog extends BaiduASRDialog {
      * 动效下面的提示，3S不说话出现，文字在列表中随机出。出现后隐藏版权声明
      */
     private TextView mSuggestionTips;
-    /**
-     * 静音异常时的提示语
-     */
-    private TextView mSuggestionTips2;
     private View mRecognizingView;
     /**
      * 连续上屏控件
@@ -186,10 +153,17 @@ public class BaiduASRDigitalDialog extends BaiduASRDialog {
      * 国际化文本资源
      */
     private ResourceBundle mLableRes;
+    private final Runnable mShowSuggestionTip = this::showSuggestionTips;
+    /**
+     * 单条提示语前缀
+     */
+    private String mPrefix;
     /**
      * 进度条
      */
+    @SuppressLint("HandlerLeak")
     Handler barHandler = new Handler() {
+        @SuppressLint("HandlerLeak")
         @Override
         public void handleMessage(Message msg) {
             if (msg.what == BAR_ONEND) {
@@ -201,10 +175,9 @@ public class BaiduASRDigitalDialog extends BaiduASRDialog {
 
                         mTipsTextView.setVisibility(INVISIBLE);
                         // 仅在线时显示“网络不稳定”
-                        if (mEngineType == ENGINE_TYPE_ONLINE) {
-                            mWaitNetTextView.setText(getString(KEY_TIPS_WAITNET));
-                            mWaitNetTextView.setVisibility(VISIBLE);
-                        }
+                        // 当前活跃的引擎类型
+                        mWaitNetTextView.setText(getString(KEY_TIPS_WAITNET));
+                        mWaitNetTextView.setVisibility(VISIBLE);
                     } else {
                         if (mInputEdit.getVisibility() == VISIBLE) {
                             mTipsTextView.setVisibility(INVISIBLE);
@@ -226,7 +199,7 @@ public class BaiduASRDigitalDialog extends BaiduASRDialog {
                     } else {
 
                         if (delayTime >= 15000) {
-                            cancleRecognition();
+                            cancelRecognition();
                             onFinish(SpeechRecognizer.ERROR_NETWORK, ERROR_NETWORK_UNUSABLE);
                             step = 0;
                             delayTime = 0;
@@ -258,11 +231,6 @@ public class BaiduASRDigitalDialog extends BaiduASRDialog {
             }
         }
     };
-    /**
-     * 单条提示语前缀
-     */
-    private String mPrefix;
-    private final Runnable mShowSuggestionTip = () -> showSuggestionTips();
 
     public BaiduASRDigitalDialog() {
         mClickListener = v -> {
@@ -279,7 +247,7 @@ public class BaiduASRDigitalDialog extends BaiduASRDialog {
                         speakFinish();
                         onEndOfSpeech();
                     } else {
-                        cancleRecognition();
+                        cancelRecognition();
                         onFinish(SpeechRecognizer.ERROR_NO_MATCH, 0);
                     }
                 }
@@ -319,8 +287,8 @@ public class BaiduASRDigitalDialog extends BaiduASRDialog {
     }
 
     private void initView() {
-        initResources(mTheme);
-        mContentRoot = inflate(this,
+        initResources();
+        View mContentRoot = inflate(this,
                 getResources().getIdentifier("bdspeech_digital_layout", "layout", getPackageName()), null);
         if (mContentRoot != null) {
             mContentRoot.findViewWithTag("bg_layout").setBackgroundDrawable(mBg);
@@ -331,7 +299,8 @@ public class BaiduASRDigitalDialog extends BaiduASRDialog {
             mWaitNetTextView.setTextColor(mStateTipsColor);
             mSuggestionTips = mContentRoot.findViewWithTag("suggestion_tips");
             mSuggestionTips.setTextColor(mCopyRightColor);
-            mSuggestionTips2 = mContentRoot.findViewWithTag("suggestion_tips_2");
+
+            TextView mSuggestionTips2 = mContentRoot.findViewWithTag("suggestion_tips_2");
             mSuggestionTips2.setTextColor(mCopyRightColor);
             // 进度条
             mSDKProgressBar = mContentRoot.findViewWithTag("progress");
@@ -352,11 +321,11 @@ public class BaiduASRDigitalDialog extends BaiduASRDialog {
             mRetryTextView.setBackgroundDrawable(mRightButtonBg);
             mRetryTextView.setTextColor(mButtonReverseColor);
 
-            mErrorTipsTextView = mContentRoot.findViewWithTag("error_tips");
+            TextView mErrorTipsTextView = mContentRoot.findViewWithTag("error_tips");
             mErrorTipsTextView.setTextColor(mErrorTipsColor);
-            Drawable bgDrawable = getResources().getDrawable(
+            @SuppressLint("UseCompatLoadingForDrawables") Drawable bgDrawable = getResources().getDrawable(
                     getResources().getIdentifier("bdspeech_close_v2", "drawable", getPackageName()));
-            mCancelBtn = mContentRoot.findViewWithTag("cancel_btn");
+            ImageButton mCancelBtn = mContentRoot.findViewWithTag("cancel_btn");
             mCancelBtn.setOnClickListener(mClickListener);
             mCancelBtn.setImageDrawable(bgDrawable);
             mHelpBtn = mContentRoot.findViewWithTag("help_btn");
@@ -371,7 +340,7 @@ public class BaiduASRDigitalDialog extends BaiduASRDialog {
             layoutParams.addRule(RelativeLayout.ALIGN_BOTTOM, R.id.dialog_linear);
 
             mVoiceWaveView = mContentRoot.findViewWithTag("voicewave_view");
-            mVoiceWaveView.setThemeStyle(mTheme);
+            mVoiceWaveView.setThemeStyle();
             mMainLayout = mContentRoot.findViewWithTag("main_reflect");
             mVoiceWaveView.setVisibility(INVISIBLE);
             mRecognizingView = mContentRoot.findViewWithTag("recognizing_reflect");
@@ -429,12 +398,13 @@ public class BaiduASRDigitalDialog extends BaiduASRDialog {
         mCompleteTextView.setEnabled(true);
         mHelpBtn.setVisibility(INVISIBLE);
         mHandler.removeCallbacks(mShowSuggestionTip);
-        cancleRecognition();
+        cancelRecognition();
     }
 
     /**
      * 显示动效正文的提示
      */
+    @SuppressLint("SetTextI18n")
     private void showSuggestionTips() {
         String tips = mTipsAdapter.getItem(mRandom.nextInt(mTipsAdapter.getCount()));
         mSuggestionTips.setText(mPrefix + tips);
@@ -446,13 +416,7 @@ public class BaiduASRDigitalDialog extends BaiduASRDialog {
         mTipsAdapter.clear();
         String[] temp = getParams().getStringArray(PARAM_TIPS);
         if (temp != null) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-                mTipsAdapter.addAll(temp);
-            } else {
-                for (String tip : temp) {
-                    mTipsAdapter.add(tip);
-                }
-            }
+            mTipsAdapter.addAll(temp);
         }
         boolean showTips = false;
         if (mTipsAdapter.getCount() > 0) {
@@ -483,7 +447,6 @@ public class BaiduASRDigitalDialog extends BaiduASRDialog {
     /**
      * 获取国际化字符串
      *
-     * @param key
      * @return 资源不存在返回Null
      */
     private String getString(String key) {
@@ -501,21 +464,21 @@ public class BaiduASRDigitalDialog extends BaiduASRDialog {
     /**
      * 初始化资源，图片、颜色
      */
-    private void initResources(int theme) {
-        Context context = this;
+    @SuppressLint("UseCompatLoadingForDrawables")
+    private void initResources() {
         // 配色方案选择
-        Integer buttonRecognizingBgName;
-        final Integer buttonNormalBgName =
+        int buttonRecognizingBgName;
+        final int buttonNormalBgName =
                 getResources().getIdentifier("bdspeech_btn_normal", "drawable", getPackageName());
-        final Integer buttonPressedBgName =
+        final int buttonPressedBgName =
                 getResources().getIdentifier("bdspeech_btn_pressed", "drawable", getPackageName());
-        Integer leftButtonNormalBgName = null;
-        Integer leftButtonPressedBgName = null;
-        final Integer rightButtonNormalBgName =
+        int leftButtonNormalBgName;
+        int leftButtonPressedBgName;
+        final int rightButtonNormalBgName =
                 getResources().getIdentifier("bdspeech_right_normal", "drawable", getPackageName());
-        final Integer rightButtonPressedBgName =
+        final int rightButtonPressedBgName =
                 getResources().getIdentifier("bdspeech_right_pressed", "drawable", getPackageName());
-        Integer bgName = null;
+        int bgName;
         // 按下、不可用、其它状态颜色
         int[] colors = new int[3];
         // 按下、不可用、其它状态颜色
@@ -677,22 +640,6 @@ public class BaiduASRDigitalDialog extends BaiduASRDialog {
                 mInputEdit.setSelection(mInputEdit.getText().length());
                 delayTime = 0;
             }
-        }
-    }
-
-    protected void showEngineType(int engineType) {
-        String engineTypeString;
-        switch (engineType) {
-            case ENGINE_TYPE_OFFLINE:
-                engineTypeString = "当前正在使用离线识别引擎";
-                mSuggestionTips.setText(engineTypeString);
-                mSuggestionTips.setVisibility(VISIBLE);
-                break;
-            case ENGINE_TYPE_ONLINE:
-                mSuggestionTips.setVisibility(GONE);
-                break;
-            default:
-                break;
         }
     }
 }

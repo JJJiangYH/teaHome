@@ -37,8 +37,6 @@ public interface IRecogListener {
      * 语音的在线语义结果
      * <p>
      * CALLBACK_EVENT_ASR_PARTIAL resultType=nlu_result
-     *
-     * @param nluResult
      */
     void onAsrOnlineNluResult(String nluResult);
 
@@ -61,11 +59,6 @@ public interface IRecogListener {
 
     /**
      * CALLBACK_EVENT_ASR_FINISH error!=0
-     *
-     * @param errorCode
-     * @param subErrorCode
-     * @param descMessage
-     * @param recogResult
      */
     void onAsrFinishError(int errorCode, int subErrorCode, String descMessage,
                           RecogResult recogResult);
@@ -88,8 +81,6 @@ public interface IRecogListener {
      * CALLBACK_EVENT_ASR_AUDIO
      *
      * @param data   pcm格式，16bits 16000采样率
-     * @param offset
-     * @param length
      */
     void onAsrAudio(byte[] data, int offset, int length);
 

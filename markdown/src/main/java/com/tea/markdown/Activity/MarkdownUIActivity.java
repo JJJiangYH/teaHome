@@ -26,6 +26,7 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.BindViews;
@@ -53,7 +54,6 @@ public class MarkdownUIActivity extends AppCompatActivity
     private final static String MARKDOWN = "MARKDOWN";
     private final static int FAIL = 10;
     private final static int SUCCESS = 12;
-    private final static int LOADING = 11;
 
     LoadingDialog loadingDialog;
 
@@ -200,7 +200,7 @@ public class MarkdownUIActivity extends AppCompatActivity
                     knowledge.setTitle(title);
                     knowledge.setCreateTime(new Date());
 
-                    if (knowledge.getAuthorName().equals("")) {
+                    if (Objects.equals(knowledge.getAuthorName(), "")) {
                         Message.obtain(handler, FAIL, "上传失败").sendToTarget();
                     } else {
                         KnowledgeDao.addKnowledge(knowledge);

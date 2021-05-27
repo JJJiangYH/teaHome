@@ -52,11 +52,13 @@ public class KnowledgeHomeActivity extends AppCompatActivity
     /**
      * 滑动刷新Layout
      */
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.swipeRefresh)
     SwipeRefreshLayout swipeRefreshLayout;
     /**
      * 知识显示View
      */
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.lv_knowledge)
     ListView lv_news;
     /**
@@ -155,6 +157,7 @@ public class KnowledgeHomeActivity extends AppCompatActivity
      * @author jiang yuhang
      * @date 2021-02-07 21:20
      **/
+    @SuppressLint("NonConstantResourceId")
     @Override
     @OnItemClick(R.id.lv_knowledge)
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -216,6 +219,7 @@ public class KnowledgeHomeActivity extends AppCompatActivity
      *
      * @param v The view that was clicked.
      */
+    @SuppressLint("NonConstantResourceId")
     @OnClick(R.id.edit)
     @Override
     public void onClick(View v) {

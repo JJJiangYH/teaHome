@@ -27,7 +27,7 @@ class KnowledgeFTPUtils(private val privatePath: String) {
      * @date 2021-02-17 22:26
      */
     fun downloadFilesFromFtp() {
-        ftp.downloadFiles("/", privatePath)
+        ftp.downloadFiles("/home/jiangyh", privatePath)
     }
 
     /**
@@ -37,10 +37,10 @@ class KnowledgeFTPUtils(private val privatePath: String) {
      * @date 2021-02-17 15:52
      */
     init {
-        val FTP_ADDRESS = "106.13.54.66"
+        val FTP_ADDRESS = "106.13.116.35"
         val FTP_PORT = 21
-        val FTP_USERNAME = "jiangyuhang"
-        val FTP_PASSWORD = "Jyh86350517"
+        val FTP_USERNAME = "jiangyh"
+        val FTP_PASSWORD = "jyh86350517"
         val BASE_PATH = ""
         ftp = FTP(FTP_ADDRESS, FTP_PORT, FTP_USERNAME, FTP_PASSWORD, BASE_PATH)
         //获取FTP登录是否成功

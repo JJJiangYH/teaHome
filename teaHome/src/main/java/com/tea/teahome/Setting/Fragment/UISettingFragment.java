@@ -44,8 +44,8 @@ public class UISettingFragment extends PreferenceFragmentCompat
     private void addListener() {
         EditTextPreference editTextPreference = findPreference("control_timer_max");
         findPreference("temp_unit").setOnPreferenceChangeListener(this);
-        editTextPreference.setOnPreferenceChangeListener(this);
         if (editTextPreference != null) {
+            editTextPreference.setOnPreferenceChangeListener(this);
             editTextPreference.setOnBindEditTextListener(
                     editText -> {
                         editText.setInputType(InputType.TYPE_CLASS_NUMBER);

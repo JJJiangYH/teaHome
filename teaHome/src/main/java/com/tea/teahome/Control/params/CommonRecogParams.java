@@ -14,24 +14,21 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by fujiayi on 2017/6/20.
- */
 public class CommonRecogParams {
     private static final String TAG = "CommonRecogParams";
     protected String samplePath;
     /**
      * 字符串格式的参数
      */
-    protected ArrayList<String> stringParams = new ArrayList<String>();
+    protected ArrayList<String> stringParams = new ArrayList<>();
     /**
      * int格式的参数
      */
-    protected ArrayList<String> intParams = new ArrayList<String>();
+    protected ArrayList<String> intParams = new ArrayList<>();
     /**
      * bool格式的参数
      */
-    protected ArrayList<String> boolParams = new ArrayList<String>();
+    protected ArrayList<String> boolParams = new ArrayList<>();
 
     public CommonRecogParams() {
         stringParams.addAll(Arrays.asList(
@@ -52,15 +49,13 @@ public class CommonRecogParams {
 
     /**
      * 创建保存OUTFILE的临时目录. 仅用于OUTFILE参数。不使用demo中的OUTFILE参数可忽略此段
-     *
-     * @param context
      */
     public void initSamplePath(Context context) {
         String sampleDir = "baiduASR";
         samplePath = Environment.getExternalStorageDirectory().toString() + "/" + sampleDir;
-        if (!FileUtil.makeDir(samplePath)) {
+        if (FileUtil.makeDir(samplePath)) {
             samplePath = context.getExternalFilesDir(sampleDir).getAbsolutePath();
-            if (!FileUtil.makeDir(samplePath)) {
+            if (FileUtil.makeDir(samplePath)) {
                 throw new RuntimeException("创建临时目录失败 :" + samplePath);
             }
         }
@@ -89,9 +84,6 @@ public class CommonRecogParams {
 
     /**
      * 根据 stringParams intParams boolParams中定义的参数名称，提取SharedPreferences相关字段
-     *
-     * @param sp
-     * @param map
      */
     private void parseParamArr(SharedPreferences sp, Map<String, Object> map) {
         for (String name : stringParams) {

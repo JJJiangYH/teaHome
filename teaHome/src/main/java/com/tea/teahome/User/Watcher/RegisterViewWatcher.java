@@ -15,7 +15,7 @@ import com.tea.teahome.R;
  * @version 1.0
  * @date 2021-02-25 19:33
  */
-public class RegisterViewWatcher extends LoginBaseViewWathcer {
+public class RegisterViewWatcher extends LoginBaseViewWatcher {
     /**
      * 密码长度
      */

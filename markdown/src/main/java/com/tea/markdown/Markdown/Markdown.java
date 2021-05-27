@@ -8,16 +8,10 @@ import org.commonmark.ext.gfm.tables.TablesExtension;
 import org.commonmark.ext.heading.anchor.HeadingAnchorExtension;
 import org.commonmark.ext.ins.InsExtension;
 import org.commonmark.ext.task.list.items.TaskListItemsExtension;
-import org.commonmark.node.Document;
-import org.commonmark.node.Image;
-import org.commonmark.node.Link;
-import org.commonmark.node.Paragraph;
-import org.commonmark.node.Text;
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
 
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -36,9 +30,6 @@ public class Markdown {
             InsExtension.create(),  //下划线
             TaskListItemsExtension.create() //列表
     );
-    final static HashSet enabledBlockTypes = new HashSet(Arrays.asList(
-            Document.class, Image.class, Link.class, Paragraph.class, Text.class
-    ));
 
     static Parser parser = Parser.builder()
 //                .enabledBlockTypes(enabledBlockTypes)//添加启用块,会报错,暂时不知怎么用

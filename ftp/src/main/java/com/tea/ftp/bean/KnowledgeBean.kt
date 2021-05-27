@@ -19,15 +19,14 @@ class KnowledgeBean : Comparable<Any?> {
     var inf: String? = null
     var time: String? = null
     var url: String? = null
-    var click: Int = 0
 
     /**
      * @return int
      * @author jiang yuhang
      * @date 2021-02-17 14:09
      */
-    override fun compareTo(o: Any?): Int {
-        val kb = o as KnowledgeBean?
+    override fun compareTo(other: Any?): Int {
+        val kb = other as KnowledgeBean?
         //定义时间戳格式
         @SuppressLint("SimpleDateFormat")
         val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")

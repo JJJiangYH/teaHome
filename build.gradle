@@ -4,8 +4,16 @@ ext {
 buildscript {
     ext.kotlin_version = '1.5.0'
     repositories {
-        google()
-        jcenter()
+        maven {
+            url "https://maven-other.tuya.com/repository/maven-releases/"
+        }
+        maven{ url 'https://maven.aliyun.com/repository/google'}
+        maven{ url 'https://maven.aliyun.com/repository/gradle-plugin'}
+        maven{ url 'https://maven.aliyun.com/repository/public'}
+        maven{ url 'https://maven.aliyun.com/repository/jcenter'}
+//        google()
+        mavenCentral()
+        maven { url "https://jitpack.io" }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:4.2.0'
@@ -19,18 +27,29 @@ buildscript {
 
 allprojects {
     repositories {
-//        maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
-//        maven { url 'https://maven.aliyun.com/repository/google' }
-//        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
-//        maven { url 'https://maven.aliyun.com/repository/jcenter' }
-//        mavenCentral()
-        google()
-        jcenter()
-        maven { url 'https://jitpack.io' }
+        maven {
+            url "https://maven-other.tuya.com/repository/maven-releases/"
+        }
+        maven{ url 'https://maven.aliyun.com/repository/google'}
+        maven{ url 'https://maven.aliyun.com/repository/gradle-plugin'}
+        maven{ url 'https://maven.aliyun.com/repository/public'}
+        maven{ url 'https://maven.aliyun.com/repository/jcenter'}
+//        google()
+        mavenCentral()
+        maven { url "https://jitpack.io" }
     }
 }
 repositories {
-    jcenter()
+    maven {
+        url "https://maven-other.tuya.com/repository/maven-releases/"
+    }
+    maven{ url 'https://maven.aliyun.com/repository/google'}
+    maven{ url 'https://maven.aliyun.com/repository/gradle-plugin'}
+    maven{ url 'https://maven.aliyun.com/repository/public'}
+    maven{ url 'https://maven.aliyun.com/repository/jcenter'}
+//        google()
+    mavenCentral()
+    maven { url "https://jitpack.io" }
 }
 
 task clean(type: Delete) {
